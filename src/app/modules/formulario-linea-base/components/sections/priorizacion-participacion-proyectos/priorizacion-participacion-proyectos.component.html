@@ -1,0 +1,160 @@
+<form [formGroup]="participacionProyectos" (ngSubmit)="onSubmit()">
+  <mat-card-content>
+      <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-5">
+              <h5 style="text-align: center;">Incrementar Productividad</h5>
+            </div>
+            <div class="col-md-7">
+              <h5 style="text-align: center;">Preguntas Adicionales</h5>
+            </div>
+            <mat-form-field class="col-md-5" appearance="outline" >
+              <mat-label>Recibir Plantas de Cacao Nacional</mat-label>
+              <mat-select formControlName="recibirPlantasCacaoNacional" name="someUnusualName" autocomplete="off">
+                  <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="col-md-7">
+              <div class="row">
+                <mat-form-field class="col-md-6" appearance="outline" >
+                  <mat-label>Tiene area libre para sembrar</mat-label>
+                  <mat-select formControlName="tieneAreaLibreParaSembrar" autocomplete="off">
+                      <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <div class="col-md-6">
+                  <mat-form-field *ngIf="hayAreaLibre()" appearance="outline" >
+                    <mat-label>Cuanto</mat-label>
+                    <input matInput formControlName="areaLibre" autocomplete="off">
+                </mat-form-field>
+                </div>
+                <mat-form-field class="col-md-6" appearance="outline" >
+                  <mat-label>Necesita rehab./reinjerto</mat-label>
+                  <mat-select formControlName="necesitaRehaReinjerto" autocomplete="off">
+                      <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <div class="col-md-6">
+                  <mat-form-field *ngIf="necesitaRehab()" appearance="outline" >
+                    <mat-label>Cuanto</mat-label>
+                    <input matInput formControlName="cantidad" autocomplete="off">
+                </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <mat-form-field class="col-md-5" appearance="outline" >
+              <mat-label>Aprender Elab Productos Nacionales</mat-label>
+              <mat-select formControlName="aprenderElabProductosNaturales" name="someUnusualName" autocomplete="off">
+                  <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <mat-divider [inset]="true" class="mb-4"></mat-divider>
+          <div class="row">
+            <!-- <div class="col-md-5">
+              <h5 style="text-align: center;">Mejorar la Calidad del Cacao</h5>
+            </div> -->
+            <div class="col-md-7">
+              <h5 style="text-align: center;">Preguntas Adicionales</h5>
+            </div>
+            <!-- <mat-form-field class="col-md-5" appearance="outline" >
+              <mat-label>Bandejas o cajones de Fermentacion</mat-label>
+              <mat-select formControlName="bandejasCajonesFermentacion">
+                  <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+              </mat-select>
+            </mat-form-field> -->
+            <div class="col-md-7">
+              <mat-form-field appearance="outline" >
+                <mat-label>¿Está dispuesto a hacerlo por su cuenta?</mat-label>
+                <mat-select formControlName="dispuestoHacerloPropiaCuenta">
+                    <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <!-- <mat-form-field class="col-md-5" appearance="outline" >
+              <mat-label>Tendales elevados por caña</mat-label>
+              <mat-select formControlName="tendalesElevadosCania">
+                  <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+              </mat-select>
+            </mat-form-field> -->
+            <div class="col-md-7"></div>
+            <!-- <mat-form-field class="col-md-5" appearance="outline" >
+              <mat-label>Secadoras comunitarias</mat-label>
+              <mat-select formControlName="secadorasComunitarias">
+                  <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+              </mat-select>
+            </mat-form-field> -->
+            <div class="col-md-7">
+              <mat-form-field appearance="outline" >
+                <mat-label>¿Cuenta con agrupacion de vecinos para trabajar en el proyecto?</mat-label>
+                <mat-select formControlName="contarAgrupacionParaProyecto">
+                    <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <mat-divider [inset]="true" class="mb-4"></mat-divider>
+          <div class="row">
+            <div class="col-md-5">
+              <h5 style="text-align: center;">Diversificación de Ingresos</h5>
+              <mat-form-field appearance="outline" >
+                <mat-label>Rehabilitacion de finca</mat-label>
+                <mat-select formControlName="rehabilitacionFinca" name="someUnusualName" autocomplete="off">
+                    <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline" >
+                <mat-label>Brigada de podadores</mat-label>
+                <mat-select formControlName="brigadaPodadores" name="someUnusualName" autocomplete="off">
+                    <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-7">
+              <h5 style="text-align: center;">Preguntas Adicionales</h5>
+              <mat-form-field appearance="outline" >
+                <mat-label>¿Cuenta con experiencia en poda?</mat-label>
+                <mat-select formControlName="contarExperienciaPoda" name="someUnusualName" autocomplete="off">
+                    <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field *ngIf="tieneExperiencia()" appearance="outline" >
+                <mat-label>Años de experiencia</mat-label>
+                <input matInput formControlName="aniosExperiencia" name="someUnusualName" autocomplete="off">
+              </mat-form-field>
+            </div>
+            <!-- <mat-form-field class="col-md-5" appearance="outline" >
+              <mat-label>Huertos organicos</mat-label>
+              <mat-select formControlName="huertosOrganicos" name="someUnusualName" autocomplete="off">
+                  <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="col-md-7"></div>
+            <mat-form-field class="col-md-5" appearance="outline" >
+              <mat-label>Desarrollo de viveros</mat-label>
+              <mat-select formControlName="desarrolloViveros" name="someUnusualName" autocomplete="off">
+                  <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="col-md-7"></div>
+            <mat-form-field class="col-md-5" appearance="outline" >
+              <mat-label>Desarrollo y venta de fertilizantes</mat-label>
+              <mat-select formControlName="desarrolloVentaFertilizantes" name="someUnusualName" autocomplete="off">
+                  <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+              </mat-select>
+            </mat-form-field> -->
+            <!-- <div class="col-md-7"></div> -->
+            
+            <!-- <div class="col-md-7"></div> -->
+            <div class="col-md-7">
+              <div class="row">
+                
+              </div>
+            </div>
+            
+            <!-- <div class="col-md-2"></div> -->
+            
+          </div>
+      </div>
+  </mat-card-content>
+</form>

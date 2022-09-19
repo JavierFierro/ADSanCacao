@@ -1,0 +1,107 @@
+<form [formGroup]="manejoSuelo" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+        <div class="row">
+            <div class="row align-items-end">
+                <div class="col-md-12">
+                    <p class="item-text">TIPO DE SUELO:</p>
+                    <mat-form-field class="item-full" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="tipoSuelo" name="someUnusualName" autocomplete="off" multiple>
+                            <mat-option *ngFor="let value of tipoSuelo" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row align-items-end">
+                <div class="col-md-12">
+                    <p class="item-text">¿HA RECIBIDO CAPACITACIÓN EN LA TOMA DE MUESTRAS DE SUELO?</p>
+                    <mat-form-field class="item-full" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="capacitacionTomaMuestrasSuelo" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row align-items-end">
+                <div class="col-md-6">
+                    <p class="item-text">¿HA REALIZADO ANÁLISIS DE SUELO?</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="analisisSuelo" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <p class="item-text">PH DEL SUELO</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <input matInput formControlName="sueloPH" name="someUnusualName" autocomplete="off">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row align-items-end">
+                <div class="col-md-6">
+                    <p class="item-text">SUELOS MUESTRAN NIVELES ALTOS DE ACIDEZ</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="suelosNivelesAltosAcidez" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <p class="item-text">¿HA CORREGIDO PH DEL SUELO EN FINCA?</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-select formControlName="corregidoPHSueloFinca" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row align-items-end">
+                <div class="col-md-12" *ngIf="haCorregidoPh()">
+                    <p class="item-text">¿CÓMO HA CORREGIDO PH DEL SUELO?</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-select formControlName="maneraCorregidoPHSuelo" name="someUnusualName" appearance="outline" multiple>
+                            <mat-option *ngFor="let value of maneraCorregirPH" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-12" *ngIf="productoQuimicoSelected()">
+                    <p class="item-text">TIPO PRODUCTO (QUIMICO)</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-select formControlName="tipoProductoQuimico" appearance="outline" multiple>
+                            <mat-option *ngFor="let value of productoXTipoQuimico" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-12" *ngIf="productoNaturalSelected()">
+                    <p class="item-text">TIPO PRODUCTO (NATURAL)</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-select formControlName="tipoProductoNatural" appearance="outline" multiple>
+                            <mat-option *ngFor="let value of productoXTipoNatural" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</form>

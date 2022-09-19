@@ -1,0 +1,58 @@
+<form [formGroup]="conservacionRecursosManejoDesechos" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+        <div class="container-fluid">
+            <div class="row">
+                <mat-form-field class="col-md-6" appearance="outline">
+                    <mat-label>¿Tiene Conocimientos sobre el manejo de desechos?</mat-label>
+                    <mat-select formControlName="conocimientoManejoDesechos" autocomplete="off">
+                        <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>¿El Productor contamina ecosistemas acuaticos o terrestres?</mat-label>
+                    <mat-select formControlName="productoContaminaEcosistema" autocomplete="off">
+                        <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="col-md-12" appearance="outline" >
+                    <mat-label>¿Dónde se vierten las aguas negras y los desechos líquidos?</mat-label>
+                    <mat-select formControlName="ubicacionDesechosAguasNegras" multiple>
+                        <mat-option *ngFor="let lugar of lugaresDesecho" [value]="lugar">{{lugar}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>¿El Productor tiene arboles de sombrio?</mat-label>
+                    <mat-select formControlName="tieneArbolesSombrio" autocomplete="off">
+                        <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="col-md-12" appearance="outline" >
+                    <mat-label>Adicional al Cacao ¿Destina espacio para cultivar vegetales, hortalizas y frutas de consumo?</mat-label>
+                    <mat-select formControlName="cultivaVegetalesHortalizasFrutas" autocomplete="off">
+                        <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div>
+                <div class="row">
+                    <mat-form-field class="col-md-6" appearance="outline" >
+                        <mat-label>¿Compra estos productos en mercados locales?</mat-label>
+                        <mat-select formControlName="compraProductosMercadoLocales" autocomplete="off">
+                            <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="col-md-6" appearance="outline" >
+                        <mat-label>¿Cuánto gasta semanalmente en compra de estos productos?</mat-label>
+                        <input matInput formControlName="valorPromedioGastado" autocomplete="off">
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</form>

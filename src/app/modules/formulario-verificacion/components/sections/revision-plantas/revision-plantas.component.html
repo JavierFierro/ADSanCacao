@@ -1,0 +1,100 @@
+<form [formGroup]="revisionPlantas" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+        <div class="row">
+            <!-- 1 -->
+            <div class="row align-items-start">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="item-text">HA SIDO BENEFICIARIO DE PLANTAS DE CACAO NACIONAL 800 Y 801</p>
+                        <mat-form-field class="item-full" appearance="outline">
+                            <mat-label></mat-label>
+                            <mat-select formControlName="beneficiarioPlantas" name="someUnusualName" autocomplete="off">
+                                <mat-option *ngFor="let value of yesnoanswer" [value]="value">
+                                    {{value}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="item-text">LLEVA LA FICHA DE MONITOREO DE PLANTAS 800 Y 801</p>
+                        <mat-form-field class="item-full" appearance="outline">
+                            <mat-label></mat-label>
+                            <mat-select formControlName="fichaMonitoreo" name="someUnusualName" autocomplete="off">
+                                <mat-option *ngFor="let value of yesnoanswer" [value]="value">
+                                    {{value}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="item-text">PORCENTAJE DE ÉXITO DE PLANTAS 800-801</p>
+                        <mat-form-field class="item-full" appearance="outline">
+                            <mat-label></mat-label>
+                            <input matInput formControlName="porcentajeExito" name="someUnusualName" autocomplete="off">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="item-text">CAUSAS PRINCIPALES DE MORTALIDAD DE PLANTAS</p>
+                        <mat-form-field class="item-full" appearance="outline">
+                            <mat-label></mat-label>
+                            <mat-select formControlName="causasMortalidad" name="someUnusualName" autocomplete="off">
+                                <mat-option *ngFor="let value of causasPrincipalesMortalidad" [value]="value">
+                                    {{value}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6" *ngIf="otrascausasMortalidad()">
+                        <p class="item-text">OTRAS CAUSAS PRINCIPALES DE MORTALIDAD DE PLANTAS</p>
+                        <mat-form-field class="item-full" appearance="outline">
+                            <mat-label></mat-label>
+                            <input matInput formControlName="otrascausasMortalidad" name="someUnusualName" autocomplete="off">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="item-text">REPORTE DE PLAGAS EN PLANTAS 800-801</p>
+                        <mat-form-field class="item" appearance="outline">
+                            <mat-label></mat-label>
+                            <textarea matInput formControlName="reportePlagas" name="someUnusualName" autocomplete="off"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="item-text">REPORTE DE ENFERMEDADES EN PLANTAS 800-801</p>
+                        <mat-form-field class="item" appearance="outline">
+                            <mat-label></mat-label>
+                            <textarea matInput formControlName="reporteEnfermedades" name="someUnusualName" autocomplete="off"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="item-text">PRESENTA ANEXOS DE LOS PROBLEMAS EN LAS PLANTAS 800-801</p>
+                        <mat-form-field class="item-full" appearance="outline">
+                            <mat-label></mat-label>
+                            <mat-select formControlName="presentaAnexos" name="someUnusualName" autocomplete="off">
+                                <mat-option *ngFor="let value of yesnoanswer" [value]="value">
+                                    {{value}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="item-text">HA IMPLEMENTADO HUERTOS ORGÁNICOS DENTRO DE FINCA</p>
+                        <mat-form-field class="item-full" appearance="outline">
+                            <mat-label></mat-label>
+                            <mat-select formControlName="implementaHuertos" name="someUnusualName" autocomplete="off">
+                                <mat-option *ngFor="let value of yesnoanswer" [value]="value">
+                                    {{value}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</form>

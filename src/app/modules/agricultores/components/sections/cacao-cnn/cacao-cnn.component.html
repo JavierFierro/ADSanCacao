@@ -1,0 +1,53 @@
+<form [formGroup]="cacaoCNN" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+        <div class="container-fluid">
+            <div class="row">
+                <mat-form-field class="col-md-4" appearance="outline" >
+                    <mat-label>Area Total de CNN</mat-label>
+                    <input matInput formControlName="areaTotalCNN" autocomplete="off">
+                </mat-form-field>
+                <mat-form-field class="col-md-4" appearance="outline" >
+                    <mat-label>Area en Produccion</mat-label>
+                    <input matInput formControlName="areaProduccion" autocomplete="off">
+                </mat-form-field>
+                <mat-form-field class="col-md-4" appearance="outline" >
+                    <mat-label>Edad Cacao Productivo</mat-label>
+                    <input matInput formControlName="edadCacaoProductivo" autocomplete="off" >
+                </mat-form-field>
+                <div class="col-md-4"></div>
+                <mat-form-field class="col-md-4" appearance="outline" >
+                    <mat-label>Area Recien Sembrada</mat-label>
+                    <input matInput formControlName="areaRecienSembrada" autocomplete="off" >
+                </mat-form-field>
+                <mat-form-field class="col-md-4" appearance="outline" >
+                    <mat-label>Edad Cacao Reciente</mat-label>
+                    <input matInput formControlName="edadCacaoReciente" autocomplete="off" >
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>Produccion Año Anterior</mat-label>
+                    <input matInput formControlName="produccionAnioAnteriorCacaoCNN" autocomplete="off" >
+                </mat-form-field>
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>Precio Promedio Cacao</mat-label>
+                    <input matInput formControlName="precioPromedio" autocomplete="off" >
+                </mat-form-field>
+            </div>
+            <div class="row" *ngIf="!isFicticio()">
+                <mat-form-field class="col-md-8" appearance="outline">
+                    <mat-label>Tiene Cacao CCN que pueda ser reconvertido a Nacional</mat-label>
+                    <mat-select formControlName="tieneCacaoImproductivo">
+                        <mat-option *ngFor="let value of options" [value]="value">
+                        {{value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-md-4" appearance="outline" *ngIf="tieneCacaoImproductivo()">
+                    <mat-label>Cuántas Hectáreas</mat-label>
+                    <input matInput formControlName="cuantasHectareasImproductivo" autocomplete="off" >
+                </mat-form-field>
+            </div>
+        </div>
+    </mat-card-content>
+</form>

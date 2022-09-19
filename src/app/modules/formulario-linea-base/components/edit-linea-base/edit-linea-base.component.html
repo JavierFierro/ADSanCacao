@@ -1,0 +1,136 @@
+<app-loading></app-loading>
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>FORMULARIO LINEA BASE</mat-card-title>
+    <mat-card-subtitle>AGRICULTOR</mat-card-subtitle>
+  </mat-card-header>
+  <form [formGroup]="lineaBaseForm" (ngSubmit)="onSubmit()">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" >
+                    <mat-label>Agricultor</mat-label>
+                    <mat-select formControlName="agricultor" id="agricultorSelect">
+                        <mat-form-field appearance="outline" class="p-2" style="margin-bottom: -10px;">
+                            <mat-label>Filter</mat-label>
+                            <input matInput type="text" (input)="filterList($event.target.value)" (keydown)="$event.stopPropagation()">
+                        </mat-form-field>
+                        <mat-option *ngIf="filteredListAgricultores.length === 0">...</mat-option>
+                        <mat-option *ngFor="let value of filteredListAgricultores" [value]="value">
+                        {{value.secciones.datosPersonales.preguntas.nombre.respuesta}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+                <mat-form-field class="item" appearance="outline">
+                    <mat-label>Fecha de Visita</mat-label>
+                    <input matInput formControlName="fechaVisita" name="someUnusualName" autocomplete="off" disabled>
+                </mat-form-field>
+            </div>
+            <div class="col-md-8">
+                <mat-form-field class="item" appearance="outline">
+                    <mat-label>Técnico</mat-label>
+                    <input matInput formControlName="tecnico" name="someUnusualName" autocomplete="off" disabled>
+                </mat-form-field>
+            </div>
+        </div>
+      </div>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  IMFORMACIÓN DE LA FAMILIA
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-informacion-familia [parentForm]="lineaBaseForm"></app-informacion-familia>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  PRÁCTICAS AGRÍCOLAS
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-practicas-agricolas [parentForm]="lineaBaseForm"></app-practicas-agricolas>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  SALUD Y SEGURIDAD OCUPACIONAL
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-salud-seguridad-ocupacional [parentForm]="lineaBaseForm"></app-salud-seguridad-ocupacional>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  COSECHA
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-cosecha [parentForm]="lineaBaseForm"></app-cosecha>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  VENTA
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-venta [parentForm]="lineaBaseForm"></app-venta>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  NIVEL DE ASOCIATIVIDAD
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-nivel-asociatividad [parentForm]="lineaBaseForm"></app-nivel-asociatividad>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  CONDICIONES LABORALES
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-condiciones-laborales [parentForm]="lineaBaseForm"></app-condiciones-laborales>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  SERVICIOS BÁSICOS
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-servicios-basicos [parentForm]="lineaBaseForm"></app-servicios-basicos>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  CONSERVACIÓN DE RECURSOS Y MANEJO DE DESECHOS
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-conservacion-recursos-manejo-desechos [parentForm]="lineaBaseForm"></app-conservacion-recursos-manejo-desechos>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-card-actions>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!lineaBaseForm.valid">Guardar</button>
+          <button mat-button  type="reset">Resetear</button>
+      </mat-card-actions>
+  </form>
+</mat-card>

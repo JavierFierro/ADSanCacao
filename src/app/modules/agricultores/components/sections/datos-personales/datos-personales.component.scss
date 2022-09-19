@@ -1,0 +1,28 @@
+.opt {
+  display: flex;
+  justify-content: space-between;
+}
+
+.greendot {
+  background: green;
+  align-self: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.reddot {
+  background: red;
+  align-self: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.yellowdot {
+  background: yellow;
+  align-self: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}

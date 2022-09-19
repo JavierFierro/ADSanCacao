@@ -1,0 +1,27 @@
+<form [formGroup]="croquis" (ngSubmit)="onSubmit()">
+  <mat-card-content>
+      <div class="container-fluid">
+          <div class="row justify-content-center">
+            <mat-form-field class="col-md-4" appearance="outline" >
+              <mat-label>Coordenadas X</mat-label>
+              <input matInput formControlName="coordenadasX" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="col-md-4" appearance="outline" >
+              <mat-label>Coordenadas Y</mat-label>
+              <input matInput formControlName="coordenadasY" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="col-md-6" appearance="outline" >
+              <mat-label>Productor</mat-label>
+              <input matInput formControlName="productor" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="col-md-6" appearance="outline" >
+              <mat-label>Predio</mat-label>
+              <input matInput formControlName="predio" autocomplete="off">
+            </mat-form-field>
+            <div class="col-md-12 d-flex align-items-center justify-content-center">
+              <app-canvas></app-canvas>
+            </div>
+          </div>
+      </div>
+  </mat-card-content>
+</form>

@@ -1,0 +1,30 @@
+<form [formGroup]="cosecha" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+        <div class="container-fluid">
+            <div class="row">
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>Sus tumbas las realiza:</mat-label>
+                    <mat-select formControlName="periodoCadaTumba" autocomplete="off">
+                        <mat-option *ngFor="let periodo of periodosTumba" [value]="periodo">{{periodo}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>Latas de cacao fresco cosechadas por tumba</mat-label>
+                    <input matInput formControlName="latasCacaoXTumba" autocomplete="off">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>¿Realiza Escurrido y Presecado para el CCN51?</mat-label>
+                    <mat-select formControlName="realizaEscurridoSecadoCCN51" autocomplete="off">
+                        <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>¿Cuántos dias fermenta el cacao?</mat-label>
+                    <input matInput formControlName="diasFermentadoCacao" autocomplete="off" >
+                </mat-form-field>
+            </div>
+        </div>
+    </mat-card-content>
+</form>

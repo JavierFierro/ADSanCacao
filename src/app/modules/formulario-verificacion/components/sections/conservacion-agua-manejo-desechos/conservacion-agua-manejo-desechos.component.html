@@ -1,0 +1,280 @@
+<form [formGroup]="conservacionAguaManejoDesechos" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+        <div class="row">
+            <div class="row align-items-end">
+                <div class="col-md">
+                    <p class="item-text">FINCA CUENTA CON RIEGO</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="fincaConRiego" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md">
+                    <p class="item-text">TIPO EXTRACCIÓN</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="tipoExtraccion" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of tipoExtraccion" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md">
+                    <p class="item-text">INFRAESTRUCTURA DEL RIEGO</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="infraestructuraRiego" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of infraestructuraRiego" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md">
+                    <p class="item-text">IMPACTO DEL RIEGO</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="impactoRiego" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of impactoRiego" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row align-items-end">
+                <div class="col-md-6">
+                    <p class="item-text">DISEÑO DEL RIEGO</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="disenioRiego" name="someUnusualName" autocomplete="off" multiple>
+                            <mat-option *ngFor="let value of disenioRiego" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6" *ngIf="disenoRiegoFijo()">
+                    <p class="item-text">HECTÁREAS CON RIEGO FIJO</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <input matInput formControlName="hectareasDisenioRiegoFijo" name="someUnusualName" autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6" *ngIf="disenoRiegoMovible()">
+                    <p class="item-text">HECTÁREAS CON RIEGO MOVIBLE</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <input matInput formControlName="hectareasDisenioRiegoMovible" name="someUnusualName" autocomplete="off">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row align-items-end">
+                <div class="col-md-4">
+                    <p class="item-text">PERMISO DE EXTRAER AGUA PARA RIEGO</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="permisoExtraerAguaRiego" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <p class="item-text">REALIZA ANÁLISIS DE AGUA DE RIEGO</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="analisisAguaRiego" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <p class="item-text">PRESENTA ANEXOS</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="presentaAnexos" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row align-items-end">
+                <div class="col-md">
+                    <p class="item-text">UTILIZA FILTRO ECOLÓGICO</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="utilizaFiltroEcologico" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md" *ngIf="utilizaFiltroEcologico()">
+                    <p class="item-text">PARA QUÉ LO UTILIZA:</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="razonUsoFiltroEcologico" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of filtroEcologicoParaQueUso" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md">
+                    <p class="item-text">CUENTA CON ÁREA DESECH. PLÁSTICOS</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="areaDeschPlasticos" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md">
+                    <p class="item-text">FINCA ESTÁ LIBRE DE PLÁCTICOS</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="fincaLibrePlasticos" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row align-items-end">
+                <div class="col-md-4">
+                    <p class="item-text">CLASIFICA BASURA DOMÉSTICA</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="clasificaBasuraDomestica" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4" *ngIf="clasificaBasuraDomestica()">
+                    <p class="item-text">CUÁL ES EL CRITERIO:</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="criterioClasificaBasuraDomestica" name="someUnusualName" autocomplete="off" multiple>
+                            <mat-option *ngFor="let value of criterioClasificarBasuraDomestica" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <p class="item-text">PRACTICA RECICLAJE O COMPOSTAJE</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="practicaReciclajeCompostaje" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row align-items-end">
+                <div class="col-md-12">
+                    <p class="item-text">CUÁL ES EL TRATAMIENTO DE LA BASURA</p>
+                    <mat-form-field class="item-full" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="tratamientoBasura" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of tratamientoBasura" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row align-items-end">
+                <div class="col-md-12">
+                    <p class="item-text">¿SABE USTED QUE LA EMPRESA CUENTA CON UN ÁREA DE RECEPCIÓN DE ENVASES DE PRODUCTOS QUÍMICOS VACÍOS?</p>
+                    <mat-form-field class="item-full" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="conocimientoAreaRecepcioEnvasesProductosQuimicos" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row align-items-end" *ngIf="conocimientoAreaRecepcioEnvasesProductosQuimicos()">
+                <div class="col-md-6">
+                    <p class="item-text">HA HECHO USO DE ESTE SERVICIO</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="usoServicioAreaRecepcioEnvasesProductosQuimicos" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6" *ngIf="usoServicioAreaRecepcioEnvasesProductosQuimicos()">
+                    <p class="item-text">FRECUENCIA:</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="frecuenciaUsoServicioAreaRecepcioEnvasesProductosQuimicos" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of frecuencia" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row align-items-end">
+                <div class="col-md-4" *ngIf="conocimientoAreaRecepcioEnvasesProductosQuimicos()">
+                    <p class="item-text">ALMACENA CON SEGURIDAD LOS ENVASES PREVIO AL TRASLADO DE DESTINO</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="almacenaSeguridadEnvasesPrevioTraslado" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4" *ngIf="conocimientoAreaRecepcioEnvasesProductosQuimicos() && almacenaSeguridadEnvasesPrevioTraslado()">
+                    <p class="item-text">CUÁL ES EL LUGAR DE ALMACENAMIENTO</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="lugarAlmacena" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of lugarAlmacenamiento" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <p class="item-text">TRATAMIENTO AGUA NEGRA</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="tratamientoAguasNegras" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</form>

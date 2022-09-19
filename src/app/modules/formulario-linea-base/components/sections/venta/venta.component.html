@@ -1,0 +1,51 @@
+<form [formGroup]="venta" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+        <div class="container-fluid">
+            <div class="row">
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>¿Almacena el cacao despues del secado?</mat-label>
+                    <mat-select formControlName="almacenaCacaoDespSecado" autocomplete="off">
+                        <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field *ngIf="almacenaCacao()" class="col-md-6" appearance="outline" >
+                    <mat-label>Por cuanto tiempo</mat-label>
+                    <input matInput formControlName="tiempoAlmacenadoCacao" autocomplete="off">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>Propiedad del transporte</mat-label>
+                    <mat-select formControlName="propiedadTransporte" autocomplete="off">
+                        <mat-option *ngFor="let prop of propiedadesTransporte" [value]="prop">{{prop}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>Tipo de transporte</mat-label>
+                    <mat-select formControlName="tipoTransporte" autocomplete="off">
+                        <mat-option *ngFor="let tipo of tiposTransporte" [value]="tipo">{{tipo}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <mat-form-field appearance="outline" >
+                        <mat-label>¿Cuenta con un Registro de costos, gastos y actividades de la finca?</mat-label>
+                        <mat-select formControlName="registroFinancieroFinca" autocomplete="off">
+                            <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div *ngIf="hayRegistro()" class="row">
+                <div class="col-md-12">
+                    <mat-form-field appearance="outline" >
+                        <mat-label>Tipo de Registros Financieros</mat-label>
+                        <input matInput formControlName="tipoRegistrosFinancierosFinca" autocomplete="off" >
+                    </mat-form-field>
+                    <p class="textbellow">*Facturas, notas de venta, documentos varios, etc...</p>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</form>

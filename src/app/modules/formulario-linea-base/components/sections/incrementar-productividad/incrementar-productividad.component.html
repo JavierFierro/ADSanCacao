@@ -1,0 +1,20 @@
+<form [formGroup]="incrementarProductividad" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+        <div class="container-fluid">
+            <div class="row">
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>Recibir Plantas de Cacao Nacional</mat-label>
+                    <mat-select formControlName="recibirPlantasCacaoNacional" name="someUnusualName" autocomplete="off">
+                        <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>Aprender Elab Productos Nacionales</mat-label>
+                    <mat-select formControlName="aprenderElabProductosNaturales" name="someUnusualName" autocomplete="off">
+                        <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </mat-card-content>
+</form>

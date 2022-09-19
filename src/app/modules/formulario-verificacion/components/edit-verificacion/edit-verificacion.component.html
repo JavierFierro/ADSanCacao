@@ -1,0 +1,276 @@
+<app-loading></app-loading>
+<mat-card class="example-card">
+  <mat-card-header>
+      <mat-card-title>FORMULARIO VERIFICACION</mat-card-title>
+      <mat-card-subtitle>AGRICULTOR</mat-card-subtitle>
+  </mat-card-header>
+  <form [formGroup]="verificacionForm" (ngSubmit)="onSubmit()">
+      <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" >
+                  <mat-label>Agricultor</mat-label>
+                  <mat-select formControlName="agricultor" id="agricultorSelect">
+                      <mat-form-field appearance="outline" class="p-2" style="margin-bottom: -10px;">
+                        <mat-label>Filter</mat-label>
+                        <input matInput type="text" (input)="filterList($event.target.value)" (keydown)="$event.stopPropagation()">
+                      </mat-form-field>
+                      <mat-option *ngIf="filteredListAgricultores.length === 0">...</mat-option>
+                      <mat-option *ngFor="let value of filteredListAgricultores" [value]="value">
+                      {{ value.secciones.datosPersonales.preguntas.nombre.respuesta }}
+                      </mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field class="item" appearance="outline">
+                    <mat-label>Fecha de Visita</mat-label>
+                    <input matInput formControlName="fechaVisita" name="someUnusualName" autocomplete="off" >
+                </mat-form-field>
+            </div>
+            <div class="col-md-8">
+                <mat-form-field class="item" appearance="outline">
+                    <mat-label>Técnico</mat-label>
+                    <input matInput formControlName="tecnico" name="someUnusualName" autocomplete="off" >
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      DATOS DE LA FINCA
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-datos-finca [parentForm]="verificacionForm"></app-datos-finca>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      INJERTACION
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-injertacion [parentForm]="verificacionForm"></app-injertacion>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      MANEJO DE SUELO
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-manejo-suelo [parentForm]="verificacionForm"></app-manejo-suelo>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      FERTILIZACION
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-fertilizacion [parentForm]="verificacionForm"></app-fertilizacion>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      BODEGA
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-bodega [parentForm]="verificacionForm"></app-bodega>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      CONTROL DE HIERBA
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-control-malezas [parentForm]="verificacionForm"></app-control-malezas>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      PODA
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-poda [parentForm]="verificacionForm"></app-poda>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      MIPE
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-mipe [parentForm]="verificacionForm"></app-mipe>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      SALUD Y SEGURIDAD OCUPACIONAL
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-salud-seguridad-ocupacional [parentForm]="verificacionForm"></app-salud-seguridad-ocupacional>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      REGISTROS DEL PRODUCTOR
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-registros-productor [parentForm]="verificacionForm"></app-registros-productor>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      COSECHA
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-cosecha [parentForm]="verificacionForm"></app-cosecha>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      FERMENTACION
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-fermentacion [parentForm]="verificacionForm"></app-fermentacion>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      SECADO
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-secado [parentForm]="verificacionForm"></app-secado>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      VENTA
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-venta [parentForm]="verificacionForm"></app-venta>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      CONDICIONES LABORALES
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-condiciones-laborales [parentForm]="verificacionForm"></app-condiciones-laborales>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      CONSERVACION DE AGUA Y MANEJO DE DESECHOS
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-conservacion-agua-manejo-desechos [parentForm]="verificacionForm"></app-conservacion-agua-manejo-desechos>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      CONSERVACION DE SUELOS Y BIODIVERSIDAD
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-conservacion-suelos-biodiversidad [parentForm]="verificacionForm"></app-conservacion-suelos-biodiversidad>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      PROTECCION DE AREAS RIBEREÑAS
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-proteccion-areas-riberenias [parentForm]="verificacionForm"></app-proteccion-areas-riberenias>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      PROTECCIÓN DE ÁREAS DE ALTO VALOR DE CONSERVACIÓN
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-proteccion-areas-alto-valor-conservacion [parentForm]="verificacionForm"></app-proteccion-areas-alto-valor-conservacion>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      DIVERSIFICACIÓN DE INGRESOS
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-diversificacion-ingresos [parentForm]="verificacionForm"></app-diversificacion-ingresos>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+          <mat-expansion-panel hideToggle appHighlight>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      CAPACITACIONES Y BENEFICIOS DEL PROGRAMA
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-capacitaciones-beneficio-programa [parentForm]="verificacionForm"></app-capacitaciones-beneficio-programa>
+          </mat-expansion-panel>
+      </mat-accordion>
+      <!-- <mat-accordion>
+        <mat-expansion-panel hideToggle appHighlight>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    RECETARIO
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-recetario [parentForm]="verificacionForm"></app-recetario>
+        </mat-expansion-panel>
+      </mat-accordion> -->
+      <mat-accordion *ngIf="!isFicticio()">
+        <mat-expansion-panel hideToggle appHighlight>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    REVISIÓN DE PLANTAS CACAO 800-801
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-revision-plantas [parentForm]="verificacionForm"></app-revision-plantas>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <mat-card-actions>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!verificacionForm.valid">Guardar</button>
+          <button mat-button type="reset">Resetear</button>
+      </mat-card-actions>
+  </form>
+</mat-card>

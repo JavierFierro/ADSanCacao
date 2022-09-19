@@ -1,0 +1,108 @@
+<app-loading></app-loading>
+<mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>AGRICULTOR</mat-card-title>
+    </mat-card-header>
+    <form [formGroup]="agricultorForm" (ngSubmit)="onSubmit()">
+        <mat-accordion>
+            <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    DATOS PERSONALES
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-datos-personales [parentForm]="agricultorForm"></app-datos-personales>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <mat-accordion>
+            <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    INFORMACIÓN DE LA FINCA
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-informacion-finca [parentForm]="agricultorForm"></app-informacion-finca>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <mat-accordion>
+            <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    HECTAREAJE
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-hectareaje [parentForm]="agricultorForm"></app-hectareaje>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <mat-accordion>
+            <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    CACAO CCN
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-cacao-cnn [parentForm]="agricultorForm"></app-cacao-cnn>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <mat-accordion>
+            <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    CACAO NACIONAL
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-cacao-nacional [parentForm]="agricultorForm"></app-cacao-nacional>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <mat-accordion>
+            <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title *ngIf="tieneNuevosClones()">
+                    CACAO NACIONAL - NUEVOS CLONES
+                </mat-panel-title>
+                <mat-panel-title *ngIf="!tieneNuevosClones()">
+                    CACAO NACIONAL - NUEVOS CLONES
+                    <p style="color: red;"> (AGRICULTOR NO POSEE NUEVOS CLONES)</p>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-cacao-nacional-nuevos-clones [parentForm]="agricultorForm"></app-cacao-nacional-nuevos-clones>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <mat-accordion>
+            <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    ORIGEN DE LAS PLANTAS
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-origen-plantas [parentForm]="agricultorForm"></app-origen-plantas>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <mat-accordion>
+            <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    PRIORIZACIÓN EN PARTICIPACIÓN DE PROYECTOS
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-priorizacion-participacion-proyectos [parentForm]="agricultorForm"></app-priorizacion-participacion-proyectos>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <mat-accordion>
+            <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    CROQUIS
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-croquis [parentForm]="agricultorForm"></app-croquis>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <div class="mt-3">
+            <mat-card-actions>
+                <button mat-raised-button color="primary" type="submit" [disabled]="!agricultorForm.valid">Guardar</button>
+                <button mat-button  type="reset">Resetear</button>
+            </mat-card-actions>
+        </div>
+    </form>
+</mat-card>

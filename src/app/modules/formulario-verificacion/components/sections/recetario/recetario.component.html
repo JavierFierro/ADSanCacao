@@ -1,0 +1,322 @@
+<form [formGroup]="recetario" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+        <div class="row">
+            <!-- 1 -->
+            <div class="row align-items-start">
+                <div class="col-md-3 align-self-center">
+                    <p class="item-text">TIPO DE SUELO QUE PRESENTA LA FINCA</p>
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <mat-form-field class="item-full" appearance="outline">
+                                <mat-label>PROCEDIMIENTOS DETECTADOS</mat-label>
+                                <mat-select formControlName="tipoSuelo" name="someUnusualName" autocomplete="off">
+                                    <mat-option *ngFor="let value of tipoSuelo" [value]="value">
+                                        {{value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="item-full" appearance="outline">
+                                <mat-label>PLAZO</mat-label>
+                                <mat-select formControlName="tipoSueloPlazo" name="someUnusualName" autocomplete="off">
+                                    <mat-option *ngFor="let value of plazo" [value]="value">
+                                        {{value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="item-full" appearance="outline">
+                                <mat-label>CUMPLIMIENTO</mat-label>
+                                <mat-select formControlName="tipoSueloCumplimiento" name="someUnusualName" autocomplete="off">
+                                    <mat-option *ngFor="let value of yesnoanswer" [value]="value">
+                                        {{value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    
+
+                    <div class="row">
+                        
+                        <div class="col-md-12">
+                            <mat-form-field class="item" appearance="outline">
+                                <mat-label>RECOMENDACIÓN</mat-label>
+                                <textarea matInput formControlName="tipoSueloRecomendacion" name="someUnusualName" autocomplete="off"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+            </div>
+            <!-- 1 -->
+            <hr>
+            <!-- 2 -->
+            <div class="row align-items-end">
+                <div class="col-md-3 align-self-center">
+                    <p class="item-text">TOPOGRAFIA DEL SUELO</p>
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <mat-form-field class="item-full" appearance="outline">
+                                <mat-label>PROCEDIMIENTOS DETECTADOS</mat-label>
+                                <mat-select formControlName="topografia" name="someUnusualName" autocomplete="off">
+                                    <mat-option *ngFor="let value of topografia" [value]="value">
+                                        {{value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="item-full" appearance="outline">
+                                <mat-label>PLAZO</mat-label>
+                                <mat-select formControlName="topografiaPlazo" name="someUnusualName" autocomplete="off">
+                                    <mat-option *ngFor="let value of plazo" [value]="value">
+                                        {{value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="item-full" appearance="outline">
+                                <mat-label>CUMPLIMIENTO</mat-label>
+                                <mat-select formControlName="topografiaCumplimiento" name="someUnusualName" autocomplete="off">
+                                    <mat-option *ngFor="let value of yesnoanswer" [value]="value">
+                                        {{value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        
+                        <div class="col-md-12">
+                            <mat-form-field class="item" appearance="outline">
+                                <mat-label>RECOMENDACIÓN</mat-label>
+                                <textarea matInput formControlName="topografiaRecomendacion" name="someUnusualName" autocomplete="off"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 2 -->
+            <hr>
+            <!-- 3 -->
+            <div class="row align-items-end">
+                <div class="col-md-3 align-self-center">
+                    <p class="item-text">HA REALIZADO UN ANÁLISIS DE SUELO A SU FINCA</p>
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <mat-form-field class="item-full" appearance="outline">
+                                <mat-label>PROCEDIMIENTOS DETECTADOS</mat-label>
+                                <mat-select formControlName="analisisSuelo" name="someUnusualName" autocomplete="off">
+                                    <mat-option *ngFor="let value of yesnoanswer" [value]="value">
+                                        {{value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="item-full" appearance="outline">
+                                <mat-label>PLAZO</mat-label>
+                                <mat-select formControlName="analisisSueloPlazo" name="someUnusualName" autocomplete="off">
+                                    <mat-option *ngFor="let value of plazo" [value]="value">
+                                        {{value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="item-full" appearance="outline">
+                                <mat-label>CUMPLIMIENTO</mat-label>
+                                <mat-select formControlName="analisisSueloCumplimiento" name="someUnusualName" autocomplete="off">
+                                    <mat-option *ngFor="let value of yesnoanswer" [value]="value">
+                                        {{value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        
+                        <div class="col-md-12">
+                            <mat-form-field class="item" appearance="outline">
+                                <mat-label>RECOMENDACIÓN</mat-label>
+                                <textarea matInput formControlName="analisisSueloRecomendacion" name="someUnusualName" autocomplete="off"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 3 -->
+            <hr>
+            <!-- 4 -->
+            <div class="row align-items-end">
+                <div class="col-md-3 align-self-center">
+                    <p class="item-text">USTED CUENTA CON UN PROGRAMA DE FERTILIZACIÓN</p>
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <mat-form-field class="item-full" appearance="outline">
+                                <mat-label>PROCEDIMIENTOS DETECTADOS</mat-label>
+                                <mat-select formControlName="analisisSuelo" name="someUnusualName" autocomplete="off">
+                                    <mat-option *ngFor="let value of yesnoanswer" [value]="value">
+                                        {{value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="item-full" appearance="outline">
+                                <mat-label>PLAZO</mat-label>
+                                <mat-select formControlName="analisisSueloPlazo" name="someUnusualName" autocomplete="off">
+                                    <mat-option *ngFor="let value of plazo" [value]="value">
+                                        {{value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="item-full" appearance="outline">
+                                <mat-label>CUMPLIMIENTO</mat-label>
+                                <mat-select formControlName="analisisSueloCumplimiento" name="someUnusualName" autocomplete="off">
+                                    <mat-option *ngFor="let value of yesnoanswer" [value]="value">
+                                        {{value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        
+                        <div class="col-md-12">
+                            <mat-form-field class="item" appearance="outline">
+                                <mat-label>RECOMENDACIÓN</mat-label>
+                                <textarea matInput formControlName="analisisSueloRecomendacion" name="someUnusualName" autocomplete="off"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 4 -->
+
+            <!-- 5 -->
+            <div class="row align-items-end">
+                
+            </div>
+            <!-- 5 -->
+
+            <!-- 6 -->
+            <div class="row align-items-end">
+                
+            </div>
+            <!-- 6 -->
+
+            <!-- 7 -->
+            <div class="row align-items-end">
+                
+            </div>
+            <!-- 7 -->
+
+            <!-- 8 -->
+            <div class="row align-items-end">
+                
+            </div>
+            <!-- 8 -->
+
+            <!-- 9 -->
+            <div class="row align-items-end">
+                
+            </div>
+            <!-- 9 -->
+
+            <!-- 10 -->
+            <div class="row align-items-end">
+                
+            </div>
+            <!-- 10 -->
+
+            <!-- 11 -->
+            <div class="row align-items-end">
+                
+            </div>
+            <!-- 11 -->
+
+            <!-- 12 -->
+            <div class="row align-items-end">
+                
+            </div>
+            <!-- 12 -->
+
+            <!-- 13 -->
+            <div class="row align-items-end">
+                
+            </div>
+            <!-- 13 -->
+
+            <!-- 14 -->
+            <div class="row align-items-end">
+                
+            </div>
+            <!-- 14 -->
+
+            <!-- 15 -->
+            <div class="row align-items-end">
+                
+            </div>
+            <!-- 15 -->
+
+            <!-- 16 -->
+            <div class="row align-items-end">
+                
+            </div>
+            <!-- 16 -->
+
+            <!-- 17 -->
+            <div class="row align-items-end">
+                
+            </div>
+            <!-- 17 -->
+
+            <!-- 18 -->
+            <div class="row align-items-end">
+                
+            </div>
+            <!-- 18 -->
+
+            <!-- 19 -->
+            <div class="row align-items-end">
+                
+            </div>
+            <!-- 19 -->
+
+            <!-- 20 -->
+            <div class="row align-items-end">
+                
+            </div>
+            <!-- 20 -->
+
+            <!-- 21 -->
+            <div class="row align-items-end">
+                
+            </div>
+            <!-- 21 -->
+
+            <!-- 22 -->
+            <div class="row align-items-end">
+                
+            </div>
+            <!-- 22 -->
+        </div>
+    </mat-card-content>
+</form>

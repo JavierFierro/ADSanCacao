@@ -1,0 +1,44 @@
+mat-card-actions{
+  margin-left: 1rem;
+  margin-bottom: 0.7rem!important;
+  padding-top: 0;
+}
+
+#delete {
+  padding: 0;
+  margin-left: -1rem;
+  align-items: center;
+  margin-top: 20%;
+  min-width: 100%;
+  height: min-content;
+  width: min-content;
+}
+
+.add-button {
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+@media screen {
+  
+}
+
+@media screen and (max-width: 769px) {
+  #delete {
+      align-self: flex-end;
+  }
+
+  .fit {
+      width: fit-content;
+      margin-left: 1rem;
+      margin-top: -1rem;
+  }
+
+  .add-button {
+      margin-top: 0;
+  }
+}

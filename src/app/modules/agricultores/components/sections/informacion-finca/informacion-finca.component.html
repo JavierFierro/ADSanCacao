@@ -1,0 +1,53 @@
+<form [formGroup]="informacionFinca" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+        <div class="container-fluid">
+            <div class="row">
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>Nombre Finca</mat-label>
+                    <input matInput formControlName="nombreFinca">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>Provincia</mat-label>
+                    <input matInput formControlName="provincia">
+                </mat-form-field>
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>Canton</mat-label>
+                    <input matInput formControlName="canton">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>Parroquia</mat-label>
+                    <input matInput formControlName="parroquia">
+                </mat-form-field>
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>Recinto</mat-label>
+                    <input matInput formControlName="recinto">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="col-md-12" appearance="outline" >
+                    <mat-label>Descripcion Para Llegar a Finca</mat-label>
+                    <textarea matInput formControlName="descripcionLlegarFinca"></textarea>
+                </mat-form-field>
+            </div>
+            <div class="row" *ngIf="!isFicticio()">
+                <mat-form-field class="col-md-6" appearance="outline">
+                    <mat-label>Casa del Productor Dentro de Finca</mat-label>
+                    <mat-select formControlName="casaProductorDentroFinca" autocomplete="off">
+                        <mat-option *ngFor="let opt of options" [value]="opt">
+                        {{opt}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="col-md-6"></div>
+                <mat-form-field class="col-md-12" *ngIf="casaProductorFinca()" appearance="outline" >
+                    <mat-label>Descripcion Para Llegar a Casa</mat-label>
+                    <textarea matInput formControlName="descripcionLlegarCasa"></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+    </mat-card-content>
+</form>

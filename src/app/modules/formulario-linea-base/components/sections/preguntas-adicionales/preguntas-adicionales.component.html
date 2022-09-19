@@ -1,0 +1,30 @@
+<form [formGroup]="preguntasAdicionales" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+        <div class="container-fluid">
+            <div class="row">
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>Tiene area libre para sembrar</mat-label>
+                    <mat-select formControlName="tieneAreaLibreParaSembrar" autocomplete="off">
+                        <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field *ngIf="hayAreaLibre()" class="col-md-6" appearance="outline" >
+                    <mat-label>Cuanto</mat-label>
+                    <input matInput formControlName="areaLibre" autocomplete="off">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>Necesita rehab./reinjerto</mat-label>
+                    <mat-select formControlName="necesitaRehaReinjerto" autocomplete="off">
+                        <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field *ngIf="necesitaRehab()" class="col-md-6" appearance="outline" >
+                    <mat-label>Cuanto</mat-label>
+                    <input matInput formControlName="cantidad" autocomplete="off">
+                </mat-form-field>
+            </div>
+        </div>
+    </mat-card-content>
+</form>

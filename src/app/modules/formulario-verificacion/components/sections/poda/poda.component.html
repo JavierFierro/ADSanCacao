@@ -1,0 +1,232 @@
+<form [formGroup]="poda" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+        <div class="container-fluid">
+            <div class="row align-items-end">
+                <div class="col-md-4">
+                    <p class="item-text">REALIZA PODA</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="realizaPoda" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="realizaPoda()">
+                    <div class="row justify-content-center">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4"><p class="item-text">¿APLICA TIPO DE PODA?</p></div>
+                        <div class="col-md-4"><p class="item-text">¿LA PODA REALIZADA POR EL AGRICULTOR ES LA CORRECTA?</p></div>
+                    </div>
+                    <div class="row row justify-content-center">
+                        <p class="item-text col-md-2" style="align-self: center;">FORMACION</p>
+                        <div class="col-md-4">
+                            <mat-form-field class="item" appearance="outline">
+                                <mat-label></mat-label>
+                                <mat-select formControlName="realizaPodaFormacion" name="someUnusualName" autocomplete="off">
+                                    <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                        {{value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="item" appearance="outline" *ngIf="realizaPodaFormacion()">
+                                <mat-label></mat-label>
+                                <mat-select formControlName="podaFormacionEsCorrecta" name="someUnusualName" autocomplete="off">
+                                    <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                        {{value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <p class="item-text col-md-2" style="align-self: center;">MANTENIMIENTO</p>
+                        <div class="col-md-4">
+                            <mat-form-field class="item" appearance="outline">
+                                <mat-label></mat-label>
+                                <mat-select formControlName="realizaPodaMantenimiento" name="someUnusualName" autocomplete="off">
+                                    <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                        {{value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="item" appearance="outline" *ngIf="realizaPodaMantenimiento()">
+                                <mat-label></mat-label>
+                                <mat-select formControlName="podaMantenimientoEsCorrecta" name="someUnusualName" autocomplete="off">
+                                    <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                        {{value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <p class="item-text col-md-2" style="align-self: center;">FITOSANITARIA</p>
+                        <div class="col-md-4">
+                            <mat-form-field class="item" appearance="outline">
+                                <mat-label></mat-label>
+                                <mat-select formControlName="realizaPodaFitosanitaria" name="someUnusualName" autocomplete="off">
+                                    <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                        {{value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="item" appearance="outline" *ngIf="realizaPodaFitosanitaria()">
+                                <mat-label></mat-label>
+                                <mat-select formControlName="podaFitosanitariaEsCorrecta" name="someUnusualName" autocomplete="off">
+                                    <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                        {{value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <p class="item-text col-md-2" style="align-self: center;">REHABILITACION</p>
+                        <div class="col-md-4">
+                            <mat-form-field class="item" appearance="outline">
+                                <mat-label></mat-label>
+                                <mat-select formControlName="realizaPodaRehabilitacion" name="someUnusualName" autocomplete="off">
+                                    <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                        {{value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="item" appearance="outline" *ngIf="realizaPodaRehabilitacion()">
+                                <mat-label></mat-label>
+                                <mat-select formControlName="podaRehabilitacionEsCorrecta" name="someUnusualName" autocomplete="off">
+                                    <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                        {{value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <!--div class="col-md-4" *ngIf="realizaPoda()">
+                    <p class="item-text">¿QUÉ TIPO DE PODA APLICA?</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="tipoPoda" name="someUnusualName" autocomplete="off" multiple>
+                            <mat-option *ngFor="let value of tipoPodaAplica" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4" *ngIf="realizaPodaFormacion()">
+                    <p class="item-text">¿LA PODA REALIZADA POR EL AGRICULTOR ES LA CORRECTA?: FORMACION</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="podaFormacionEsCorrecta" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4" *ngIf="realizaPodaMantenimiento()">
+                    <p class="item-text">¿LA PODA REALIZADA POR EL AGRICULTOR ES LA CORRECTA?: MANTENIMIENTO</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="podaMantenimientoEsCorrecta" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4" *ngIf="realizaPodaFitosanitaria()">
+                    <p class="item-text">¿LA PODA REALIZADA POR EL AGRICULTOR ES LA CORRECTA?: FITOSANITARIA</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="podaFitosanitariaEsCorrecta" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4" *ngIf="realizaPodaRehabilitacion()">
+                    <p class="item-text">¿LA PODA REALIZADA POR EL AGRICULTOR ES LA CORRECTA? REHABILITACION</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="podaRehabilitacionEsCorrecta" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div-->
+            </div>
+            <div class="row align-items-end">
+                <div class="col-md-6">
+                    <p class="item-text">OBSERVA CORTES O LACERACIONES EN LA PLANTA POR MALA PODA</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="cortesLaceracionesPlantaMalaPoda" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <p class="item-text">OBSERVA MAZORCAS EN ESTADO DE PUDRICIÓN</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="mazorcasEstadoPudricion" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row align-items-end">
+                <div class="col-md-4">
+                    <p class="item-text">PRODUCTO DE LA MALA PODA, LA PLANTA ALBERGA PLAGAS Y ENFERMEDADES?</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="malaPodaAlbergaPlagasEnfermedades" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let value of yesNoAnswer" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <p class="item-text">PLAGAS</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="plagasMalaPoda" name="someUnusualName" autocomplete="off" multiple>
+                            <mat-option *ngFor="let value of plagas" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <p class="item-text">ENFERMEDADES</p>
+                    <mat-form-field class="item" appearance="outline">
+                        <mat-label></mat-label>
+                        <mat-select formControlName="enfermedadesMalaPoda" name="someUnusualName" autocomplete="off" multiple>
+                            <mat-option *ngFor="let value of enfermedades" [value]="value">
+                                {{value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</form>

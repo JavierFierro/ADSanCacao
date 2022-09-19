@@ -1,0 +1,59 @@
+<form [formGroup]="condicionesLaborales" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+        <div class="container-fluid">
+            <div class="row">
+                <mat-form-field class="col-md-4" appearance="outline" >
+                    <mat-label>¿Contrata trabajadores?</mat-label>
+                    <mat-select formControlName="contrataTrabajadores" name="someUnusualName" autocomplete="off">
+                        <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div *ngIf="hayContratados()">
+                <div class="row">
+                    <mat-form-field class="col-md-6" appearance="outline" >
+                        <mat-label>Cantidad de trabajadores</mat-label>
+                        <input matInput formControlName="cantidadTrabajadores" name="someUnusualName" autocomplete="off">
+                    </mat-form-field>
+                    <mat-form-field class="col-md-6" appearance="outline" >
+                        <mat-label>¿A partir de que cantidad de area contrata?</mat-label>
+                        <input matInput formControlName="areaInicialContrato" name="someUnusualName" autocomplete="off" >
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <mat-form-field class="col-md-6" appearance="outline" >
+                        <mat-label>Los trabajadores que contrata son</mat-label>
+                        <mat-select formControlName="tipoContratoTrabajo" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let tipo of tiposTrabajador" [value]="tipo">{{tipo}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="col-md-6" appearance="outline" >
+                        <mat-label>¿Contrata menores de edad?</mat-label>
+                        <mat-select formControlName="contrataMenoresEdad" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <div *ngIf="contrataMenores()" class="row">
+                        <mat-form-field class="col-md-6" appearance="outline" >
+                            <mat-label>¿Cuenta con un permiso de trabajo para menor de edad?</mat-label>
+                            <mat-select formControlName="poseePermiso" name="someUnusualName" autocomplete="off">
+                                <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div class="col-md-6"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <mat-form-field class="col-md-12" appearance="outline" >
+                        <mat-label>Cumple con la base del contrato agricola por un día para el contrato de su personal de temporada?</mat-label>
+                        <mat-select formControlName="baseContratoAgricola" name="someUnusualName" autocomplete="off">
+                            <mat-option *ngFor="let op of opciones" [value]="op">{{op}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</form>

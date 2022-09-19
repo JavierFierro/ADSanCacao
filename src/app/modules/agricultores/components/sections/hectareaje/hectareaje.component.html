@@ -1,0 +1,84 @@
+<form [formGroup]="hectareaje" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+        <div class="container-fluid">
+            <div class="row">
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>Dimension Total de la Finca</mat-label>
+                    <input matInput formControlName="dimensionTotalFinca">
+                </mat-form-field>
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>El Terreno es:</mat-label>
+                    <mat-select formControlName="terreno">
+                        <mat-option *ngFor="let tipoTerreno of hectareajeTipoTerreno" [value]="tipoTerreno">
+                        {{tipoTerreno}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="col-md-4" appearance="outline" >
+                    <mat-label>El Cultivo de Cacao es:</mat-label>
+                    <mat-select formControlName="cultivoCacao">
+                        <mat-option *ngFor="let tipoCultivo of hectareajeCultivoCacao" [value]="tipoCultivo">
+                        {{tipoCultivo}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-md-4" appearance="outline" >
+                    <mat-label>Esta Asociado con/tiene:</mat-label>
+                    <mat-select formControlName="asociadoConTiene" multiple>
+                        <mat-option *ngFor="let value of hectareajeAsociadoConTiene" [value]="value">
+                        {{value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field *ngIf="otroSelected()" class="col-md-4" appearance="outline" >
+                    <mat-label>Especifique:</mat-label>
+                    <input matInput formControlName="otrosEspecifique">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>Area Neta de Cacao</mat-label>
+                    <input matInput formControlName="areaNetaCacao">
+                </mat-form-field>
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>Plantas por Hectareas</mat-label>
+                    <input matInput formControlName="plantasXHectareas">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>Distancia de Plantas</mat-label>
+                    <mat-select formControlName="distanciaPlantas">
+                        <mat-option *ngFor="let value of hectareajeDistanciaPlantas" [value]="value">
+                        {{value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-md-6" appearance="outline" >
+                    <mat-label>La Finca se encuentra:</mat-label>
+                    <mat-select formControlName="tipoUbicacionZona">
+                        <mat-option *ngFor="let value of hectareajeTipoUbicacionZona" [value]="value">
+                        {{value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="row" *ngIf="!isFicticio()">
+                <mat-form-field class="col-md-4" appearance="outline" *ngIf="dentroZonaProtegida()">
+                    <mat-label>Nombre de Zona Protegida</mat-label>
+                    <mat-select formControlName="zonaProtegida">
+                        <mat-option *ngFor="let value of zonasProtegidas" [value]="value">
+                        {{value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-md-8" appearance="outline" *ngIf="otraZonaProtegida()">
+                    <mat-label>Especifique:</mat-label>
+                    <input matInput formControlName="otraZona">
+                </mat-form-field>
+            </div>
+        </div>
+    </mat-card-content>
+</form>
