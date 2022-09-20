@@ -106,8 +106,8 @@ export class DiversificacionIngresosComponent implements OnInit {
   setValues(formularioVerificacion: FormularioVerificacion): void {
     this.diversificacionIngresos.get('usoCultivoDiferenteCacao')
       .setValue(formularioVerificacion.secciones.diversificacionIngresos.preguntas.usoCultivoDiferenteCacao.respuesta);
-    this.diversificacionIngresos.get('otraActividadDentroFincaConIngreso')
-      .setValue(formularioVerificacion.secciones.diversificacionIngresos.preguntas.otraActividadDentroFincaConIngreso.respuesta);
+    // this.diversificacionIngresos.get('otraActividadDentroFincaConIngreso')
+    //   .setValue(formularioVerificacion.secciones.diversificacionIngresos.preguntas.otraActividadDentroFincaConIngreso.respuesta);
     this.diversificacionIngresos.get('huertosOrganicosEnFinca')
       .setValue(formularioVerificacion.secciones.diversificacionIngresos.preguntas.huertosOrganicosEnFinca.respuesta);
     this.diversificacionIngresos.get('otraActividadFueraFincaConIngreso')
