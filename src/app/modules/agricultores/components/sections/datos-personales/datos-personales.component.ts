@@ -250,11 +250,11 @@ export class DatosPersonalesComponent implements OnInit  {
     this.datosPersonales.get('tecnico')
       .setValue(agricultor.secciones.datosPersonales.preguntas.tecnico.respuesta);
     this.nombreTecnico = agricultor.secciones.datosPersonales.preguntas.tecnico.respuesta;
-    // const tVisita = agricultor.secciones.datosPersonales.preguntas.fechaVisita.respuesta as any;
-    // const fechaVisita = new Date(tVisita * 1000);
+
     const fechaVisita = this.convertDate(agricultor.secciones.datosPersonales.preguntas.fechaVisita.respuesta);
     this.datosPersonales.get('fechaVisita')
       .setValue(fechaVisita);
+
     this.datosPersonales.get('viaPrincipalComunicacion')
       .setValue(agricultor.secciones.datosPersonales.preguntas.viaPrincipalComunicacion.respuesta);
     this.datosPersonales.get('comentariosComunicacion')
@@ -262,7 +262,10 @@ export class DatosPersonalesComponent implements OnInit  {
   }
 
   convertDate(date: any): Date {
-    if (typeof date === 'string') {
+
+    if(date == ''){
+      return new Date();
+    }else if (typeof date === 'string') {
       // console.log(date);
       const arrValues = date.split('/');
       const dateString = arrValues[2] + "-" + arrValues[1] + "-" + arrValues[0] + " 00:00";
