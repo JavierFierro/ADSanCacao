@@ -17,7 +17,8 @@ export class ExportacionesService {
       const dataFormulario = await this.prepareOneDataRecursive(formulario);
       const header = this.mapHeader(dataFormulario, formularioType);
       const arrayDataFormulario = [dataFormulario];
-      const csvArray = await this.generateCSVArray(arrayDataFormulario, header);
+      const indiceMaximo = this.maxFormularioKeys(arrayDataFormulario);
+      const csvArray = await this.generateCSVArray(arrayDataFormulario, header, indiceMaximo);
       const blob = new Blob([csvArray], { type: 'text/csv' })
       saveAs(blob, `${formularioType}_${formulario["id"]}.csv`);
       return true;
@@ -59,11 +60,10 @@ export class ExportacionesService {
 
   private generateCSVArray(dataFormulario: any[], header: string[], indiceMaximo?: number): Promise<string> {
     return new Promise<string>((resolve, reject) => {
-      const replacer = (key: any, value: any) => value === null ? '' : value; // specify how you want to handle null values here
+      const replacer = (key: any, value: any) => value === null ? 'N/A' : value; // specify how you want to handle null values here
       const headerData = indiceMaximo !== undefined ? Object.keys(dataFormulario[indiceMaximo]) : Object.keys(dataFormulario);
       const title = 'Formulario exportado a CSV';
       const csv = dataFormulario.map(row => headerData.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(';'));
-
       csv.unshift(header.join(';'));
       csv.unshift(title);
       const csvArray = csv.join('\r\n');
@@ -81,10 +81,7 @@ export class ExportacionesService {
           arrayHeaders.push(formularioMapperBlank[key].codigo);
         } else if (key === 'id' || key === 'nombre' || key === 'idformulario' || key === 'tecnico' || key === 'fechaVisita') {
           arrayHeaders.push(key.toUpperCase());
-        } else {
-          let dinamicKey = formularioMapperBlank[key.slice(0, -1)].codigo + key.slice(-1);
-          arrayHeaders.push(dinamicKey);
-        }
+        } 
       }
       return arrayHeaders;
     } catch (error) {
@@ -183,10 +180,9 @@ export class ExportacionesService {
 
   private async prepareOneDataRecursive(formulario: isExportable) {
     const dataFormulario = {
-      id: formulario["id"],
-      agricultorId: formulario["agricultor"]["id"],
-      agricultor: formulario["agricultor"]["nombre"],
-      tecnicoId: formulario["tecnico"]["id"],
+      idformulario: formulario["id"],
+      id: formulario["agricultor"]["id"],
+      nombre: formulario["agricultor"]["secciones"]["datosPersonales"]["preguntas"]["nombre"]["respuesta"],
       tecnico: formulario["tecnico"]["nombre"],
       fechaVisita: formulario["fechaVisita"],
     };
