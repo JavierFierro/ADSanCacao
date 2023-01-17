@@ -40,6 +40,33 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   }
 
   private captureEvents(canvasEl: HTMLCanvasElement): void {
+
+    var mousePos = { x:0, y:0 };
+
+    canvasEl.addEventListener("touchstart", function (e) {
+      mousePos = getTouchPos(canvasEl, e);
+      var touch = e.touches[0];
+      var mouseEvent = new MouseEvent("mousedown", {
+      clientX: touch.clientX,
+      clientY: touch.clientY
+      });
+      canvasEl.dispatchEvent(mouseEvent);
+    }, false);
+
+    canvasEl.addEventListener("touchend", function (e) {
+      var mouseEvent = new MouseEvent("mouseup", {});
+      canvasEl.dispatchEvent(mouseEvent);
+    }, false);
+
+    canvasEl.addEventListener("touchmove", function (e) {
+      var touch = e.touches[0];
+      var mouseEvent = new MouseEvent("mousemove", {
+        clientX: touch.clientX,
+        clientY: touch.clientY
+      });
+      canvasEl.dispatchEvent(mouseEvent);
+    }, false);
+    
     fromEvent(canvasEl, 'mousedown')
       .pipe(
         switchMap((e) => {
@@ -66,6 +93,7 @@ export class CanvasComponent implements OnInit, AfterViewInit {
 
         this.drawOnCanvas(prevPos, currentPos);
       });
+
   }
 
   private drawOnCanvas(
@@ -131,4 +159,11 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     return filePath;
   }
 
+}
+function getTouchPos(canvasDom: HTMLCanvasElement, e: TouchEvent): { x: number; y: number; } {
+  var rect = canvasDom.getBoundingClientRect();
+  return {
+    x: e.touches[0].clientX - rect.left,
+    y: e.touches[0].clientY - rect.top
+  };
 }
