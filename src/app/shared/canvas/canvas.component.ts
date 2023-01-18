@@ -51,12 +51,12 @@ export class CanvasComponent implements OnInit, AfterViewInit {
       clientY: touch.clientY
       });
       canvasEl.dispatchEvent(mouseEvent);
-    }, false);
+    }, { passive: false });
 
     canvasEl.addEventListener("touchend", function (e) {
       var mouseEvent = new MouseEvent("mouseup", {});
       canvasEl.dispatchEvent(mouseEvent);
-    }, false);
+    }, { passive: false });
 
     canvasEl.addEventListener("touchmove", function (e) {
       var touch = e.touches[0];
@@ -65,7 +65,7 @@ export class CanvasComponent implements OnInit, AfterViewInit {
         clientY: touch.clientY
       });
       canvasEl.dispatchEvent(mouseEvent);
-    }, false);
+    }, { passive: false });
     
     document.body.addEventListener("touchstart", function (e) {
       if (e.target == canvasEl) {
@@ -78,6 +78,12 @@ export class CanvasComponent implements OnInit, AfterViewInit {
       }
     }, { passive: false });
     document.body.addEventListener("touchmove", function (e) {
+      if (e.target == canvasEl) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    document.body.addEventListener("wheel", function (e) {
       if (e.target == canvasEl) {
         e.preventDefault();
       }
