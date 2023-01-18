@@ -5,7 +5,7 @@
             <mat-card-content>
                 <form [formGroup]="form" (ngSubmit)="onSubmit()">
                     <div class="text-center">
-                        <img alt="homepage" src="assets/images/logo.png" style="max-width: 130px ;">
+                        <img alt="homepage" src="assets/images/logo.png" style="max-width: 100px ;margin-bottom: 10px;">
                         <h4 class="m-t-0">Inicio de Sesión</h4>
                     </div>
 
@@ -29,11 +29,11 @@
                                 class="text-danger support-text">Contraseña es oblogatoria.</small>
                         </div>
                         <!-- col half-->
-                        <div fxFlex.gt-sm="50" fxFlex.gt-xs="50">
+                        <!-- <div fxFlex.gt-sm="50" fxFlex.gt-xs="50">
                             <mat-checkbox color="warn">Recuérdame</mat-checkbox>
-                        </div>
+                        </div> -->
                         <!-- col half-->
-                        <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" class="text-right">
+                        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" class="text-right">
                             <a [routerLink]="['/authentication/forgot']" class="link">Olvidaste contraseña?</a>
                         </div>
                         <!-- col full-->
