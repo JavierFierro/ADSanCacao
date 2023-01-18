@@ -67,6 +67,22 @@ export class CanvasComponent implements OnInit, AfterViewInit {
       canvasEl.dispatchEvent(mouseEvent);
     }, false);
     
+    document.body.addEventListener("touchstart", function (e) {
+      if (e.target == canvasEl) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+    document.body.addEventListener("touchend", function (e) {
+      if (e.target == canvasEl) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+    document.body.addEventListener("touchmove", function (e) {
+      if (e.target == canvasEl) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
     fromEvent(canvasEl, 'mousedown')
       .pipe(
         switchMap((e) => {
@@ -93,7 +109,7 @@ export class CanvasComponent implements OnInit, AfterViewInit {
 
         this.drawOnCanvas(prevPos, currentPos);
       });
-
+      
   }
 
   private drawOnCanvas(
