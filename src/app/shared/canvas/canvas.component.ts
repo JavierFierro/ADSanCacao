@@ -12,8 +12,8 @@ export class CanvasComponent implements OnInit, AfterViewInit {
 
   @ViewChild('canvas') public canvas: ElementRef;
 
-  @Input() public width = 600;
-  @Input() public height = 700;
+  @Input() public width = window.innerWidth * 0.60;
+  @Input() public height = window.innerHeight * 0.55;
 
   private cx: CanvasRenderingContext2D;
 
