@@ -1,6 +1,6 @@
 export enum Permiso {
-  Ficticio = "ficticio",
-  Real = "real"
+  Ficticio = "compl",
+  Real = "admin"
 }
 
 export interface Tecnico {
