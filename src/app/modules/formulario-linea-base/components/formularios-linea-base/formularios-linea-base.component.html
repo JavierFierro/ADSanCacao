@@ -29,7 +29,7 @@
                         <!-- Nombre Column -->
                         <ng-container matColumnDef="agricultor">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> Agricultor </mat-header-cell>
-                            <mat-cell *matCellDef="let row"> {{row.agricultor}} </mat-cell>
+                            <mat-cell *matCellDef="let row"> {{ decodeHtmlCharCodes(row.agricultor) }} </mat-cell>
                         </ng-container>
 
                         <!-- FechaNacimiento Column -->

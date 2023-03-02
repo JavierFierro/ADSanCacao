@@ -128,6 +128,16 @@
           <app-conservacion-recursos-manejo-desechos [parentForm]="lineaBaseForm"></app-conservacion-recursos-manejo-desechos>
           </mat-expansion-panel>
       </mat-accordion>
+      <mat-accordion>
+        <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                FIRMA AGRICULTOR
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-firma-agricultor [parentForm]="lineaBaseForm"></app-firma-agricultor>
+        </mat-expansion-panel>
+      </mat-accordion>
       <mat-card-actions>
           <button mat-raised-button color="primary" type="submit" [disabled]="!lineaBaseForm.valid">Guardar</button>
           <button mat-button  type="reset">Resetear</button>

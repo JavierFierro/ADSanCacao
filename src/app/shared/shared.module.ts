@@ -11,6 +11,7 @@ import { LoadingComponent } from './loading/loading.component';
 
 import { DemoMaterialModule } from '../demo-material-module';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { CanvasComponent } from './canvas/canvas.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     DataTableComponent,
     LoadingComponent,
     ConfirmDialogComponent,
+    CanvasComponent
   ],
   exports: [
     AccordionAnchorDirective,
@@ -27,7 +29,8 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     AccordionDirective,
     DataTableComponent,
     LoadingComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    CanvasComponent
   ],
   imports: [
     DemoMaterialModule

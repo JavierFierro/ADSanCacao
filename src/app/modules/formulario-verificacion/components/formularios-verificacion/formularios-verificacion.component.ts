@@ -66,4 +66,8 @@ export class FormulariosVerificacionComponent extends DataTableComponent<Formula
     }
   }
 
+  decodeHtmlCharCodes(str) { 
+    return str.replace("�","Ñ");
+  }
+
 }

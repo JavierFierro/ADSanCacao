@@ -247,6 +247,13 @@ export interface FormularioLineaBase extends Formulario {
                     }
                 }
             }
+        },
+        firmaAgricultor: {
+            preguntas: {
+              firmaPath: {
+                respuesta: string
+              }
+            }
         }
     }
 }

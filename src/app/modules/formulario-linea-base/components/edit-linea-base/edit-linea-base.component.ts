@@ -17,6 +17,7 @@ import { TecnicoService } from 'src/app/modules/core/services/tecnico/tecnico.se
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingComponent } from 'src/app/shared/loading/loading.component';
+import { FirmaAgricultorComponent } from '../sections/firma-agricultor/firma-agricultor.component';
 
 @Component({
   selector: 'app-edit-linea-base',
@@ -41,6 +42,7 @@ export class EditLineaBaseComponent implements OnInit {
   @ViewChild(CondicionesLaboralesComponent) condicionesLaboralesComponent: CondicionesLaboralesComponent;
   @ViewChild(ServiciosBasicosComponent) serviciosBasicosComponent: ServiciosBasicosComponent;
   @ViewChild(ConservacionRecursosManejoDesechosComponent) conservacionRecursosManejoDesechosComponent: ConservacionRecursosManejoDesechosComponent;
+  @ViewChild(FirmaAgricultorComponent) firmaAgricultorComponent: FirmaAgricultorComponent;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -104,6 +106,7 @@ export class EditLineaBaseComponent implements OnInit {
     if (id !== null) {
       const formulario = await this.formularioService.get(id);
       this.formularioLineaBase = formulario;
+      this.firmaAgricultorComponent.setLineaBase(this.formularioLineaBase);
     }
   }
 
@@ -147,7 +150,8 @@ export class EditLineaBaseComponent implements OnInit {
         nivelAsociatividad: this.nivelAsociatividadComponent.seccion,
         condicionesLaborales: this.condicionesLaboralesComponent.seccion,
         serviciosBasicos: this.serviciosBasicosComponent.seccion,
-        conservacionRecursosManejoDesechos: this.conservacionRecursosManejoDesechosComponent.seccion
+        conservacionRecursosManejoDesechos: this.conservacionRecursosManejoDesechosComponent.seccion,
+        firmaAgricultor: this.firmaAgricultorComponent.seccion
       }
     };
     if (this.agricultor) {
@@ -179,8 +183,11 @@ export class EditLineaBaseComponent implements OnInit {
       this.condicionesLaboralesComponent.setValues(this.formularioLineaBase);
       this.serviciosBasicosComponent.setValues(this.formularioLineaBase);
       this.conservacionRecursosManejoDesechosComponent.setValues(this.formularioLineaBase);
-      this.lineaBaseForm.get('fechaVisita').setValue(this.formularioLineaBase.fechaVisita)
-      this.lineaBaseForm.get('tecnico').setValue(this.formularioLineaBase.tecnico.nombre)
+      this.lineaBaseForm.get('fechaVisita').setValue(this.formularioLineaBase.fechaVisita);
+      this.lineaBaseForm.get('tecnico').setValue(this.formularioLineaBase.tecnico.nombre);
+      if(!(this.formularioLineaBase.secciones.firmaAgricultor === undefined)){
+        this.firmaAgricultorComponent.setValues(this.formularioLineaBase);
+      }
     }
   }
 

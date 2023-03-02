@@ -268,6 +268,16 @@
             <app-revision-plantas [parentForm]="verificacionForm"></app-revision-plantas>
         </mat-expansion-panel>
       </mat-accordion>
+      <mat-accordion>
+        <mat-expansion-panel hideToggle appHighlight>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                FIRMA AGRICULTOR
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-firma-agricultor [parentForm]="verificacionForm"></app-firma-agricultor>
+        </mat-expansion-panel>
+      </mat-accordion>
       <mat-card-actions>
           <button mat-raised-button color="primary" type="submit" [disabled]="!verificacionForm.valid">Guardar</button>
           <button mat-button type="reset">Resetear</button>

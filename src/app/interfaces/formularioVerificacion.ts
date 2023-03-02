@@ -1060,6 +1060,13 @@ export interface FormularioVerificacion extends Formulario {
                 }
             }
         },
+        firmaAgricultor: {
+            preguntas: {
+              firmaPath: {
+                respuesta: string
+              }
+            }
+        }
         // recetario: {
         //     preguntas:{
         //         tipoSuelo:{

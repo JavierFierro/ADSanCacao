@@ -66,4 +66,8 @@ export class FormulariosLineaBaseComponent extends DataTableComponent<Formulario
     }
   }
 
+  decodeHtmlCharCodes(str) { 
+    return str.replace("�","Ñ");
+  }
+
 }

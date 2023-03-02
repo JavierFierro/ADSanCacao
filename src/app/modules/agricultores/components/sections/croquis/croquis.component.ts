@@ -41,7 +41,7 @@ export class CroquisComponent implements OnInit {
 
   saveCroquis(): string {
     const reference = this.agricultor ? this.agricultor.id : Date.now().toString();
-    const croquisPath = this.canvasComponent.saveImageInStorage(reference);
+    const croquisPath = this.canvasComponent.saveAgricultorImageInStorage(reference);
     return croquisPath;
   }
 

@@ -1230,6 +1230,13 @@ export class ImportacionVerificacionService {
                         }
                     }
                 },
+                firmaAgricultor: {
+                    preguntas: {
+                        firmaPath: {
+                            respuesta: ""
+                        }
+                    }
+                }
                     // recetario: {
                     //     preguntas:{
                     //         tipoSuelo:{

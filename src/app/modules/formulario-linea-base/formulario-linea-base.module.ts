@@ -22,7 +22,8 @@ import { DiversificacionIngresosComponent } from './components/sections/diversif
 import { PreguntasAdicionalesComponent } from './components/sections/preguntas-adicionales/preguntas-adicionales.component';
 // import { PriorizacionParticipacionProyectosComponent } from './components/sections/priorizacion-participacion-proyectos/priorizacion-participacion-proyectos.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-
+import { FirmaAgricultorComponent } from './components/sections/firma-agricultor/firma-agricultor.component';
+// import { CanvasComponent } from 'src/app/shared/canvas/canvas.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     MejorarCalidadCacaoComponent,
     DiversificacionIngresosComponent,
     PreguntasAdicionalesComponent,
+    FirmaAgricultorComponent,
+    // CanvasComponent
     // PriorizacionParticipacionProyectosComponent
   ],
   imports: [

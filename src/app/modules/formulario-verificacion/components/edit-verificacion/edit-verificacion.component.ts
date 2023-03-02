@@ -33,6 +33,7 @@ import { environment } from 'src/environments/environment';
 import { LoadingComponent } from 'src/app/shared/loading/loading.component';
 import { RevisionPlantasComponent } from '../sections/revision-plantas/revision-plantas.component';
 import { Permiso } from 'src/app/interfaces/tecnico';
+import { FirmaAgricultorComponent } from '../sections/firma-agricultor/firma-agricultor.component';
 
 @Component({
   selector: 'app-edit-verificacion',
@@ -72,6 +73,7 @@ export class EditVerificacionComponent implements OnInit {
   @ViewChild(CapacitacionesBeneficioProgramaComponent) capacitacionesBeneficioProgramaComponent: CapacitacionesBeneficioProgramaComponent;
   @ViewChild(RecetarioComponent) recetarioComponent: RecetarioComponent;
   @ViewChild(RevisionPlantasComponent) revisionPlantasComponent : RevisionPlantasComponent;
+  @ViewChild(FirmaAgricultorComponent) firmaAgricultorComponent: FirmaAgricultorComponent;
 
   constructor(
     private agricultorService: AgricultorService,
@@ -141,6 +143,7 @@ export class EditVerificacionComponent implements OnInit {
     if (id !== null) {
       const formulario = await this.formularioService.get(id);
       this.formularioVerificacion = formulario;
+      this.firmaAgricultorComponent.setVerificacion(this.formularioVerificacion);
     }
   }
 
@@ -192,6 +195,7 @@ export class EditVerificacionComponent implements OnInit {
         proteccionAreasAltoValorConservacion: this.proteccionAreasAltoValorConservacionComponent.seccion,
         diversificacionIngresos: this.diversificacionIngresosComponent.seccion,
         capacitacionesBeneficioPrograma: this.capacitacionesBeneficioProgramaComponent.seccion,
+        firmaAgricultor: this.firmaAgricultorComponent.seccion
         // recetario: this.recetarioComponent.seccion,
         // revisionPlantas: this.revisionPlantasComponent.seccion
       }
@@ -240,6 +244,10 @@ export class EditVerificacionComponent implements OnInit {
       
       this.verificacionForm.get('fechaVisita').setValue(this.formularioVerificacion.fechaVisita)
       this.verificacionForm.get('tecnico').setValue(this.formularioVerificacion.tecnico.nombre)
+
+      if(!(this.formularioVerificacion.secciones.firmaAgricultor === undefined)){
+        this.firmaAgricultorComponent.setValues(this.formularioVerificacion);
+      }
 
       // console.log(this.formularioVerificacion)
       // if(!(this.formularioVerificacion.secciones.recetario === undefined)){

@@ -24,6 +24,7 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   ) { }
   
   ngOnInit(): void {
+    window.screen.orientation.lock("landscape-primary");
   }
 
   ngAfterViewInit(): void {
@@ -34,7 +35,7 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     canvasEl.width = this.width;
     canvasEl.height = this.height;
     // set default properties about the line
-    this.switchToPencil();
+    // this.switchToPencil();
     // capture events
     this.captureEvents(canvasEl);
   }
@@ -138,19 +139,19 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public switchToEraser(): void {
-    this.cx.lineWidth = 9;
-    this.cx.lineCap = 'round';
-    this.cx.strokeStyle = '#fff';
-    this.mode = 'eraser';
-  }
+  // public switchToEraser(): void {
+  //   this.cx.lineWidth = 9;
+  //   this.cx.lineCap = 'round';
+  //   this.cx.strokeStyle = '#fff';
+  //   this.mode = 'eraser';
+  // }
 
-  public switchToPencil(): void {
-    this.cx.lineWidth = 3;
-    this.cx.lineCap = 'round';
-    this.cx.strokeStyle = '#000';
-    this.mode = 'pencil';
-  }
+  // public switchToPencil(): void {
+  //   this.cx.lineWidth = 3;
+  //   this.cx.lineCap = 'round';
+  //   this.cx.strokeStyle = '#000';
+  //   this.mode = 'pencil';
+  // }
 
   public eraseImage(): void {
     this.cx.clearRect(0, 0, this.width, this.height); 
@@ -171,10 +172,30 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public saveImageInStorage(agricultorId: string): string {
+  public saveAgricultorImageInStorage(agricultorId: string): string {
     let storageRef: AngularFireStorage = this.storage;
     const canvasEl: HTMLCanvasElement = this.canvas.nativeElement;
     const filePath = `croquis/${agricultorId}`;
+    canvasEl.toBlob(function(blob) {
+      const task = storageRef.upload(filePath, blob);
+    });
+    return filePath;
+  }
+
+  public saveLineaBaseImageInStorage(lbId: string): string {
+    let storageRef: AngularFireStorage = this.storage;
+    const canvasEl: HTMLCanvasElement = this.canvas.nativeElement;
+    const filePath = `firma_lb/${lbId}`;
+    canvasEl.toBlob(function(blob) {
+      const task = storageRef.upload(filePath, blob);
+    });
+    return filePath;
+  }
+
+  public saveVerificacionImageInStorage(verId: string): string {
+    let storageRef: AngularFireStorage = this.storage;
+    const canvasEl: HTMLCanvasElement = this.canvas.nativeElement;
+    const filePath = `firma_ver/${verId}`;
     canvasEl.toBlob(function(blob) {
       const task = storageRef.upload(filePath, blob);
     });

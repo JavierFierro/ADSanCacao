@@ -14,7 +14,7 @@ import { CacaoNacionalComponent } from './components/sections/cacao-nacional/cac
 import { CacaoNacionalNuevosClonesComponent } from './components/sections/cacao-nacional-nuevos-clones/cacao-nacional-nuevos-clones.component';
 import { OrigenPlantasComponent } from './components/sections/origen-plantas/origen-plantas.component';
 import { CroquisComponent } from './components/sections/croquis/croquis.component';
-import { CanvasComponent } from 'src/app/shared/canvas/canvas.component';
+// import { CanvasComponent } from 'src/app/shared/canvas/canvas.component';
 import { PriorizacionParticipacionProyectosComponent } from '../formulario-linea-base/components/sections/priorizacion-participacion-proyectos/priorizacion-participacion-proyectos.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
@@ -31,7 +31,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     OrigenPlantasComponent,
     PriorizacionParticipacionProyectosComponent,
     CroquisComponent,
-    CanvasComponent
+    // CanvasComponent
   ],
   imports: [
     CommonModule,

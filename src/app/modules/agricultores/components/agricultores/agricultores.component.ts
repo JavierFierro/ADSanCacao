@@ -61,6 +61,10 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
     this.dataSource.sort = this.sort;
   }
 
+  decodeHtmlCharCodes(str) { 
+    return str.replace("�","Ñ");
+  }
+
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue;
   }

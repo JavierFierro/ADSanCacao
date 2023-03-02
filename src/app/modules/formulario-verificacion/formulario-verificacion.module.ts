@@ -39,6 +39,7 @@ import { CalidadPostCosechaComponent } from './components/sections/calidad-post-
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RecetarioComponent } from './components/sections/recetario/recetario.component';
 import { RevisionPlantasComponent } from './components/sections/revision-plantas/revision-plantas.component';
+import { FirmaAgricultorComponent } from './components/sections/firma-agricultor/firma-agricultor.component';
 
 
 @NgModule({
@@ -75,7 +76,8 @@ import { RevisionPlantasComponent } from './components/sections/revision-plantas
     ProyectosInversionComponent,
     CalidadPostCosechaComponent,
     RecetarioComponent,
-    RevisionPlantasComponent
+    RevisionPlantasComponent,
+    FirmaAgricultorComponent
   ],
   imports: [
     CommonModule,

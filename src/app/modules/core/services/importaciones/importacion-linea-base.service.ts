@@ -471,6 +471,13 @@ export class ImportacionLineaBaseService {
                       }
                   }
               }
+          },
+          firmaAgricultor: {
+            preguntas: {
+              firmaPath: {
+                respuesta: ""
+              }
+            }
           }
       }
     };
