@@ -24,7 +24,6 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   ) { }
   
   ngOnInit(): void {
-    window.screen.orientation.lock("landscape-primary");
   }
 
   ngAfterViewInit(): void {
