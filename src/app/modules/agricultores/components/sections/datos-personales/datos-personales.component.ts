@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit,AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Agricultor } from 'src/app/interfaces/agricultor';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,13 +15,17 @@ import Swal from 'sweetalert2';
   templateUrl: './datos-personales.component.html',
   styleUrls: ['./datos-personales.component.scss']
 })
-export class DatosPersonalesComponent implements OnInit  {
+export class DatosPersonalesComponent implements OnInit, AfterViewInit  {
   @Input()
   public parentForm: FormGroup;
 
   agricultor: Agricultor;
 
   nombreTecnico: string;
+
+  tecnicoReciente: any;
+
+  fechaVisitaReciente: any;
 
   formulariosLineaBase: FormularioLineaBase[];
   formulariosVerificacion: FormularioVerificacion[];
@@ -60,6 +64,8 @@ export class DatosPersonalesComponent implements OnInit  {
     private agriService: AgricultorService,
   ) {
   }
+  ngAfterViewInit(): void {
+  }
 
   ngOnInit() {
     const loggedTecnico = JSON.parse(localStorage.getItem("user"));
@@ -78,7 +84,10 @@ export class DatosPersonalesComponent implements OnInit  {
 
   private async fetchLineaBase(agricultor: Agricultor): Promise<void> {
     this.lineaBaseService.listByAgricultor(agricultor.id).subscribe(data => {
+      // this.lineaBaseReciente = data[0];
       this.formulariosLineaBase = data;
+      this.tecnicoReciente = this.formulariosLineaBase[0].tecnico;
+      this.fechaVisitaReciente = this.formulariosLineaBase[0].fechaVisita;
     });
   }
 
@@ -102,8 +111,6 @@ export class DatosPersonalesComponent implements OnInit  {
   }
 
   downloadVerificacion(): void{
-    // console.log(this.datosPersonales.value.fechaVisita)
-    console.log(this.formulariosVerificacion)
     // this.open()
     this.agriService.descargarVerificacion(this.id, this.datosPersonales.get("nombre").value, this.formulariosVerificacion[0].fechaVisita);
     // this.close()
@@ -163,7 +170,7 @@ export class DatosPersonalesComponent implements OnInit  {
           respuesta: this.datosPersonales.value.estado
         },
         fechaNacimiento: {
-          respuesta: this.datosPersonales.value.fechaNacimiento
+          respuesta: this.convertBackDate(this.datosPersonales.value.fechaNacimiento)
         },
         genero: {
           respuesta: this.datosPersonales.value.genero
@@ -187,7 +194,7 @@ export class DatosPersonalesComponent implements OnInit  {
           respuesta: loggedTecnico.nombre
         },
         fechaVisita: {
-          respuesta: this.datosPersonales.value.fechaVisita
+          respuesta: this.convertBackDate(this.datosPersonales.value.fechaVisita)
         },
         viaPrincipalComunicacion: {
           respuesta: this.datosPersonales.value.viaPrincipalComunicacion
@@ -261,8 +268,16 @@ export class DatosPersonalesComponent implements OnInit  {
       .setValue(agricultor.secciones.datosPersonales.preguntas.comentariosComunicacion.respuesta);
   }
 
-  convertDate(date: any): Date {
+  convertBackDate(date:Date){
+    
+    const localDate = date.toLocaleDateString("en-US");
+    const arrValues = localDate.split('/');
+    const dateString = arrValues[1] + "/" + arrValues[0] + "/" + arrValues[2];
 
+    return dateString;
+  }
+
+  convertDate(date: any): Date {
     if(date == ''){
       return new Date();
     }else if (typeof date === 'string') {

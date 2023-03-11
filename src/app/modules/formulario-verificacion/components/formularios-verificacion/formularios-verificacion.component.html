@@ -2,10 +2,18 @@
 <app-loading></app-loading>
 <div class="container-fluid">
     <div class="row justify-content-center">
-        <button mat-button color="primary" class="col-md-4 col-6" (click)="exportAll()">Exportar Todos</button>
-        <button mat-button color="primary" class="col-md-4 col-6" (click)="onImportClicked($event)"></button>
+        <button mat-button color="primary" class="col-md-3 col-5" (click)="exportAll()">Exportar Todos</button>
+        <button mat-button color="primary" class="col-md-3 col-5" (click)="onImportClicked($event)"></button>
         <input type="file" #fileImportInput name="File Upload" id="csvFileUpload" (change)="import($event)"
             accept=".csv" />
+        <mat-form-field class="col-md-4 col-6">
+            <mat-label>Elija año de verificacion</mat-label>
+            <mat-select [(value)]="selected" (selectionChange)="applyFilter($event.value)">
+                <mat-option value="0">Ninguno</mat-option>
+                <mat-option value="2022">2022 (Octubre 2021 - Septiembre 2022)</mat-option>
+                <mat-option value="2023">2023 (Octubre 2022 - Septiembre 2023)</mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
 </div>
 <div fxLayout="row wrap">

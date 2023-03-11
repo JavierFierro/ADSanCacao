@@ -13,6 +13,10 @@ import { FormularioService } from './formulario.service';
 })
 export class FormularioVerificacionService extends FormularioService {
 
+  selectedYear = "";
+
+  totalFormularios = 0;
+
   constructor(
     private firebase: AngularFirestore,
     private exportacionService: ExportacionesService
@@ -35,6 +39,8 @@ export class FormularioVerificacionService extends FormularioService {
     const collectionName = loggedTecnico.permiso === Permiso.Real ? "formularios" : "formulariosFicticios";
     return this.firebase.collection(`/${collectionName}/verificacion/estructuras`).snapshotChanges().pipe(
       map(formularios => {
+        // console.log(formularios);
+        // this.totalFormularios = formularios.length;
         return formularios.map((formulario) => {
           return formulario.payload.doc.data() as FormularioVerificacion;
         });
@@ -77,6 +83,7 @@ export class FormularioVerificacionService extends FormularioService {
     const formularioVerificacion = item as FormularioVerificacion;
     return new Promise<void>(async (resolve, reject) => {
       if (formularioVerificacion.id === "" || formularioVerificacion.id === undefined) {
+        // console.log(this.totalFormularios);
         formularioVerificacion.id = this.firebase.createId();
         await this.create(formularioVerificacion);
       } else {

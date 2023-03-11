@@ -151,9 +151,17 @@
             <h4 class="my-2">Histórico</h4>
             <div class="row">
                 <div class="col-md-6">
-                    <h6>Monitoreo</h6>
+                    <div class="row" style="align-items: baseline;">
+                        <h6 style="width: 106px;">Monitoreo</h6>
+                        <button mat-icon-button color="primary" class="mt-2" (click)="downloadVerificacion()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="20" fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16">
+                                <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"/>
+                                <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                            </svg>
+                        </button>
+                    </div>
                     <div class="row" *ngFor="let verificacion of formulariosVerificacion">
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             <mat-form-field appearance="outline">
                                 <mat-label>Técnico</mat-label>
                                 <input readonly matInput [value]="verificacion.tecnico" autocomplete="off">
@@ -161,42 +169,34 @@
                         </div>
                         <div class="col-md-4">
                             <mat-form-field appearance="outline">
-                                <mat-label>Técnico</mat-label>
+                                <mat-label>Fecha de Visita</mat-label>
                                 <input readonly matInput [value]="verificacion.fechaVisita" autocomplete="off">
                             </mat-form-field>
-                        </div>
-                        <div class="col-md-2">
-                            <button mat-icon-button color="primary" class="mt-2" (click)="downloadVerificacion()">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16">
-                                    <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"/>
-                                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
-                                </svg>
-                            </button>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <h6>Línea Base</h6>
-                    <div class="row" *ngFor="let lineaBase of formulariosLineaBase">
-                        <div class="col-md-6">
+                    <div class="row" style="align-items: baseline;">
+                        <h6 style="width: 125px;">Linea Base</h6>
+                        <button mat-icon-button color="primary" class="mt-2" (click)="downloadLineaBase()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="20" fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16">
+                                <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"/>
+                                <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
                             <mat-form-field appearance="outline">
                                 <mat-label>Técnico</mat-label>
-                                <input readonly matInput [value]="lineaBase.tecnico" autocomplete="off">
+                                <input readonly matInput [value]="tecnicoReciente" autocomplete="off">
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">
                             <mat-form-field appearance="outline">
-                                <mat-label>Técnico</mat-label>
-                                <input readonly matInput [value]="lineaBase.fechaVisita" autocomplete="off">
+                                <mat-label>Fecha de Visita</mat-label>
+                                <input readonly matInput [value]="fechaVisitaReciente" autocomplete="off">
                             </mat-form-field>
-                        </div>
-                        <div class="col-md-2">
-                            <button mat-icon-button color="primary" class="mt-2" (click)="downloadLineaBase()">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16">
-                                    <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"/>
-                                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
-                                </svg>
-                            </button>
                         </div>
                     </div>
                 </div>

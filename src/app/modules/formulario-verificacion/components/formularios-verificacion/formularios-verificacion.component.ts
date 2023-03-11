@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { DataTableComponent } from 'src/app/shared/data-table/data-table.component';
 import { FormularioVerificacion } from 'src/app/interfaces/formularioVerificacion';
 import { BreakpointObserver } from '@angular/cdk/layout';
@@ -14,9 +14,11 @@ import { TecnicoService } from 'src/app/modules/core/services/tecnico/tecnico.se
   templateUrl: './formularios-verificacion.component.html',
   styleUrls: ['./formularios-verificacion.component.scss']
 })
-export class FormulariosVerificacionComponent extends DataTableComponent<FormularioVerificacion> {
+export class FormulariosVerificacionComponent extends DataTableComponent<FormularioVerificacion>{
 
   displayedColumns = ['id', 'agricultor', 'fechaVisita', 'acciones'];
+
+  selected = '0';
 
   constructor(
     private tecnicoService: TecnicoService,

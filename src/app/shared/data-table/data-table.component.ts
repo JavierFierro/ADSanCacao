@@ -20,6 +20,10 @@ export class DataTableComponent<T> implements AfterViewInit {
 
   dataService: IDatabase<T>;
 
+  filteredDatesArray = [];
+
+  filteredDataArray = [];
+
   @ViewChild(ConfirmDialogComponent) confirmDialog: ConfirmDialogComponent;
   @ViewChild(LoadingComponent) loading: LoadingComponent;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
@@ -65,9 +69,62 @@ export class DataTableComponent<T> implements AfterViewInit {
   }
 
   applyFilter(filterValue: string) {
+
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+
+    this.filteredDataArray=[];
+    this.filteredDatesArray=[];
+    this.dataSource.data = [];
+    this.dataSource.filteredData = [];
+
+    setTimeout(async () => {
+
+      await this.fetchData();
+    
+      if(!isNaN(parseInt(filterValue)) && filterValue != '0'){
+
+        this.loading.open();
+
+        this.dataSource.filteredData.forEach((e) => this.getFechaVisitarange(e, filterValue));
+        this.filteredDatesArray.forEach((e) => this.filterFechaVisita(e, this.dataSource));
+
+        this.dataSource.filter = "";
+        this.dataSource.data = this.filteredDataArray.filter((c, i) =>this.filteredDataArray.indexOf(c) === i ); //Filtered out repeated data
+        this.dataSource.filteredData = this.filteredDataArray.filter((c, i) =>this.filteredDataArray.indexOf(c) === i ); //Filtered out repeated data
+
+        this.changeDetectorObj.detectChanges();
+
+        this.loading.close();
+        
+      }else if(filterValue == '0'){
+        await this.fetchData();
+        this.dataSource.filter = filterValue;
+      }else{
+        this.dataSource.filter = filterValue;
+      }
+
+    }, 0);
+  }
+
+  filterFechaVisita(fechaVisita, dataSource){
+
+    dataSource.filter = fechaVisita
+    this.filteredDataArray = this.filteredDataArray.concat(dataSource.filteredData);
+
+  }
+
+  getFechaVisitarange(verificacion, year){
+    
+    let parts = verificacion.fechaVisita.split('/'); // D/M/A
+    let mydate = new Date(parts[2], parts[1] - 1, parts[0]); 
+
+    if(mydate >= new Date(year-1,9,1) && mydate <= new Date(year,9,1)){
+      if(!this.filteredDatesArray.includes(verificacion.fechaVisita)){
+        this.filteredDatesArray.push(verificacion.fechaVisita);
+      }
+    }
+
   }
 
   async onTrashCanClicked(row: any): Promise<void> {

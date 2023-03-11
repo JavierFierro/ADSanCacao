@@ -164,15 +164,24 @@ export class EditVerificacionComponent implements OnInit {
     return this.formularioVerificacion === undefined || this.formularioVerificacion === null;
   }
 
+  formattedTodayDate(){
+    const today = new Date().toLocaleDateString("en-US");
+    let parts = today.split("/");
+
+    const todayFormatted = parts[1] + "/" + parts[0] + "/" + parts[2]
+    return todayFormatted;
+  }
+
   async onSubmit() {
     this.loading.open();
+    console.log(this.formattedTodayDate());
     const loggedTecnico = await this.tecnicoService.getLocalUser();
     this.agricultor = this.verificacionForm.value.agricultor;
     let formularioVerificacionParam: FormularioVerificacion = {
       id: "",
       agricultor: this.agricultor,
       tecnico: loggedTecnico,
-      fechaVisita: new Date().toLocaleDateString(),
+      fechaVisita: this.formattedTodayDate(),
       secciones: {
         datosFinca: this.datosFincaComponent.seccion,
         injertacion: this.injertacionComponent.seccion,
