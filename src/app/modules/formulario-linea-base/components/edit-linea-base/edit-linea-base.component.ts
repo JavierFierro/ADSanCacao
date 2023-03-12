@@ -18,6 +18,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingComponent } from 'src/app/shared/loading/loading.component';
 import { FirmaAgricultorComponent } from '../sections/firma-agricultor/firma-agricultor.component';
+import { Tecnico } from '../../../../interfaces/tecnico';
+import { Permiso } from 'src/app/interfaces/tecnico';
+
 
 @Component({
   selector: 'app-edit-linea-base',
@@ -31,6 +34,9 @@ export class EditLineaBaseComponent implements OnInit {
   agricultor: Agricultor;
   listaAgricultores: Agricultor[];
   filteredListAgricultores: Agricultor[] = [];
+
+  disabledFecha: boolean = true;
+  disabledTecnico: boolean = true;
 
   @ViewChild(LoadingComponent) loading: LoadingComponent;
   @ViewChild(InformacionFamiliaComponent) informacionFamiliaComponent: InformacionFamiliaComponent;
@@ -88,6 +94,14 @@ export class EditLineaBaseComponent implements OnInit {
   }
 
   updateView() {
+
+    const loggedTecnico = JSON.parse(localStorage.getItem("user"));
+
+    if(loggedTecnico.nombre === "Manuel Matute"){
+      this.disabledFecha = false;
+      this.disabledTecnico = false;
+    }
+
     this.changeDetector.detectChanges();
   }
 
@@ -139,8 +153,8 @@ export class EditLineaBaseComponent implements OnInit {
     let formularioLineaBaseParam: FormularioLineaBase = {
       id: "",
       agricultor: this.agricultor,
-      tecnico: loggedTecnico,
-      fechaVisita: new Date().toLocaleDateString(),
+      tecnico: this.setTecnico(this.lineaBaseForm.value.tecnico,loggedTecnico),
+      fechaVisita: this.setFechaVisita(this.lineaBaseForm.value.fechaVisita,this.formattedTodayDate()),
       secciones: {
         informacionFamilia: this.informacionFamiliaComponent.seccion,
         practicasAgricolas: this.practicasAgricolasComponent.seccion,
@@ -183,11 +197,56 @@ export class EditLineaBaseComponent implements OnInit {
       this.condicionesLaboralesComponent.setValues(this.formularioLineaBase);
       this.serviciosBasicosComponent.setValues(this.formularioLineaBase);
       this.conservacionRecursosManejoDesechosComponent.setValues(this.formularioLineaBase);
-      this.lineaBaseForm.get('fechaVisita').setValue(this.formularioLineaBase.fechaVisita);
+      this.lineaBaseForm.get('fechaVisita').setValue(this.convertDate(this.formularioLineaBase.fechaVisita));
       this.lineaBaseForm.get('tecnico').setValue(this.formularioLineaBase.tecnico.nombre);
       if(!(this.formularioLineaBase.secciones.firmaAgricultor === undefined)){
         this.firmaAgricultorComponent.setValues(this.formularioLineaBase);
       }
+    }
+  }
+
+  formattedTodayDate(){
+    const today = new Date().toLocaleDateString("en-US");
+    let parts = today.split("/");
+
+    const todayFormatted = parts[1] + "/" + parts[0] + "/" + parts[2]
+    return todayFormatted;
+  }
+
+  setFechaVisita(fechaVisita: any, todayDate: any){
+    if(fechaVisita == undefined || fechaVisita == ''){
+      return todayDate;
+    }
+    const dateArray = fechaVisita.toLocaleDateString().split("/");
+
+    const newFecha = dateArray[1] + "/" + dateArray[0] + "/" + dateArray[2]
+    return newFecha;
+  }
+
+  setTecnico(tecnico: any, loggedTecnico: Tecnico){
+    const editedTecnico: Tecnico = {
+      id: "",
+      nombre: tecnico,
+      correo: "",
+      permiso: Permiso.Real
+    }
+    if(tecnico === undefined || tecnico === ''){
+      return loggedTecnico;
+    }
+    return editedTecnico;
+  }
+
+  convertDate(date: any): Date {
+    if(date == ''){
+      return new Date();
+    }else if (typeof date === 'string') {
+      // console.log(date);
+      const arrValues = date.split('/');
+      const dateString = arrValues[2] + "-" + arrValues[1] + "-" + arrValues[0] + " 00:00";
+      return new Date(dateString);
+    } else {
+      const tVisita = date as any;
+      return new Date(tVisita.seconds * 1000);
     }
   }
 

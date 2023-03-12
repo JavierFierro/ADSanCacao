@@ -112,7 +112,7 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit  {
 
   downloadVerificacion(): void{
     // this.open()
-    this.agriService.descargarVerificacion(this.id, this.datosPersonales.get("nombre").value, this.formulariosVerificacion[0].fechaVisita);
+    this.agriService.descargarVerificacion(this.id, this.datosPersonales.get("nombre").value, this.formulariosVerificacion[this.formulariosVerificacion.length - 1].fechaVisita);
     // this.close()
   }
 

@@ -27,13 +27,15 @@
             <div class="col-md-4">
                 <mat-form-field class="item" appearance="outline">
                     <mat-label>Fecha de Visita</mat-label>
-                    <input matInput formControlName="fechaVisita" name="someUnusualName" autocomplete="off" disabled>
+                    <input [disabled]=disabledFecha matInput [matDatepicker]="picker2" formControlName="fechaVisita" name="someUnusualName" autocomplete="off">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
                 </mat-form-field>
             </div>
             <div class="col-md-8">
                 <mat-form-field class="item" appearance="outline">
                     <mat-label>Técnico</mat-label>
-                    <input matInput formControlName="tecnico" name="someUnusualName" autocomplete="off" disabled>
+                    <input [readonly]=disabledTecnico matInput formControlName="tecnico" name="someUnusualName" autocomplete="off">
                 </mat-form-field>
             </div>
         </div>

@@ -34,6 +34,7 @@ import { LoadingComponent } from 'src/app/shared/loading/loading.component';
 import { RevisionPlantasComponent } from '../sections/revision-plantas/revision-plantas.component';
 import { Permiso } from 'src/app/interfaces/tecnico';
 import { FirmaAgricultorComponent } from '../sections/firma-agricultor/firma-agricultor.component';
+import { Tecnico } from '../../../../interfaces/tecnico';
 
 @Component({
   selector: 'app-edit-verificacion',
@@ -48,6 +49,9 @@ export class EditVerificacionComponent implements OnInit {
   filteredListAgricultores: Agricultor[] = [];
   agricultor: Agricultor;
   isLoading: boolean = true;
+
+  disabledFecha: boolean = true;
+  disabledTecnico: boolean = true;
 
   @ViewChild(LoadingComponent) loading: LoadingComponent;
   @ViewChild(DatosFincaComponent) datosFincaComponent: DatosFincaComponent;
@@ -83,7 +87,7 @@ export class EditVerificacionComponent implements OnInit {
     private changeDetector: ChangeDetectorRef,
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
   ) {
     this.verificacionForm = this.formBuilder.group({
       agricultor: new FormControl(''),
@@ -125,6 +129,14 @@ export class EditVerificacionComponent implements OnInit {
 
   updateView() {
     this.isLoading = false;
+
+    const loggedTecnico = JSON.parse(localStorage.getItem("user"));
+
+    if(loggedTecnico.nombre === "Manuel Matute"){
+      this.disabledFecha = false;
+      this.disabledTecnico = false;
+    }
+
     this.changeDetector.detectChanges();
   }
 
@@ -172,16 +184,25 @@ export class EditVerificacionComponent implements OnInit {
     return todayFormatted;
   }
 
+  setFechaVisita(fechaVisita: any, todayDate: any){
+    if(fechaVisita == undefined || fechaVisita == ''){
+      return todayDate;
+    }
+    const dateArray = fechaVisita.toLocaleDateString().split("/");
+
+    const newFecha = dateArray[1] + "/" + dateArray[0] + "/" + dateArray[2]
+    return newFecha;
+  }
+
   async onSubmit() {
     this.loading.open();
-    console.log(this.formattedTodayDate());
     const loggedTecnico = await this.tecnicoService.getLocalUser();
     this.agricultor = this.verificacionForm.value.agricultor;
     let formularioVerificacionParam: FormularioVerificacion = {
       id: "",
       agricultor: this.agricultor,
-      tecnico: loggedTecnico,
-      fechaVisita: this.formattedTodayDate(),
+      tecnico: this.setTecnico(this.verificacionForm.value.tecnico,loggedTecnico),
+      fechaVisita: this.setFechaVisita(this.verificacionForm.value.fechaVisita,this.formattedTodayDate()),
       secciones: {
         datosFinca: this.datosFincaComponent.seccion,
         injertacion: this.injertacionComponent.seccion,
@@ -251,7 +272,7 @@ export class EditVerificacionComponent implements OnInit {
       this.diversificacionIngresosComponent.setValues(this.formularioVerificacion);
       this.capacitacionesBeneficioProgramaComponent.setValues(this.formularioVerificacion);
       
-      this.verificacionForm.get('fechaVisita').setValue(this.formularioVerificacion.fechaVisita)
+      this.verificacionForm.get('fechaVisita').setValue(this.convertDate(this.formularioVerificacion.fechaVisita))
       this.verificacionForm.get('tecnico').setValue(this.formularioVerificacion.tecnico.nombre)
 
       if(!(this.formularioVerificacion.secciones.firmaAgricultor === undefined)){
@@ -266,6 +287,33 @@ export class EditVerificacionComponent implements OnInit {
       // if(!(this.formularioVerificacion.secciones.revisionPlantas === undefined)){
       //   this.revisionPlantasComponent.setValues(this.formularioVerificacion);
       // }
+    }
+  }
+
+  setTecnico(tecnico: any, loggedTecnico: Tecnico){
+    const editedTecnico: Tecnico = {
+      id: "",
+      nombre: tecnico,
+      correo: "",
+      permiso: Permiso.Real
+    }
+    if(tecnico === undefined || tecnico === ''){
+      return loggedTecnico;
+    }
+    return editedTecnico;
+  }
+
+  convertDate(date: any): Date {
+    if(date == ''){
+      return new Date();
+    }else if (typeof date === 'string') {
+      // console.log(date);
+      const arrValues = date.split('/');
+      const dateString = arrValues[2] + "-" + arrValues[1] + "-" + arrValues[0] + " 00:00";
+      return new Date(dateString);
+    } else {
+      const tVisita = date as any;
+      return new Date(tVisita.seconds * 1000);
     }
   }
 
