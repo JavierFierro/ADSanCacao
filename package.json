@@ -12,7 +12,8 @@
     "electron": "electron .",
     "electron-build": "ng build --prod",
     "postinstall": "ng build --prod",
-    "heroku-postbuild": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build"
+    "heroku-postbuild": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build",
+    "start-pwa":"ng build --prod --base-href=/ && http-server -p 8080 -c-1 dist/adsancacao-app"
   },
   "private": true,
   "dependencies": {
