@@ -11,7 +11,7 @@ import { formularioLineaBase } from "./config/constantes/formularioLineaBase";
 import { formularioVerificacion } from "./config/constantes/formularioVerificacion";
 
 export const environment = {
-  production: false,
+  production: true,
   menuItems: menuItems,
   firebase,
   constantes: {
