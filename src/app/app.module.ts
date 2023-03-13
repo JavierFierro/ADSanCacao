@@ -27,7 +27,7 @@ import { CoreModule } from './modules/core/core.module';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
