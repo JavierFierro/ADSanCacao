@@ -13,7 +13,7 @@
     "electron-build": "ng build --prod",
     "postinstall": "ng build --prod",
     "heroku-postbuild": "ng build --prod",
-    "start-pwa":"ng build --prod --base-href=/ && http-server -p 8080 -c-1 dist/adsancacao-app"
+    "start-pwa": "ng build --prod --base-href=/ && http-server -p 8080 -c-1 dist/adsancacao-app"
   },
   "private": true,
   "dependencies": {
@@ -48,10 +48,12 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "ng2-search-filter": "^0.5.1",
+    "ngx-connection-service": "^7.0.3",
     "ngx-csv-parser": "0.0.7",
     "ngx-custom-validators": "^9.0.0",
     "ngx-perfect-scrollbar": "^8.0.0",
     "path": "^0.12.7",
+    "pouchdb-browser": "^8.0.1",
     "rxjs": "~6.6.0",
     "rxjs-compat": "^6.5.4",
     "sweetalert2": "^11.1.9",

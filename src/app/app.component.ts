@@ -1,8 +1,50 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { ConnectionService } from 'ngx-connection-service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {}
+export class AppComponent {
+  
+  hasNetworkConnection: boolean;
+  status: string;
+ 
+  constructor(
+    private connectionService: ConnectionService) {
+
+      this.connectionService.monitor().subscribe(currentState => {
+        this.hasNetworkConnection = currentState.hasNetworkConnection;
+        if (this.hasNetworkConnection) {
+          this.status = 'ONLINE';
+          this.success(this.status);
+        } else {
+          this.status = 'OFFLINE';
+          this.error(this.status);
+        }
+      });
+  }
+
+  success(title: string): void {
+    Swal.fire({
+      position: 'top',
+      icon: 'success',
+      title: title,
+      showConfirmButton: false,
+      timer: 1500
+    })
+  }
+
+  error(title: string): void {
+    Swal.fire({
+      position: 'top',
+      icon: 'error',
+      title: title,
+      showConfirmButton: false,
+      timer: 1500
+    })
+  }
+
+}

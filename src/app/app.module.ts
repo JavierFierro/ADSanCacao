@@ -30,6 +30,8 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { environment } from 'src/environments/environment.prod';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
+import {ConnectionServiceModule, ConnectionServiceOptions, ConnectionServiceOptionsToken} from 'ngx-connection-service';
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelSpeed: 2,
@@ -59,6 +61,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     HttpClientModule,
     SharedModule,
     CoreModule,
+    ConnectionServiceModule,
     RouterModule.forRoot(AppRoutes),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production, registrationStrategy: 'registerImmediately' })
   ],
@@ -66,6 +69,15 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+    },
+    {
+      provide: ConnectionServiceOptionsToken,
+      useValue: <ConnectionServiceOptions>{
+        enableHeartbeat: false,
+        heartbeatUrl: '/assets/ping.json',
+        requestMethod: 'get',
+        heartbeatInterval: 3000
+      }
     }
   ],
   bootstrap: [AppComponent]

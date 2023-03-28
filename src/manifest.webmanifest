@@ -1,8 +1,8 @@
 {
-  "name": "adsancacao-app",
-  "short_name": "adsancacao-app",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "name": "ADSanchez Cacao App",
+  "short_name": "ADSanchez Cacao App",
+  "theme_color": "#076533",
+  "background_color": "#076533",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
