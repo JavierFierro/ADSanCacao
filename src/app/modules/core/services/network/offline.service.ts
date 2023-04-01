@@ -6,15 +6,8 @@ import { ConnectionService } from "ngx-connection-service";
 })
 export class OfflineService {
 
-  hasNetworkConnection: boolean;
-  hasInternetAccess: boolean;
-  status: boolean;
+  status: string;
 
-  constructor(private connectionService: ConnectionService) { 
-    this.connectionService.monitor().subscribe(currentState => {
-      this.hasNetworkConnection = currentState.hasNetworkConnection;
-      this.hasInternetAccess = currentState.hasInternetAccess;
-      this.status = this.hasNetworkConnection;
-    });
-  }
+  constructor() {}
+
 }

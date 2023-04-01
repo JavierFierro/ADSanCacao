@@ -9,6 +9,9 @@ import { AuthService } from 'src/app/modules/core/services/auth/auth.service';
 import { TecnicoService } from 'src/app/modules/core/services/tecnico/tecnico.service';
 import { LoadingComponent } from 'src/app/shared/loading/loading.component';
 
+import { OfflineAuthService } from 'src/app/modules/core/services/auth/offline-auth.service';
+import { OfflineService } from 'src/app/modules/core/services/network/offline.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -25,6 +28,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     public authService: AuthService,
     private router: Router,
     private tecnicoService: TecnicoService,
+    private offlineAuthService: OfflineAuthService,
+    private offlineService: OfflineService
   ) { }
 
   ngOnInit() {
@@ -45,18 +50,41 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   async onSubmit() {
     this.loading.open();
-    this.authService.setPersistance().then(() => {
-      this.authService.signIn(this.form.value.uname, this.form.value.password)
-      .then(async () => {
-        await this.fetchTecnico();
+    if(this.offlineService.status == 'OFFLINE'){
+
+      this.offlineAuthService.offlineSignIn(this.form.value.uname, this.form.value.password);
+
+      if(this.offlineAuthService.loggedIn){
         this.loading.success('Listo', 'Usuario ingresado correctamente');
+
         setTimeout(() => {
           this.router.navigate(['agricultores']);
         }, 1000);
-      }).catch((error) => {
+      }else{
         this.loading.error('Error', 'Usuario o contraseña incorrecta');
-      });
-    });
+      }
+      
+    }else{
+
+      this.authService.setPersistance().then(() => {
+        this.authService.signIn(this.form.value.uname, this.form.value.password)
+        .then(async () => {
+          await this.fetchTecnico();
+          this.loading.success('Listo', 'Usuario ingresado correctamente');
+
+          setTimeout(() => {
+            this.router.navigate(['agricultores']);
+          }, 1000);
+          
+        }).catch((error) => {
+          
+          this.loading.error('Error', 'Usuario o contraseña incorrecta');
+          
+        });
+      })
+
+    }
+    
   }
 
   fetchTecnico(): Promise<void> {

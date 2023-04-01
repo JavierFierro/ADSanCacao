@@ -1,5 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { ConnectionService } from 'ngx-connection-service';
+import { OfflineService } from 'src/app/modules/core/services/network/offline.service';
+
 import Swal from 'sweetalert2';
 
 @Component({
@@ -13,15 +15,18 @@ export class AppComponent {
   status: string;
  
   constructor(
-    private connectionService: ConnectionService) {
+    private connectionService: ConnectionService,
+    private offlineService: OfflineService) {
 
       this.connectionService.monitor().subscribe(currentState => {
         this.hasNetworkConnection = currentState.hasNetworkConnection;
         if (this.hasNetworkConnection) {
           this.status = 'ONLINE';
+          this.offlineService.status = this.status
           this.success(this.status);
         } else {
           this.status = 'OFFLINE';
+          this.offlineService.status = this.status
           this.error(this.status);
         }
       });
