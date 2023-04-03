@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1680370661931,
+  "timestamp": 1680489313137,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -15,21 +15,21 @@
         "/1.58ebb65a138344ed46f3.js",
         "/2.876867ff999f59b54a0f.js",
         "/3.8b7842bd4e2d10d43d8f.js",
-        "/4.9f45af304db855a4f57a.js",
+        "/4.8f1fc28c6994b9b12e8b.js",
         "/5.a7b7c4dc088f49fac393.js",
         "/favicon.ico",
         "/index.html",
-        "/main.0818e19b6d4a101aac80.js",
+        "/main.3cfafe8935c686210093.js",
         "/manifest.webmanifest",
         "/polyfills.614fa29b82948637bb4d.js",
-        "/runtime.b06c0f90a0d8736e5ca9.js",
+        "/runtime.a2c2c2407164ff76a1a9.js",
         "/scripts.abf15915ea53afa16130.js",
         "/styles.7adfe0a9a86770980aef.css"
       ],
       "patterns": [
         "https:\\/\\/fonts\\.googleapis\\.com\\/icon\\?family=Material\\+Icons",
         "https:\\/\\/fonts\\.googleapis\\.com\\/css\\?family=Poppins:400,500,300,600,700&display=swap",
-        "https:\\/\\/fonts\\.gstatic\\.com\\/[^/]*"
+        "https:\\/\\/fonts\\.gstatic\\.com\\/s\\/materialicons\\/v140\\/[^/]*"
       ]
     },
     {
@@ -317,7 +317,7 @@
     "/1.58ebb65a138344ed46f3.js": "4f4c67d424375162662999bfb849347f1c27e9a6",
     "/2.876867ff999f59b54a0f.js": "da807a1f95ef5e0b0e21894866a8490a19853688",
     "/3.8b7842bd4e2d10d43d8f.js": "93d356270da4ce60c9831693529d295efd2bc5b7",
-    "/4.9f45af304db855a4f57a.js": "00deff99a94d6ffb2ffc2f578a5e41193a2f1895",
+    "/4.8f1fc28c6994b9b12e8b.js": "d01082dbc2a475466f0e182d4b5410235b37390b",
     "/5.a7b7c4dc088f49fac393.js": "c25d0a03a103e89716518528a5008023e32d820d",
     "/assets/company.json": "2c28954e6aa2785ebbc33f1b9266ee4aed4654af",
     "/assets/icons/icon-128x128.png": "61ed5a8e6154310c3c96eeab3996dc136a374d5a",
@@ -583,11 +583,11 @@
     "/fontawesome-webfont.8b43027f47b20503057d.eot": "d980c2ce873dc43af460d4d572d441304499f400",
     "/fontawesome-webfont.c1e38fd9e0e74ba58f7a.svg": "98a8aa5cf7d62c2eff5f07ede8d844b874ef06ed",
     "/fontawesome-webfont.f691f37e57f04c152e23.woff": "28b782240b3e76db824e12c02754a9731a167527",
-    "/index.html": "f67e18837bef75fbe75b562cf8c93a71d74809ce",
-    "/main.0818e19b6d4a101aac80.js": "66e0eca55b3811619513b26aff4e32b6d80865ae",
+    "/index.html": "7be92c4f1747a4d0ba34939e5167edb0c80e6556",
+    "/main.3cfafe8935c686210093.js": "72023ef2abc883dc47ecb35ebfb887b8438327a7",
     "/manifest.webmanifest": "07718126c858a7fcc44d38ce0d01fb5447aa3f4c",
     "/polyfills.614fa29b82948637bb4d.js": "c04c8854932e2ab337dde6f6519dfafaa6e7cbef",
-    "/runtime.b06c0f90a0d8736e5ca9.js": "3d498793a3e044b082308e42a7a081cf5b71e61d",
+    "/runtime.a2c2c2407164ff76a1a9.js": "4af7b4940822ed6df2257e4083253915f3fb2043",
     "/scripts.abf15915ea53afa16130.js": "1b70c08112a1652c5483bb3e556f42cc97b14c8b",
     "/styles.7adfe0a9a86770980aef.css": "b5434ec9e36c2c1afd1dbd851a83105e4e29c44d",
     "/themify.29b39089170885ae2967.woff": "9394f35bd2addd24666b79bfc36d4f9d247cb01d",

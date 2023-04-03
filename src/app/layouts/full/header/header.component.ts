@@ -5,6 +5,9 @@ import { AgricultorService } from 'src/app/modules/core/services/agriculor/agric
 import { AuthService } from 'src/app/modules/core/services/auth/auth.service';
 import { FormularioLineaBaseService } from 'src/app/modules/core/services/formularios/formulario-linea-base.service';
 import { FormularioVerificacionService } from 'src/app/modules/core/services/formularios/formulario-verificacion.service';
+
+import { OfflineService } from 'src/app/modules/core/services/network/offline.service';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -18,22 +21,28 @@ export class AppHeaderComponent {
     private router: Router,
     private agricultorService: AgricultorService,
     private lineaBaseService: FormularioLineaBaseService,
-    private verificacionService: FormularioVerificacionService
+    private verificacionService: FormularioVerificacionService,
+    private offlineService: OfflineService
   ) {}
 
   logout() {
-    this.authService.logOut()
+    if(this.offlineService.status == 'ONLINE'){
+      this.authService.logOut()
       .then(() => {
         this.agricultorService.localData = undefined;
         this.lineaBaseService.localData = undefined;
         this.verificacionService.localData = undefined;
-        this.router.navigate(['authentication']);
       })
       .catch((e) => {
         this.snackBar.open(e, 'Cerrar', {
           duration: 5000
         })
       });
+    }else{
+      this.router.navigate(['authentication']);
+      localStorage.clear();
+    }
+    
   }
   
 }

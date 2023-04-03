@@ -33,11 +33,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    const hasUser$ = this.authService.hasUser();
-    if (hasUser$) {
-      this.fetchTecnico();
-      this.router.navigate(['agricultores']);
+    if(this.offlineService.status == 'ONLINE'){
+      const hasUser$ = this.authService.hasUser();
+      if (hasUser$) {
+        this.fetchTecnico();
+        this.router.navigate(['agricultores']);
+      }
     }
+    
     this.form = this.fb.group({
       uname: [null, Validators.compose([Validators.required])],
       password: [null, Validators.compose([Validators.required])]

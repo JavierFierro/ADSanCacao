@@ -19,7 +19,7 @@ export class OfflineAuthService {
 
     offline_users.forEach(element => {
 
-      if(email === element.email && password === element.password){
+      if(email.toLowerCase() === element.email && password === element.password){
         const storedTecnico = {
           nombre: element.displayName,
           permiso: element.permiso
