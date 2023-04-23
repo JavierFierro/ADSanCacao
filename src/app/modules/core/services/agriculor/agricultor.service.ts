@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentData } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Agricultor } from 'src/app/interfaces/agricultor';
 import { IDatabase } from 'src/app/interfaces/database';
@@ -10,17 +10,23 @@ import { ExportacionesService } from '../exportaciones/exportaciones.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { saveAs } from 'file-saver';
+import { OfflineService } from '../network/offline.service';
+import { data }  from '../../../../../assets/formCaches/formAgrData';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AgricultorService implements IDatabase<Agricultor> {
 
   localData: Observable<Agricultor[]>;
+  cachedFormularios: Agricultor[] = data;
+  cachedFormulariosObs : Observable<Agricultor[]>;
 
   constructor(
     private firebase: AngularFirestore,
     private exportacionService: ExportacionesService,
-    private http: HttpClient
+    private http: HttpClient,
+    private offlineService: OfflineService
   ) { }
 
   initData(): void {
@@ -28,15 +34,22 @@ export class AgricultorService implements IDatabase<Agricultor> {
   }
   
   list(): Observable<Agricultor[]> {
-    const loggedTecnico = JSON.parse(localStorage.getItem("user"));
-    const collectionName = loggedTecnico.permiso === Permiso.Real ? "agricultores" : "agricultoresFicticios";
-    return this.firebase.collection(collectionName).snapshotChanges().pipe(
-      map(agricultores => {
-        return agricultores.map((agricultor) => {
-          return agricultor.payload.doc.data() as Agricultor;
-        });
-      })
-    );
+
+    if(this.offlineService.status == 'ONLINE'){
+      const loggedTecnico = JSON.parse(localStorage.getItem("user"));
+      const collectionName = loggedTecnico.permiso === Permiso.Real ? "agricultores" : "agricultoresFicticios";
+      const formsAgr =  this.firebase.collection(collectionName).snapshotChanges().pipe(
+        map(agricultores => {
+          return agricultores.map((agricultor) => {
+            return agricultor.payload.doc.data() as Agricultor;
+          });
+        })
+      );
+      return formsAgr;
+    }else{
+      this.cachedFormulariosObs = of(this.cachedFormularios);
+      return this.cachedFormulariosObs;
+    }
   }
 
   set(agricultor: Agricultor): Promise<void> {

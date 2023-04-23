@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1680489313137,
+  "timestamp": 1682289800829,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -19,7 +19,7 @@
         "/5.a7b7c4dc088f49fac393.js",
         "/favicon.ico",
         "/index.html",
-        "/main.3cfafe8935c686210093.js",
+        "/main.aa8af64f8089ac268102.js",
         "/manifest.webmanifest",
         "/polyfills.614fa29b82948637bb4d.js",
         "/runtime.a2c2c2407164ff76a1a9.js",
@@ -40,7 +40,6 @@
         "ignoreVary": true
       },
       "urls": [
-        "/assets/company.json",
         "/assets/icons/icon-128x128.png",
         "/assets/icons/icon-144x144.png",
         "/assets/icons/icon-152x152.png",
@@ -319,7 +318,6 @@
     "/3.8b7842bd4e2d10d43d8f.js": "93d356270da4ce60c9831693529d295efd2bc5b7",
     "/4.8f1fc28c6994b9b12e8b.js": "d01082dbc2a475466f0e182d4b5410235b37390b",
     "/5.a7b7c4dc088f49fac393.js": "c25d0a03a103e89716518528a5008023e32d820d",
-    "/assets/company.json": "2c28954e6aa2785ebbc33f1b9266ee4aed4654af",
     "/assets/icons/icon-128x128.png": "61ed5a8e6154310c3c96eeab3996dc136a374d5a",
     "/assets/icons/icon-144x144.png": "7c5c8ba4209c7cfacefd1bc685875d30a8bacf37",
     "/assets/icons/icon-152x152.png": "7c9764c2caae2842a25ecd29815e3c8e3187812f",
@@ -583,8 +581,8 @@
     "/fontawesome-webfont.8b43027f47b20503057d.eot": "d980c2ce873dc43af460d4d572d441304499f400",
     "/fontawesome-webfont.c1e38fd9e0e74ba58f7a.svg": "98a8aa5cf7d62c2eff5f07ede8d844b874ef06ed",
     "/fontawesome-webfont.f691f37e57f04c152e23.woff": "28b782240b3e76db824e12c02754a9731a167527",
-    "/index.html": "7be92c4f1747a4d0ba34939e5167edb0c80e6556",
-    "/main.3cfafe8935c686210093.js": "72023ef2abc883dc47ecb35ebfb887b8438327a7",
+    "/index.html": "bae3202fca17a73acb3c02aaacf4968bf4000356",
+    "/main.aa8af64f8089ac268102.js": "0c4212c7fa4d1a584a5e8ddc6e9c9f65c0b66810",
     "/manifest.webmanifest": "07718126c858a7fcc44d38ce0d01fb5447aa3f4c",
     "/polyfills.614fa29b82948637bb4d.js": "c04c8854932e2ab337dde6f6519dfafaa6e7cbef",
     "/runtime.a2c2c2407164ff76a1a9.js": "4af7b4940822ed6df2257e4083253915f3fb2043",

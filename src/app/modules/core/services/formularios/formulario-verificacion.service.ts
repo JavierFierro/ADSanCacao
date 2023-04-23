@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentData } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { first, map, take } from 'rxjs/operators';
 import { FormularioType } from 'src/app/interfaces/formulario';
 import { FormularioVerificacion } from 'src/app/interfaces/formularioVerificacion';
 import { Permiso } from 'src/app/interfaces/tecnico';
 import { ExportacionesService } from '../exportaciones/exportaciones.service';
 import { FormularioService } from './formulario.service';
+import { OfflineService } from '../network/offline.service';
+import { data }  from '../../../../../assets/formCaches/formVerData';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +19,13 @@ export class FormularioVerificacionService extends FormularioService {
 
   totalFormularios = 0;
 
+  cachedFormularios: FormularioVerificacion[] = data;
+  cachedFormulariosObs : Observable<FormularioVerificacion[]>;
+
   constructor(
     private firebase: AngularFirestore,
-    private exportacionService: ExportacionesService
+    private exportacionService: ExportacionesService,
+    private offlineService: OfflineService
   ) {
     super(firebase);
   }
@@ -35,17 +41,22 @@ export class FormularioVerificacionService extends FormularioService {
   }
 
   list(): Observable<FormularioVerificacion[]> {
-    const loggedTecnico = JSON.parse(localStorage.getItem("user"));
-    const collectionName = loggedTecnico.permiso === Permiso.Real ? "formularios" : "formulariosFicticios";
-    return this.firebase.collection(`/${collectionName}/verificacion/estructuras`).snapshotChanges().pipe(
-      map(formularios => {
-        // console.log(formularios);
-        // this.totalFormularios = formularios.length;
-        return formularios.map((formulario) => {
-          return formulario.payload.doc.data() as FormularioVerificacion;
-        });
-      })
-    );
+
+    if(this.offlineService.status == 'ONLINE'){
+      const loggedTecnico = JSON.parse(localStorage.getItem("user"));
+      const collectionName = loggedTecnico.permiso === Permiso.Real ? "formularios" : "formulariosFicticios";
+      const formVer =  this.firebase.collection(`/${collectionName}/verificacion/estructuras`).snapshotChanges().pipe(
+        map(formularios => {
+          return formularios.map((formulario) => {
+            return formulario.payload.doc.data() as FormularioVerificacion;
+          });
+        })
+      );
+      return formVer;
+    }else{
+      this.cachedFormulariosObs = of(this.cachedFormularios);
+      return this.cachedFormulariosObs;
+    }
   }
 
   listByAgricultor(agricultorId: string): Observable<FormularioVerificacion[]> {

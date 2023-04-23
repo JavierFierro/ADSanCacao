@@ -1,21 +1,27 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentData } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { FormularioType } from 'src/app/interfaces/formulario';
 import { FormularioLineaBase } from 'src/app/interfaces/formularioLineaBase';
 import { FormularioService } from './formulario.service';
 import { ExportacionesService } from './../exportaciones/exportaciones.service';
 import { Permiso } from 'src/app/interfaces/tecnico';
+import { OfflineService } from '../network/offline.service';
+import { data }  from '../../../../../assets/formCaches/formLbData';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FormularioLineaBaseService extends FormularioService {
 
+  cachedFormularios: FormularioLineaBase[] = data;
+  cachedFormulariosObs : Observable<FormularioLineaBase[]>;
+
   constructor(
     private firebase: AngularFirestore,
-    private exportacionService: ExportacionesService
+    private exportacionService: ExportacionesService,
+    private offlineService: OfflineService
   ) {
     super(firebase);
   }
@@ -31,15 +37,25 @@ export class FormularioLineaBaseService extends FormularioService {
   }
 
   list(): Observable<FormularioLineaBase[]> {
-    const loggedTecnico = JSON.parse(localStorage.getItem("user"));
-    const collectionName = loggedTecnico.permiso === Permiso.Real ? "formularios" : "formulariosFicticios";
-    return this.firebase.collection(`/${collectionName}/lineaBase/estructuras`).snapshotChanges().pipe(
-      map((formularios: any[]) => {
-        return formularios.map((formulario) => {
-          return formulario.payload.doc.data() as FormularioLineaBase;
-        });
-      })
-    );
+
+    if(this.offlineService.status == 'ONLINE'){
+      
+      const loggedTecnico = JSON.parse(localStorage.getItem("user"));
+      const collectionName = loggedTecnico.permiso === Permiso.Real ? "formularios" : "formulariosFicticios";
+      const formsLb =  this.firebase.collection(`/${collectionName}/lineaBase/estructuras`).snapshotChanges().pipe(
+        map((formularios: any[]) => {
+          return formularios.map((formulario) => {
+            return formulario.payload.doc.data() as FormularioLineaBase;
+          });
+        })
+      );
+      return formsLb;
+    }else{
+      
+      this.cachedFormulariosObs = of(this.cachedFormularios);
+      return this.cachedFormulariosObs;
+    }
+    
   }
 
   listByAgricultor(agricultorId: string): Observable<FormularioLineaBase[]> {
