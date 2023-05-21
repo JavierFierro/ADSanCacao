@@ -8,14 +8,12 @@ import { FormularioService } from './formulario.service';
 import { ExportacionesService } from './../exportaciones/exportaciones.service';
 import { Permiso } from 'src/app/interfaces/tecnico';
 import { OfflineService } from '../network/offline.service';
-import { data }  from '../../../../../assets/formCaches/formLbData';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FormularioLineaBaseService extends FormularioService {
 
-  cachedFormularios: FormularioLineaBase[] = data;
   cachedFormulariosObs : Observable<FormularioLineaBase[]>;
 
   constructor(
@@ -52,7 +50,6 @@ export class FormularioLineaBaseService extends FormularioService {
       return formsLb;
     }else{
       
-      this.cachedFormulariosObs = of(this.cachedFormularios);
       return this.cachedFormulariosObs;
     }
     

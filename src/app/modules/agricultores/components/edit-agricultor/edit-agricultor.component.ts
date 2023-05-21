@@ -14,6 +14,7 @@ import { DatosPersonalesComponent } from '../sections/datos-personales/datos-per
 import { HectareajeComponent } from '../sections/hectareaje/hectareaje.component';
 import { InformacionFincaComponent } from '../sections/informacion-finca/informacion-finca.component';
 import { OrigenPlantasComponent } from '../sections/origen-plantas/origen-plantas.component';
+import { OfflineService } from 'src/app/modules/core/services/network/offline.service';
 
 @Component({
   selector: 'app-edit-agricultor',
@@ -42,7 +43,8 @@ export class EditAgricultorComponent implements OnInit {
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
     private changeDetector: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private offlineService: OfflineService
   ) {
     this.agricultorForm = this.formBuilder.group({
     });
@@ -71,9 +73,15 @@ export class EditAgricultorComponent implements OnInit {
   async fetchAgricultor(): Promise<void> {
     const id = this.activatedRoute.snapshot.paramMap.get("id");
     if (id !== null) {
-      this.agricultor = await this.agricultorService.get(id);
-      this.datosPersonalesComponent.setAgricultor(this.agricultor);
-      this.croquisComponent.setAgricultor(this.agricultor);
+      if(this.offlineService.status === "ONLINE"){
+        this.agricultor = await this.agricultorService.get(id);
+        this.datosPersonalesComponent.setAgricultor(this.agricultor);
+        this.croquisComponent.setAgricultor(this.agricultor);
+      }else{
+        this.agricultor = await this.offlineService.getFormById(id);
+        console.log(this.agricultor);
+        this.datosPersonalesComponent.setAgricultor(this.agricultor);
+      }
     }
   }
 
@@ -130,7 +138,10 @@ export class EditAgricultorComponent implements OnInit {
       this.cacaoNacionalNuevosClonesComponent.setValues(this.agricultor);
       this.origenPlantasComponent.setValues(this.agricultor);
       this.priorizacionParticipacionProyectosComponent.setValues(this.agricultor);
-      this.croquisComponent.setValues(this.agricultor);
+      if(this.offlineService.status === "ONLINE"){
+        this.croquisComponent.setValues(this.agricultor);
+      }
+      
     }
   }
 

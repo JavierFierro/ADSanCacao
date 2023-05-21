@@ -8,7 +8,6 @@ import { Permiso } from 'src/app/interfaces/tecnico';
 import { ExportacionesService } from '../exportaciones/exportaciones.service';
 import { FormularioService } from './formulario.service';
 import { OfflineService } from '../network/offline.service';
-import { data }  from '../../../../../assets/formCaches/formVerData';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +18,6 @@ export class FormularioVerificacionService extends FormularioService {
 
   totalFormularios = 0;
 
-  cachedFormularios: FormularioVerificacion[] = data;
   cachedFormulariosObs : Observable<FormularioVerificacion[]>;
 
   constructor(
@@ -54,7 +52,6 @@ export class FormularioVerificacionService extends FormularioService {
       );
       return formVer;
     }else{
-      this.cachedFormulariosObs = of(this.cachedFormularios);
       return this.cachedFormulariosObs;
     }
   }

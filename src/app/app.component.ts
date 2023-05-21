@@ -13,7 +13,8 @@ export class AppComponent {
   
   hasNetworkConnection: boolean;
   status: string;
- 
+  reload: boolean = false;
+
   constructor(
     private connectionService: ConnectionService,
     private offlineService: OfflineService) {
@@ -21,6 +22,8 @@ export class AppComponent {
       this.connectionService.monitor().subscribe(currentState => {
         this.hasNetworkConnection = currentState.hasNetworkConnection;
         if (this.hasNetworkConnection) {
+          this.reload = true;
+
           this.status = 'ONLINE';
           this.offlineService.status = this.status
           this.success(this.status);
@@ -28,6 +31,10 @@ export class AppComponent {
           this.status = 'OFFLINE';
           this.offlineService.status = this.status
           this.error(this.status);
+
+          if(this.reload){
+            location.reload();
+          }
         }
       });
   }

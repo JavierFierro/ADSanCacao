@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, DocumentData } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Agricultor } from 'src/app/interfaces/agricultor';
@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { saveAs } from 'file-saver';
 import { OfflineService } from '../network/offline.service';
-import { data }  from '../../../../../assets/formCaches/formAgrData';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -19,15 +19,13 @@ import { data }  from '../../../../../assets/formCaches/formAgrData';
 export class AgricultorService implements IDatabase<Agricultor> {
 
   localData: Observable<Agricultor[]>;
-  cachedFormularios: Agricultor[] = data;
-  cachedFormulariosObs : Observable<Agricultor[]>;
 
   constructor(
     private firebase: AngularFirestore,
     private exportacionService: ExportacionesService,
     private http: HttpClient,
     private offlineService: OfflineService
-  ) { }
+  ) {}
 
   initData(): void {
     this.localData = this.list();
@@ -35,7 +33,10 @@ export class AgricultorService implements IDatabase<Agricultor> {
   
   list(): Observable<Agricultor[]> {
 
-    if(this.offlineService.status == 'ONLINE'){
+    if(this.offlineService.status === "ONLINE"){
+
+      this. offlineService.deleteDB();
+
       const loggedTecnico = JSON.parse(localStorage.getItem("user"));
       const collectionName = loggedTecnico.permiso === Permiso.Real ? "agricultores" : "agricultoresFicticios";
       const formsAgr =  this.firebase.collection(collectionName).snapshotChanges().pipe(
@@ -45,10 +46,21 @@ export class AgricultorService implements IDatabase<Agricultor> {
           });
         })
       );
+
+      formsAgr.subscribe((event) => {
+        this.open();
+        this.offlineService.startDB();
+
+        const agricultores: any[] = event;
+        this.offlineService.addTask(agricultores);
+      });
+
+
       return formsAgr;
     }else{
-      this.cachedFormulariosObs = of(this.cachedFormularios);
-      return this.cachedFormulariosObs;
+
+      return of(this.offlineService.cachedAgrForm);
+      
     }
   }
 
@@ -190,6 +202,22 @@ export class AgricultorService implements IDatabase<Agricultor> {
           }
         );
     });
+  }
+
+  open(): void {
+    Swal.fire({
+      title: 'Guardando Agricultores en Cache',
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      timer: 99999999999,
+      didOpen: () => {
+        Swal.showLoading()
+      }
+    });
+  }
+
+  close(): void {
+    Swal.close();
   }
 
 }

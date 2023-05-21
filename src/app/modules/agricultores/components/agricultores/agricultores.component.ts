@@ -7,6 +7,10 @@ import { ImportacionesService } from 'src/app/modules/core/services/importacione
 import { TecnicoService } from 'src/app/modules/core/services/tecnico/tecnico.service';
 import { DataTableComponent } from 'src/app/shared/data-table/data-table.component';
 import { AgricultorService } from './../../../core/services/agriculor/agricultor.service';
+import { OfflineService } from 'src/app/modules/core/services/network/offline.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-agricultores',
@@ -15,7 +19,13 @@ import { AgricultorService } from './../../../core/services/agriculor/agricultor
 })
 export class AgricultoresComponent extends DataTableComponent<Agricultor> {
 
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
+  @ViewChild(MatSort, { static: true }) sort: MatSort = Object.create(null);
+
   displayedColumns = ['cedula', 'nombre', 'fechaNacimiento', 'acciones'];
+
+  agricultores: any[] = [];
+  // cachedAgr: any;
 
   constructor(
     private tecnicoService: TecnicoService,
@@ -24,11 +34,31 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
     private breakpointObserver: BreakpointObserver,
     private changeDetector: ChangeDetectorRef,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private offlineService: OfflineService
   ) {
     super(tecnicoService, breakpointObserver, changeDetector, snackBar);
     super.dataService = this.agricultorService;
     super.displayedColumns = this.displayedColumns;
+
+    if(this.offlineService.status === 'OFFLINE'){
+      
+      this.offlineService.getAll().then((agricultoresPouch: any[]) => {
+        this.offlineService.cachedAgrForm = agricultoresPouch;
+        this.offlineService.cachedAgrForm.forEach((agricultor) => {
+          let agr = {
+            id: agricultor.doc._id,
+            secciones: agricultor.doc.secciones
+          }
+          this.agricultores.push(agr);
+        });
+        this.dataSource = new MatTableDataSource(this.agricultores);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
+      
+    }
+    
   }
 
   formatDate(fechaNacimiento: any): string {
