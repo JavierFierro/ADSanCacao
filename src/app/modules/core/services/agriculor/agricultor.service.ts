@@ -48,7 +48,6 @@ export class AgricultorService implements IDatabase<Agricultor> {
       );
 
       formsAgr.subscribe((event) => {
-        this.open();
         this.offlineService.startDB();
 
         const agricultores: any[] = event;
@@ -204,20 +203,25 @@ export class AgricultorService implements IDatabase<Agricultor> {
     });
   }
 
-  open(): void {
-    Swal.fire({
-      title: 'Guardando Agricultores en Cache',
-      allowEscapeKey: false,
-      allowOutsideClick: false,
-      timer: 99999999999,
-      didOpen: () => {
-        Swal.showLoading()
+  openNetworkToaster(status, message):void{
+    var toastMixin = Swal.mixin({
+      toast: true,
+      icon: status,
+      title: 'General Title',
+      position: 'top-right',
+      showConfirmButton: false,
+      timer: 5000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
       }
     });
-  }
 
-  close(): void {
-    Swal.close();
+    toastMixin.fire({
+      title: message
+    });
+
   }
 
 }

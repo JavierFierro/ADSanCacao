@@ -25,7 +25,6 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
   displayedColumns = ['cedula', 'nombre', 'fechaNacimiento', 'acciones'];
 
   agricultores: any[] = [];
-  // cachedAgr: any;
 
   constructor(
     private tecnicoService: TecnicoService,
@@ -79,6 +78,7 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
       this.loading.open();
       await this.initView();
       this.loading.close();
+      this.agricultorService.openNetworkToaster("info","Guardando datos en cache");
     }, 0);
   }
 

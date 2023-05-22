@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { ConnectionService } from 'ngx-connection-service';
 import { OfflineService } from 'src/app/modules/core/services/network/offline.service';
 
@@ -26,37 +26,39 @@ export class AppComponent {
 
           this.status = 'ONLINE';
           this.offlineService.status = this.status
-          this.success(this.status);
-        } else {
+          this.openNetworkToaster("success", "Conectado a Internet");
+        } else {   
+          this.openNetworkToaster("error", "Sin conexion a internet");       
           this.status = 'OFFLINE';
           this.offlineService.status = this.status
-          this.error(this.status);
 
-          if(this.reload){
-            location.reload();
-          }
+          setTimeout(() => {
+            if(this.reload){
+              location.reload();
+            }
+          }, 1500);
         }
       });
   }
 
-  success(title: string): void {
-    Swal.fire({
-      position: 'top',
-      icon: 'success',
-      title: title,
+  openNetworkToaster(status, message):void{
+    var toastMixin = Swal.mixin({
+      toast: true,
+      icon: status,
+      title: 'General Title',
+      position: 'top-right',
       showConfirmButton: false,
-      timer: 1500
-    })
-  }
+      timer: 1500,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    });
 
-  error(title: string): void {
-    Swal.fire({
-      position: 'top',
-      icon: 'error',
-      title: title,
-      showConfirmButton: false,
-      timer: 1500
-    })
+    toastMixin.fire({
+      title: message
+    });
   }
 
 }
