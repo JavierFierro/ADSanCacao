@@ -78,8 +78,7 @@ export class EditAgricultorComponent implements OnInit {
         this.datosPersonalesComponent.setAgricultor(this.agricultor);
         this.croquisComponent.setAgricultor(this.agricultor);
       }else{
-        this.agricultor = await this.offlineService.getFormById(id);
-        console.log(this.agricultor);
+        this.agricultor = await this.agricultorService.getFormById(id);
         this.datosPersonalesComponent.setAgricultor(this.agricultor);
       }
     }

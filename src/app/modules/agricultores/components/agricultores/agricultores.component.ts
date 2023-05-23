@@ -42,7 +42,7 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
 
     if(this.offlineService.status === 'OFFLINE'){
       
-      this.offlineService.getAll().then((agricultoresPouch: any[]) => {
+      this.agricultorService.getAllAgricultores().then((agricultoresPouch: any[]) => {
         this.offlineService.cachedAgrForm = agricultoresPouch;
         this.offlineService.cachedAgrForm.forEach((agricultor) => {
           let agr = {
@@ -78,7 +78,6 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
       this.loading.open();
       await this.initView();
       this.loading.close();
-      this.agricultorService.openNetworkToaster("info","Guardando datos en cache");
     }, 0);
   }
 

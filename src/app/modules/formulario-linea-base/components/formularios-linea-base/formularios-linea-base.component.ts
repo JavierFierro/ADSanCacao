@@ -8,6 +8,8 @@ import { FormularioType } from 'src/app/interfaces/formulario';
 import { ImportacionesService } from './../../../core/services/importaciones/importaciones.service';
 import { Router } from '@angular/router';
 import { TecnicoService } from 'src/app/modules/core/services/tecnico/tecnico.service';
+import { OfflineService } from 'src/app/modules/core/services/network/offline.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-formularios-linea-base',
@@ -18,6 +20,8 @@ export class FormulariosLineaBaseComponent extends DataTableComponent<Formulario
 
   displayedColumns = ['id', 'agricultor', 'fechaVisita', 'acciones'];
 
+  formsLineaBase: any[] = [];
+
   constructor(
     private tecnicoService: TecnicoService,
     private formularioService: FormularioLineaBaseService,
@@ -25,11 +29,33 @@ export class FormulariosLineaBaseComponent extends DataTableComponent<Formulario
     private changeDetector: ChangeDetectorRef,
     private snackBar: MatSnackBar,
     private importacionService: ImportacionesService,
-    private router: Router
+    private router: Router,
+    private offlineService:OfflineService
+
   ) {
     super(tecnicoService, breakpointObserver, changeDetector, snackBar);
     super.dataService = this.formularioService;
     super.displayedColumns = this.displayedColumns;
+
+    if(this.offlineService.status === 'OFFLINE'){
+      
+      this.formularioService.getAllLineaBase().then((lineaBasePouch: any[]) => {
+        this.offlineService.cachedLBForm = lineaBasePouch;
+        this.offlineService.cachedLBForm.forEach((LineaBaseForm) => {
+          let lb = {
+            id: LineaBaseForm.doc._id,
+            agricultor: LineaBaseForm.doc.agricultor,
+            tecnico: LineaBaseForm.doc.tecnico,
+            fechaVisita: LineaBaseForm.doc.fechaVisita,
+          }
+          this.formsLineaBase.push(lb);
+        });
+        this.dataSource = new MatTableDataSource(this.formsLineaBase);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
+      
+    }
   }
 
   onItemSelected(row: any): void {

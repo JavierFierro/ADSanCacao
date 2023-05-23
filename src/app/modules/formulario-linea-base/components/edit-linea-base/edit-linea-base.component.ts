@@ -20,7 +20,7 @@ import { LoadingComponent } from 'src/app/shared/loading/loading.component';
 import { FirmaAgricultorComponent } from '../sections/firma-agricultor/firma-agricultor.component';
 import { Tecnico } from '../../../../interfaces/tecnico';
 import { Permiso } from 'src/app/interfaces/tecnico';
-
+import { OfflineService } from 'src/app/modules/core/services/network/offline.service';
 
 @Component({
   selector: 'app-edit-linea-base',
@@ -32,7 +32,7 @@ export class EditLineaBaseComponent implements OnInit {
   formularioLineaBase: FormularioLineaBase;
   lineaBaseForm: FormGroup;
   agricultor: Agricultor;
-  listaAgricultores: Agricultor[];
+  listaAgricultores: any[];
   filteredListAgricultores: Agricultor[] = [];
 
   disabledFecha: boolean = true;
@@ -58,7 +58,8 @@ export class EditLineaBaseComponent implements OnInit {
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
     private changeDetector: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private offlineService: OfflineService
   ) {
     this.lineaBaseForm = this.formBuilder.group({
       agricultor: new FormControl(''),
@@ -77,12 +78,20 @@ export class EditLineaBaseComponent implements OnInit {
   }
 
   async initAgricultores(): Promise<void> {
-    if (!this.agricultorService.localData) {
-      this.agricultorService.initData();
-    }
-    this.agricultorService.localData.subscribe(data => {
-      this.listaAgricultores = data;
-    });
+    const agricultores:any = await this.agricultorService.getAllAgricultores();
+    this.listaAgricultores = agricultores
+    // if(this.offlineService.status === "ONLINE"){
+    //   if (!this.agricultorService.localData) {
+    //     this.agricultorService.initData();
+    //   }
+    //   this.agricultorService.localData.subscribe(data => {
+    //     this.listaAgricultores = data;
+    //   });
+    // }else{
+    //   const agricultores:any = await this.agricultorService.getAllAgricultores();
+    //   this.listaAgricultores = agricultores
+    // }
+    
   }
 
   async setFormulario() {
@@ -105,35 +114,75 @@ export class EditLineaBaseComponent implements OnInit {
     this.changeDetector.detectChanges();
   }
 
+  decodeHtmlCharCodes(str) { 
+    return str.replace("�","Ñ");
+  }
+
   filterList(val: string) {
     if (val === "") {
       this.filteredListAgricultores = [];
-    } else {
-      this.filteredListAgricultores = this.listaAgricultores.filter((agricultor) => 
-        agricultor.secciones.datosPersonales.preguntas.nombre.respuesta.toLocaleLowerCase().includes(val.toLocaleLowerCase())
-      );
+    }else{
+      if(this.offlineService.status === "ONLINE"){
+        this.filteredListAgricultores = this.listaAgricultores.filter((agricultor) => 
+          agricultor.secciones.datosPersonales.preguntas.nombre.respuesta.toLocaleLowerCase().includes(val.toLocaleLowerCase())
+        );
+      }else{
+        this.filteredListAgricultores = [];
+        const agricultoresList: any[] = this.listaAgricultores.filter((agricultor:any) => 
+        agricultor.doc.secciones.datosPersonales.preguntas.nombre.respuesta.toLocaleLowerCase().includes(val.toLocaleLowerCase())
+        );
+        agricultoresList.forEach((agricultor) => {
+          let agr = {
+            id: agricultor.doc._id,
+            secciones: agricultor.doc.secciones
+          }
+          this.filteredListAgricultores.push(agr);
+        })
+      }
     }
   }
 
   async fetchFormulario(): Promise<void> {
     const id = this.activatedRoute.snapshot.paramMap.get("id");
     if (id !== null) {
-      const formulario = await this.formularioService.get(id);
-      this.formularioLineaBase = formulario;
-      this.firmaAgricultorComponent.setLineaBase(this.formularioLineaBase);
+      if(this.offlineService.status === "ONLINE"){
+        const formulario = await this.formularioService.get(id);
+        this.formularioLineaBase = formulario;
+        console.log(this.formularioLineaBase);
+        this.firmaAgricultorComponent.setLineaBase(this.formularioLineaBase);
+      }else{
+        const formulario = await this.formularioService.getFormById(id);
+        this.formularioLineaBase = formulario;
+        console.log(this.formularioLineaBase);
+      }
+      
     }
   }
 
   async fetchAgricultor(): Promise<void> {
     if (!this.isFormEmpty()) {
-      this.agricultor = await this.agricultorService.get(this.formularioLineaBase.agricultor.id);
-      for (let agricultor of this.listaAgricultores) {
-        if (agricultor.id === this.agricultor.id) {
-          this.filteredListAgricultores = [agricultor];
-          this.lineaBaseForm.get('agricultor').setValue(agricultor);
-          break;
+
+      if(this.offlineService.status === "ONLINE"){
+        this.agricultor = await this.agricultorService.get(this.formularioLineaBase.agricultor.id);
+        for (let agricultor of this.listaAgricultores) {
+          if (agricultor.id === this.agricultor.id) {
+            this.filteredListAgricultores = [agricultor];
+            this.lineaBaseForm.get('agricultor').setValue(agricultor);
+            break;
+          }
+        }
+      }else{
+        console.log(this.formularioLineaBase.agricultor.id);
+        this.agricultor = await this.agricultorService.getFormById(this.formularioLineaBase.agricultor.id);
+        for (let agricultor of this.listaAgricultores) {
+          if (agricultor.id === this.agricultor.id) {
+            this.filteredListAgricultores = [agricultor.doc];
+            this.lineaBaseForm.get('agricultor').setValue(agricultor.doc);
+            break;
+          }
         }
       }
+      
     }
   }
 

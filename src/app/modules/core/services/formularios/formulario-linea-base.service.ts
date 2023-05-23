@@ -9,6 +9,10 @@ import { ExportacionesService } from './../exportaciones/exportaciones.service';
 import { Permiso } from 'src/app/interfaces/tecnico';
 import { OfflineService } from '../network/offline.service';
 
+import Swal from 'sweetalert2';
+const PouchDB = require('pouchdb-browser');
+const pouchDB = PouchDB.default.defaults();
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,12 +20,15 @@ export class FormularioLineaBaseService extends FormularioService {
 
   cachedFormulariosObs : Observable<FormularioLineaBase[]>;
 
+  lineaBaseCacheDB: any;
+
   constructor(
     private firebase: AngularFirestore,
     private exportacionService: ExportacionesService,
     private offlineService: OfflineService
   ) {
     super(firebase);
+    this.startDB();
   }
 
   async get(id: string): Promise<FormularioLineaBase> {
@@ -38,19 +45,32 @@ export class FormularioLineaBaseService extends FormularioService {
 
     if(this.offlineService.status == 'ONLINE'){
       
+      this.deleteDB();
+
       const loggedTecnico = JSON.parse(localStorage.getItem("user"));
       const collectionName = loggedTecnico.permiso === Permiso.Real ? "formularios" : "formulariosFicticios";
-      const formsLb =  this.firebase.collection(`/${collectionName}/lineaBase/estructuras`).snapshotChanges().pipe(
+      const formsLb =  this.firebase.collection(`/${collectionName}/lineaBase/diccionarios`).snapshotChanges().pipe(
         map((formularios: any[]) => {
           return formularios.map((formulario) => {
-            return formulario.payload.doc.data() as FormularioLineaBase;
+            return formulario.payload.doc.data()["diccionario"] as FormularioLineaBase;
           });
         })
       );
+
+      this.openNetworkToaster("info","Guardando datos en cache");
+
+      formsLb.subscribe((event) => {
+        this.startDB();
+
+        const formsLineaBase: any[] = event;
+        console.log(formsLineaBase);
+        this.addTask(formsLineaBase);
+      });
+
       return formsLb;
     }else{
       
-      return this.cachedFormulariosObs;
+      return of(this.offlineService.cachedLBForm);
     }
     
   }
@@ -178,6 +198,78 @@ export class FormularioLineaBaseService extends FormularioService {
       console.log(error);
       throw error;
     }
+  }
+
+  public renameKey ( obj, oldKey, newKey ) {
+    obj[newKey] = obj[oldKey];
+    delete obj[oldKey];
+  }
+
+  public deleteDB(){
+    if(this.lineaBaseCacheDB != undefined || this.lineaBaseCacheDB != null){
+      this.lineaBaseCacheDB.destroy().then(function (response) {
+        console.log("CacheDB reset");
+      }).catch(function (err) {
+        console.log(err);
+      });
+    }
+  }
+
+  public startDB(){
+    this.lineaBaseCacheDB = new pouchDB("LineaBaseCacheDB");
+  }
+
+  public addTask = (data) => {
+    data.forEach((formLineaBase) => {
+      this.renameKey(formLineaBase,'id','_id');
+      this.lineaBaseCacheDB.put(formLineaBase);
+    });
+  }
+
+  async getFormById(id): Promise<FormularioLineaBase>{
+
+    let registro = await this.lineaBaseCacheDB.get(id);
+    const form: FormularioLineaBase = {
+      id: registro._id,
+      agricultor: registro.agricultor,
+      tecnico: registro.tecnico,
+      fechaVisita: registro.fechaVisita,
+      secciones: registro.secciones
+    }
+    return form;
+  }
+
+  public getAllLineaBase = () =>  new Promise((resolve, reject) => {
+
+    this.lineaBaseCacheDB.allDocs({
+      include_docs: true,
+      attachments: true
+    }).then(({rows}) => {
+      resolve(rows);
+    }).catch( () => {
+      reject(null);
+    })
+  })
+
+  openNetworkToaster(status, message):void{
+    var toastMixin = Swal.mixin({
+      toast: true,
+      icon: status,
+      title: 'General Title',
+      position: 'top-right',
+      showConfirmButton: false,
+      timer: 5000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    });
+
+    toastMixin.fire({
+      title: message
+    });
+
   }
 
 }

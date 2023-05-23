@@ -9,6 +9,8 @@ import { FormularioLineaBaseService } from 'src/app/modules/core/services/formul
 import { FormularioVerificacionService } from 'src/app/modules/core/services/formularios/formulario-verificacion.service';
 import { environment } from 'src/environments/environment';
 import { AgricultorService } from '../../../../core/services/agriculor/agricultor.service';
+import { OfflineService } from 'src/app/modules/core/services/network/offline.service';
+
 import Swal from 'sweetalert2';
 @Component({
   selector: 'app-datos-personales',
@@ -62,6 +64,7 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit  {
     private verificacionService: FormularioVerificacionService,
     private activatedRoute: ActivatedRoute,
     private agriService: AgricultorService,
+    private offlineService: OfflineService
   ) {
   }
   ngAfterViewInit(): void {
@@ -152,8 +155,11 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit  {
 
   public async setAgricultor(agricultor: Agricultor): Promise<void> {
     this.agricultor = agricultor;
-    await this.fetchLineaBase(this.agricultor);
-    await this.fetchVerificacion(this.agricultor);
+    if(this.offlineService.status === "ONLINE"){
+      await this.fetchLineaBase(this.agricultor);
+      await this.fetchVerificacion(this.agricultor);
+    }
+    
   }
 
   get seccion(): any {

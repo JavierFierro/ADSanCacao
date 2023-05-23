@@ -11,7 +11,10 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { saveAs } from 'file-saver';
 import { OfflineService } from '../network/offline.service';
+
 import Swal from 'sweetalert2';
+const PouchDB = require('pouchdb-browser');
+const pouchDB = PouchDB.default.defaults();
 
 @Injectable({
   providedIn: 'root'
@@ -20,12 +23,16 @@ export class AgricultorService implements IDatabase<Agricultor> {
 
   localData: Observable<Agricultor[]>;
 
+  agricultoresCacheDB: any;
+
   constructor(
     private firebase: AngularFirestore,
     private exportacionService: ExportacionesService,
     private http: HttpClient,
     private offlineService: OfflineService
-  ) {}
+  ) {
+    this.startDB();
+  }
 
   initData(): void {
     this.localData = this.list();
@@ -35,7 +42,7 @@ export class AgricultorService implements IDatabase<Agricultor> {
 
     if(this.offlineService.status === "ONLINE"){
 
-      this. offlineService.deleteDB();
+      this.deleteDB();
 
       const loggedTecnico = JSON.parse(localStorage.getItem("user"));
       const collectionName = loggedTecnico.permiso === Permiso.Real ? "agricultores" : "agricultoresFicticios";
@@ -47,11 +54,13 @@ export class AgricultorService implements IDatabase<Agricultor> {
         })
       );
 
+      this.openNetworkToaster("info","Guardando datos en cache");
+
       formsAgr.subscribe((event) => {
-        this.offlineService.startDB();
+        this.startDB();
 
         const agricultores: any[] = event;
-        this.offlineService.addTask(agricultores);
+        this.addTask(agricultores);
       });
 
 
@@ -202,6 +211,53 @@ export class AgricultorService implements IDatabase<Agricultor> {
         );
     });
   }
+
+  public renameKey ( obj, oldKey, newKey ) {
+    obj[newKey] = obj[oldKey];
+    delete obj[oldKey];
+  }
+
+  public deleteDB(){
+    if(this.agricultoresCacheDB != undefined || this.agricultoresCacheDB != null){
+      this.agricultoresCacheDB.destroy().then(function (response) {
+        console.log("CacheDB reset");
+      }).catch(function (err) {
+        console.log(err);
+      });
+    }
+  }
+
+  public startDB(){
+    this.agricultoresCacheDB = new pouchDB("AgricultoresCacheDB");
+  }
+
+  public addTask = (data) => {
+    data.forEach((agricultor) => {
+      this.renameKey(agricultor,'id','_id');
+      this.agricultoresCacheDB.put(agricultor);
+    });
+  }
+
+  async getFormById(id): Promise<Agricultor>{
+    let registro = await this.agricultoresCacheDB.get(id);
+    const form: Agricultor = {
+      id: registro._id,
+      secciones: registro.secciones
+    }
+    return form;
+  }
+
+  public getAllAgricultores = () =>  new Promise((resolve, reject) => {
+
+    this.agricultoresCacheDB.allDocs({
+      include_docs: true,
+      attachments: true
+    }).then(({rows}) => {
+      resolve(rows);
+    }).catch( () => {
+      reject(null);
+    })
+  })
 
   openNetworkToaster(status, message):void{
     var toastMixin = Swal.mixin({
