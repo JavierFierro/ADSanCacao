@@ -11,6 +11,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { saveAs } from 'file-saver';
 import { OfflineService } from '../network/offline.service';
+import { FormularioLineaBaseService } from '../formularios/formulario-linea-base.service';
+import { FormularioVerificacionService } from '../formularios/formulario-verificacion.service';
 
 import Swal from 'sweetalert2';
 const PouchDB = require('pouchdb-browser');
@@ -29,20 +31,24 @@ export class AgricultorService implements IDatabase<Agricultor> {
     private firebase: AngularFirestore,
     private exportacionService: ExportacionesService,
     private http: HttpClient,
-    private offlineService: OfflineService
+    private offlineService: OfflineService,
+    private formLBService: FormularioLineaBaseService,
+    private formVerificacionService: FormularioVerificacionService
   ) {
     this.startDB();
   }
 
   initData(): void {
+    
     this.localData = this.list();
+   
   }
   
   list(): Observable<Agricultor[]> {
 
     if(this.offlineService.status === "ONLINE"){
 
-      this.deleteDB();
+      // this.deleteDB();
 
       const loggedTecnico = JSON.parse(localStorage.getItem("user"));
       const collectionName = loggedTecnico.permiso === Permiso.Real ? "agricultores" : "agricultoresFicticios";
@@ -54,14 +60,12 @@ export class AgricultorService implements IDatabase<Agricultor> {
         })
       );
 
-      this.openNetworkToaster("info","Guardando datos en cache");
+      // formsAgr.subscribe((event) => {
+      //   this.startDB();
 
-      formsAgr.subscribe((event) => {
-        this.startDB();
-
-        const agricultores: any[] = event;
-        this.addTask(agricultores);
-      });
+      //   const agricultores: any[] = event;
+      //   this.addTask(agricultores);
+      // });
 
 
       return formsAgr;
@@ -132,7 +136,7 @@ export class AgricultorService implements IDatabase<Agricultor> {
     }
   }
 
-  getAll(): Promise<Agricultor[]> {
+  async getAll(): Promise<Agricultor[]> {
     return new Promise<Agricultor[]>(async (resolve, reject) => {
       try {
         const loggedTecnico = JSON.parse(localStorage.getItem("user"));
@@ -141,8 +145,10 @@ export class AgricultorService implements IDatabase<Agricultor> {
         const collRef = this.firebase.firestore.collection(collectionName);
         const agricultoresData = (await collRef.get()).docs;
         for (const agricultor of agricultoresData) {
-          agricultores.push((agricultor.data()["diccionario"] as Agricultor))
+          // console.log(agricultor.data());
+          agricultores.push((agricultor.data() as Agricultor))
         }
+        this.addTask(agricultores);
         resolve(agricultores);
       } catch (e) {
         reject(e);
@@ -236,6 +242,9 @@ export class AgricultorService implements IDatabase<Agricultor> {
       this.renameKey(agricultor,'id','_id');
       this.agricultoresCacheDB.put(agricultor);
     });
+
+    // this.close();
+
   }
 
   async getFormById(id): Promise<Agricultor>{
@@ -259,25 +268,22 @@ export class AgricultorService implements IDatabase<Agricultor> {
     })
   })
 
-  openNetworkToaster(status, message):void{
-    var toastMixin = Swal.mixin({
-      toast: true,
-      icon: status,
-      title: 'General Title',
-      position: 'top-right',
-      showConfirmButton: false,
-      timer: 5000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
+  open(message: string): void {
+    Swal.fire({
+      title: message,
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      timer: 99999999999,
+      didOpen: () => {
+        Swal.showLoading()
       }
     });
+  }
 
-    toastMixin.fire({
-      title: message
-    });
-
+  close(): void {
+    setTimeout(async () => {
+      Swal.close();
+    }, 20000);
   }
 
 }

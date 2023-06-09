@@ -11,6 +11,8 @@ import { OfflineService } from 'src/app/modules/core/services/network/offline.se
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { FormularioLineaBaseService } from 'src/app/modules/core/services/formularios/formulario-linea-base.service';
+import { FormularioVerificacionService } from 'src/app/modules/core/services/formularios/formulario-verificacion.service';
 
 @Component({
   selector: 'app-agricultores',
@@ -34,29 +36,13 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
     private changeDetector: ChangeDetectorRef,
     private snackBar: MatSnackBar,
     private router: Router,
-    private offlineService: OfflineService
+    private offlineService: OfflineService,
+    private formLBService:FormularioLineaBaseService,
+    private formVerificacionService: FormularioVerificacionService
   ) {
     super(tecnicoService, breakpointObserver, changeDetector, snackBar);
     super.dataService = this.agricultorService;
     super.displayedColumns = this.displayedColumns;
-
-    if(this.offlineService.status === 'OFFLINE'){
-      
-      this.agricultorService.getAllAgricultores().then((agricultoresPouch: any[]) => {
-        this.offlineService.cachedAgrForm = agricultoresPouch;
-        this.offlineService.cachedAgrForm.forEach((agricultor) => {
-          let agr = {
-            id: agricultor.doc._id,
-            secciones: agricultor.doc.secciones
-          }
-          this.agricultores.push(agr);
-        });
-        this.dataSource = new MatTableDataSource(this.agricultores);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      });
-      
-    }
     
   }
 
@@ -69,16 +55,25 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
     }
   }
 
+
   ngOnInit(): void {
-    
+    this.getOfflineAgricultores();
   }
 
   ngAfterViewInit(): void {
-    setTimeout(async () => {
-      this.loading.open();
-      await this.initView();
-      this.loading.close();
-    }, 0);
+    
+    if(this.offlineService.status === 'ONLINE'){
+      setTimeout(async () => {
+        this.loading.open();
+        await this.initView();
+        this.loading.openMessage("Respaldando datos");
+        await this.agricultorService.getAll();
+        await this.formLBService.getAllFormularios();
+        await this.formVerificacionService.getAllFormularios();
+        this.loading.close();
+      }, 0);
+    }
+    
   }
 
   async initView(): Promise<void> {
@@ -130,6 +125,26 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
       this.loading.success('Listo', 'Agricultores importados correctamente');
     } catch (e) {
       this.loading.error('Error', 'No se han podido importar los agricultores');
+    }
+  }
+
+  getOfflineAgricultores(){
+    if(this.offlineService.status === 'OFFLINE'){
+      
+      this.agricultorService.getAllAgricultores().then((agricultoresPouch: any[]) => {
+        this.offlineService.cachedAgrForm = agricultoresPouch;
+        this.offlineService.cachedAgrForm.forEach((agricultor) => {
+          let agr = {
+            id: agricultor.doc._id,
+            secciones: agricultor.doc.secciones
+          }
+          this.agricultores.push(agr);
+        });
+        this.dataSource = new MatTableDataSource(this.agricultores);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
+      
     }
   }
 

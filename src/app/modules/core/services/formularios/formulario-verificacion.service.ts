@@ -9,6 +9,10 @@ import { ExportacionesService } from '../exportaciones/exportaciones.service';
 import { FormularioService } from './formulario.service';
 import { OfflineService } from '../network/offline.service';
 
+import Swal from 'sweetalert2';
+const PouchDB = require('pouchdb-browser');
+const pouchDB = PouchDB.default.defaults();
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,12 +24,15 @@ export class FormularioVerificacionService extends FormularioService {
 
   cachedFormulariosObs : Observable<FormularioVerificacion[]>;
 
+  verificacionCacheDB: any;
+
   constructor(
     private firebase: AngularFirestore,
     private exportacionService: ExportacionesService,
     private offlineService: OfflineService
   ) {
     super(firebase);
+    this.startDB();
   }
 
   async get(id: string): Promise<FormularioVerificacion> {
@@ -43,16 +50,16 @@ export class FormularioVerificacionService extends FormularioService {
     if(this.offlineService.status == 'ONLINE'){
       const loggedTecnico = JSON.parse(localStorage.getItem("user"));
       const collectionName = loggedTecnico.permiso === Permiso.Real ? "formularios" : "formulariosFicticios";
-      const formVer =  this.firebase.collection(`/${collectionName}/verificacion/estructuras`).snapshotChanges().pipe(
+      const formVer =  this.firebase.collection(`/${collectionName}/verificacion/diccionarios`).snapshotChanges().pipe(
         map(formularios => {
           return formularios.map((formulario) => {
-            return formulario.payload.doc.data() as FormularioVerificacion;
+            return formulario.payload.doc.data()["diccionario"] as FormularioVerificacion;
           });
         })
       );
       return formVer;
     }else{
-      return this.cachedFormulariosObs;
+      return of(this.offlineService.cachedVerForm);
     }
   }
 
@@ -69,7 +76,8 @@ export class FormularioVerificacionService extends FormularioService {
     );
   }
 
-  getAllFormularios(): Promise<FormularioVerificacion[]> {
+  async getAllFormularios(): Promise<FormularioVerificacion[]> {
+    
     const loggedTecnico = JSON.parse(localStorage.getItem("user"));
     const collectionName = loggedTecnico.permiso === Permiso.Real ? "formularios" : "formulariosFicticios";
     return new Promise<FormularioVerificacion[]>(async (resolve, reject) => {
@@ -80,6 +88,7 @@ export class FormularioVerificacionService extends FormularioService {
         for (const formulario of formulariosData) {
           formularios.push((formulario.data()["diccionario"] as FormularioVerificacion))
         }
+        this.addTask(formularios);
         resolve(formularios);
       } catch (e) {
         reject(e);
@@ -181,5 +190,56 @@ export class FormularioVerificacionService extends FormularioService {
       throw error;
     }
   }
+
+  public renameKey ( obj, oldKey, newKey ) {
+    obj[newKey] = obj[oldKey];
+    delete obj[oldKey];
+  }
+
+  public deleteDB(){
+    if(this.verificacionCacheDB != undefined || this.verificacionCacheDB != null){
+      this.verificacionCacheDB.destroy().then(function (response) {
+        console.log("CacheDB reset");
+      }).catch(function (err) {
+        console.log(err);
+      });
+    }
+  }
+
+  public startDB(){
+    this.verificacionCacheDB = new pouchDB("VerificacionCacheDB");
+  }
+
+  public addTask = (data) => {
+    data.forEach((formVerificacion) => {
+      this.renameKey(formVerificacion,'id','_id');
+      this.verificacionCacheDB.put(formVerificacion);
+    });
+  }
+
+  async getFormById(id): Promise<FormularioVerificacion>{
+
+    let registro = await this.verificacionCacheDB.get(id);
+    const form: FormularioVerificacion = {
+      id: registro._id,
+      agricultor: registro.agricultor,
+      tecnico: registro.tecnico,
+      fechaVisita: registro.fechaVisita,
+      secciones: registro.secciones
+    }
+    return form;
+  }
+
+  public getAllVerificacion = () =>  new Promise((resolve, reject) => {
+
+    this.verificacionCacheDB.allDocs({
+      include_docs: true,
+      attachments: true
+    }).then(({rows}) => {
+      resolve(rows);
+    }).catch( () => {
+      reject(null);
+    })
+  })
   
 }

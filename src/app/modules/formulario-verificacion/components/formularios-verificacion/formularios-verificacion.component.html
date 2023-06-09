@@ -7,12 +7,14 @@
         <input type="file" #fileImportInput name="File Upload" id="csvFileUpload" (change)="import($event)"
             accept=".csv" />
         <mat-form-field class="col-md-4 col-6">
-            <mat-label>Elija año de verificacion</mat-label>
-            <mat-select [(value)]="selected" (selectionChange)="applyFilter($event.value)">
-                <mat-option value="0">Ninguno</mat-option>
-                <mat-option value="2022">2022 (Octubre 2021 - Septiembre 2022)</mat-option>
-                <mat-option value="2023">2023 (Octubre 2022 - Septiembre 2023)</mat-option>
-            </mat-select>
+            <input matInput [matDatepicker]="dp" placeholder="Escoga el periodo" [formControl]="date">
+            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker #dp
+                            startView="multi-year"
+                            (yearSelected)="chosenYearHandler($event, dp)"
+                            
+                            panelClass="example-month-picker">
+            </mat-datepicker>
         </mat-form-field>
     </div>
 </div>
@@ -37,7 +39,7 @@
                         <!-- Nombre Column -->
                         <ng-container matColumnDef="agricultor">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> Agricultor </mat-header-cell>
-                            <mat-cell *matCellDef="let row"> {{ decodeHtmlCharCodes(row.agricultor) }} </mat-cell>
+                            <mat-cell *matCellDef="let row"> {{ decodeHtmlCharCodes(row.agricultor.secciones.datosPersonales.preguntas.nombre.respuesta) }} </mat-cell>
                         </ng-container>
 
                         <!-- FechaNacimiento Column -->

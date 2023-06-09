@@ -45,8 +45,6 @@ export class FormularioLineaBaseService extends FormularioService {
 
     if(this.offlineService.status == 'ONLINE'){
       
-      this.deleteDB();
-
       const loggedTecnico = JSON.parse(localStorage.getItem("user"));
       const collectionName = loggedTecnico.permiso === Permiso.Real ? "formularios" : "formulariosFicticios";
       const formsLb =  this.firebase.collection(`/${collectionName}/lineaBase/diccionarios`).snapshotChanges().pipe(
@@ -56,16 +54,6 @@ export class FormularioLineaBaseService extends FormularioService {
           });
         })
       );
-
-      this.openNetworkToaster("info","Guardando datos en cache");
-
-      formsLb.subscribe((event) => {
-        this.startDB();
-
-        const formsLineaBase: any[] = event;
-        console.log(formsLineaBase);
-        this.addTask(formsLineaBase);
-      });
 
       return formsLb;
     }else{
@@ -88,7 +76,8 @@ export class FormularioLineaBaseService extends FormularioService {
     );
   }
 
-  getAllFormularios(): Promise<FormularioLineaBase[]> {
+  async getAllFormularios(): Promise<FormularioLineaBase[]> {
+
     const loggedTecnico = JSON.parse(localStorage.getItem("user"));
     const collectionName = loggedTecnico.permiso === Permiso.Real ? "formularios" : "formulariosFicticios";
     return new Promise<FormularioLineaBase[]>(async (resolve, reject) => {
@@ -99,6 +88,7 @@ export class FormularioLineaBaseService extends FormularioService {
         for (const formulario of formulariosData) {
           formularios.push((formulario.data()["diccionario"] as FormularioLineaBase))
         }
+        this.addTask(formularios);
         resolve(formularios);
       } catch (e) {
         reject(e);
@@ -250,26 +240,5 @@ export class FormularioLineaBaseService extends FormularioService {
       reject(null);
     })
   })
-
-  openNetworkToaster(status, message):void{
-    var toastMixin = Swal.mixin({
-      toast: true,
-      icon: status,
-      title: 'General Title',
-      position: 'top-right',
-      showConfirmButton: false,
-      timer: 5000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-      }
-    });
-
-    toastMixin.fire({
-      title: message
-    });
-
-  }
 
 }

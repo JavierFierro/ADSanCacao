@@ -61,6 +61,8 @@
     "ngx-perfect-scrollbar": "^8.0.0",
     "path": "^0.12.7",
     "pouchdb-browser": "^8.0.1",
+    "primeicons": "^6.0.1",
+    "primeng": "^10.0.3",
     "rxjs": "~6.6.0",
     "rxjs-compat": "^6.5.4",
     "sweetalert2": "^11.1.9",

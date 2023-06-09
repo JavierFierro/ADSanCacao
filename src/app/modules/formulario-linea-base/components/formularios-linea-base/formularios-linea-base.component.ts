@@ -36,7 +36,13 @@ export class FormulariosLineaBaseComponent extends DataTableComponent<Formulario
     super(tecnicoService, breakpointObserver, changeDetector, snackBar);
     super.dataService = this.formularioService;
     super.displayedColumns = this.displayedColumns;
+  }
 
+  ngOnInit(): void {
+    this.getOfflineLineaBase();
+  }
+
+  getOfflineLineaBase(){
     if(this.offlineService.status === 'OFFLINE'){
       
       this.formularioService.getAllLineaBase().then((lineaBasePouch: any[]) => {
