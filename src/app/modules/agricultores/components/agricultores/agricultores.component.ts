@@ -24,7 +24,7 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
   @ViewChild(MatSort, { static: true }) sort: MatSort = Object.create(null);
 
-  displayedColumns = ['cedula', 'nombre', 'fechaNacimiento', 'acciones'];
+  displayedColumns = ['cedula', 'nombre', 'canton','parroquia','recinto', 'acciones'];
 
   agricultores: any[] = [];
 
@@ -66,10 +66,14 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
       setTimeout(async () => {
         this.loading.open();
         await this.initView();
-        this.loading.openMessage("Respaldando datos");
-        await this.agricultorService.getAll();
-        await this.formLBService.getAllFormularios();
-        await this.formVerificacionService.getAllFormularios();
+        if(localStorage.getItem('init') === undefined || localStorage.getItem('init') === null ){
+          localStorage.setItem('init', 'true');
+          this.loading.openMessage("Respaldando datos");
+          await this.agricultorService.getAll();
+          await this.formLBService.getAllFormularios();
+          await this.formVerificacionService.getAllFormularios();
+        }
+        
         this.loading.close();
       }, 0);
     }

@@ -48,9 +48,9 @@ export class DataTableComponent<T> implements AfterViewInit {
    */
   ngAfterViewInit() {
     setTimeout(async () => {
-      // this.loading.open();
+      this.loading.open();
       await this.fetchData();
-      // this.loading.close();
+      this.loading.close();
     }, 0);
   }
 

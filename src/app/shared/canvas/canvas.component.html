@@ -1,13 +1,49 @@
 <!-- <div class="container-fluid"> -->
   <div class="row justify-content-center">
     <div class="col-md-12">
-      <canvas #canvas></canvas>
+      <canvas id="canvas" #canvas></canvas>
     </div>
   </div>
   <div class="row justify-content-center">
 
-    <div class="col-md-12 d-flex align-items-center justify-content-center">
+    <div class="col-md-3 d-flex align-items-center justify-content-center">
       <button mat-raised-button color="warn" (click)="eraseImage()">Limpiar</button>
+    </div>
+    <div class="col-md-3 d-flex align-items-center justify-content-center">
+
+      <button *ngIf="mode !== 'eraser'" mat-icon-button color="black" (click)="switchToEraser()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eraser" viewBox="0 0 16 16">
+          <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm2.121.707a1 1 0 0 0-1.414 0L4.16 7.547l5.293 5.293 4.633-4.633a1 1 0 0 0 0-1.414l-3.879-3.879zM8.746 13.547 3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z"/>
+        </svg>
+      </button>
+
+      <button *ngIf="mode === 'eraser'" mat-icon-button color="black" class="button-pressed">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eraser-fill" viewBox="0 0 16 16">
+          <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z"/>
+        </svg>
+      </button>
+
+    </div>
+    <div class="col-md-3 d-flex align-items-center justify-content-center">
+
+      <button *ngIf="mode !== 'pencil'" mat-icon-button color="black" (click)="switchToPencil()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="25" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+          <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+        </svg>
+      </button>
+
+      <button *ngIf="mode === 'pencil'" mat-icon-button color="black" class="button-pressed">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+          <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+        </svg>
+      </button>
+    </div>
+    <div class="col-md-3 d-flex align-items-center justify-content-center">
+      <button mat-icon-button color="black" (click)="undo()">
+      <svg fill="#000000" width="20" height="20" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 329.937 329.937" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> 
+        <path id="XMLID_6_" d="M317.86,60.862l-86.666-17.238c-8.124-1.612-16.021,3.661-17.638,11.785l-17.24,86.668 c-1.616,8.125,3.66,16.023,11.785,17.639c0.988,0.196,1.973,0.291,2.943,0.291c7.01,0,13.276-4.939,14.696-12.076l10.711-53.851 c22.66,41.719,16.365,95.225-18.79,130.38c-21.441,21.44-49.596,32.159-77.76,32.157c-28.157-0.003-56.323-10.722-77.759-32.157 c-42.876-42.876-42.876-112.642,0-155.518c5.858-5.857,5.858-15.355,0-21.213c-5.857-5.857-15.355-5.857-21.213,0 c-54.573,54.573-54.573,143.37,0,197.943c27.29,27.29,63.125,40.934,98.972,40.93c35.838-0.003,71.689-13.647,98.973-40.93 c26.317-26.317,40.876-61.307,40.995-98.523c0.076-23.59-5.662-46.318-16.525-66.544l48.664,9.68 c8.127,1.613,16.022-3.66,17.638-11.786C331.262,70.375,325.985,62.479,317.86,60.862z">
+        </path> </g></svg>
+      </button>
     </div>
     
   </div>

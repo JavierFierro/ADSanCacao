@@ -32,11 +32,29 @@
                             <mat-cell *matCellDef="let row"> {{ decodeHtmlCharCodes(row.secciones.datosPersonales.preguntas.nombre.respuesta) }} </mat-cell>
                         </ng-container>
 
+                        <!-- Canton Column -->
+                        <ng-container matColumnDef="canton">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Canton </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{ decodeHtmlCharCodes(row.secciones.informacionFinca.preguntas.canton.respuesta) }} </mat-cell>
+                        </ng-container>
+
+                        <!-- Parroquia Column -->
+                        <ng-container matColumnDef="parroquia">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Parroquia </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{ decodeHtmlCharCodes(row.secciones.informacionFinca.preguntas.parroquia.respuesta) }} </mat-cell>
+                        </ng-container>
+
+                        <!-- Recinto Column -->
+                        <ng-container matColumnDef="recinto">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Recinto </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{ decodeHtmlCharCodes(row.secciones.informacionFinca.preguntas.recinto.respuesta) }} </mat-cell>
+                        </ng-container>
+
                         <!-- FechaNacimiento Column -->
-                        <ng-container matColumnDef="fechaNacimiento">
+                        <!-- <ng-container matColumnDef="fechaNacimiento">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de Nacimiento </mat-header-cell>
                             <mat-cell *matCellDef="let row"> {{ formatDate(row.secciones.datosPersonales.preguntas.fechaNacimiento.respuesta) }} </mat-cell>
-                        </ng-container>
+                        </ng-container> -->
 
                         <!-- Acciones Column -->
                         <ng-container matColumnDef="acciones">
@@ -53,12 +71,12 @@
                                             d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                     </svg>
                                 </button>
-                                <button mat-icon-button color="warn" (click)='onTrashCanClicked(row)'>
+                                <!-- <button mat-icon-button color="warn" (click)='onTrashCanClicked(row)'>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-eraser" viewBox="0 0 16 16">
                                         <path
                                             d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm2.121.707a1 1 0 0 0-1.414 0L4.16 7.547l5.293 5.293 4.633-4.633a1 1 0 0 0 0-1.414l-3.879-3.879zM8.746 13.547 3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z" />
-                                    </svg> </button>
+                                    </svg> </button> -->
                             </mat-cell>
                         </ng-container>
 

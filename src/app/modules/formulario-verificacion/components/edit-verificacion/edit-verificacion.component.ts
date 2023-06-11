@@ -35,6 +35,7 @@ import { RevisionPlantasComponent } from '../sections/revision-plantas/revision-
 import { Permiso } from 'src/app/interfaces/tecnico';
 import { FirmaAgricultorComponent } from '../sections/firma-agricultor/firma-agricultor.component';
 import { Tecnico } from '../../../../interfaces/tecnico';
+import { OfflineService } from 'src/app/modules/core/services/network/offline.service';
 
 @Component({
   selector: 'app-edit-verificacion',
@@ -88,6 +89,7 @@ export class EditVerificacionComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
     private router: Router,
+    private offlineService: OfflineService
   ) {
     this.verificacionForm = this.formBuilder.group({
       agricultor: new FormControl(''),
@@ -111,12 +113,18 @@ export class EditVerificacionComponent implements OnInit {
   }
 
   async initAgricultores(): Promise<void> {
-    if (!this.agricultorService.localData) {
-      this.agricultorService.initData();
+    if(this.offlineService.status === "ONLINE"){
+      if (!this.agricultorService.localData) {
+        this.agricultorService.initData();
+      }
+      this.agricultorService.localData.subscribe(data => {
+        this.listaAgricultores = data;
+      });
+    }else{
+      const agricultores:any = await this.agricultorService.getAllAgricultores();
+      this.listaAgricultores = agricultores
     }
-    this.agricultorService.localData.subscribe(data => {
-      this.listaAgricultores = data;
-    });
+    
   }
 
   async setFormulario() {
@@ -144,31 +152,65 @@ export class EditVerificacionComponent implements OnInit {
     if (val === "") {
       this.filteredListAgricultores = [];
     } else {
-      this.filteredListAgricultores = this.listaAgricultores.filter((agricultor) => 
-        agricultor.secciones.datosPersonales.preguntas.nombre.respuesta.toLocaleLowerCase().includes(val.toLocaleLowerCase())
-      );
+      if(this.offlineService.status === "ONLINE"){
+        this.filteredListAgricultores = this.listaAgricultores.filter((agricultor) => 
+          agricultor.secciones.datosPersonales.preguntas.nombre.respuesta.toLocaleLowerCase().includes(val.toLocaleLowerCase())
+        );
+      }else{
+        this.filteredListAgricultores = [];
+        const agricultoresList: any[] = this.listaAgricultores.filter((agricultor:any) => 
+        agricultor.doc.secciones.datosPersonales.preguntas.nombre.respuesta.toLocaleLowerCase().includes(val.toLocaleLowerCase())
+        );
+        agricultoresList.forEach((agricultor) => {
+          let agr = {
+            id: agricultor.doc._id,
+            secciones: agricultor.doc.secciones
+          }
+          this.filteredListAgricultores.push(agr);
+        })
+      }
+      
     }
   }
 
   async fetchFormulario(): Promise<void> {
     const id = this.activatedRoute.snapshot.paramMap.get("id");
     if (id !== null) {
-      const formulario = await this.formularioService.get(id);
-      this.formularioVerificacion = formulario;
-      this.firmaAgricultorComponent.setVerificacion(this.formularioVerificacion);
+      if(this.offlineService.status === "ONLINE"){
+        const formulario = await this.formularioService.get(id);
+        this.formularioVerificacion = formulario;
+        this.firmaAgricultorComponent.setVerificacion(this.formularioVerificacion);
+      }else{
+        const formulario = await this.formularioService.getFormById(id);
+        this.formularioVerificacion = formulario;
+      }
     }
   }
 
   async fetchAgricultor(): Promise<void> {
     if (!this.isFormEmpty()) {
-      this.agricultor = await this.agricultorService.get(this.formularioVerificacion.agricultor.id);
-      for (let agricultor of this.listaAgricultores) {
-        if (agricultor.id === this.agricultor.id) {
-          this.filteredListAgricultores = [agricultor];
-          this.verificacionForm.get('agricultor').setValue(agricultor);
-          break;
+      if(this.offlineService.status === "ONLINE"){
+        this.agricultor = await this.agricultorService.get(this.formularioVerificacion.agricultor.id);
+        const listAgr: any[] = this.listaAgricultores;
+        for (let agricultor of listAgr) {
+          if (agricultor.id === this.agricultor.id) {
+            this.filteredListAgricultores = [agricultor];
+            this.verificacionForm.get('agricultor').setValue(agricultor);
+            break;
+          }
+        }
+      }else{
+        this.agricultor = await this.agricultorService.getFormById(this.formularioVerificacion.agricultor.id);
+        const listAgr: any[] = this.listaAgricultores;
+        for (let agricultor of listAgr) {
+          if (agricultor.id === this.agricultor.id) {
+            this.filteredListAgricultores = [agricultor.doc];
+            this.verificacionForm.get('agricultor').setValue(agricultor.doc);
+            break;
+          }
         }
       }
+      
     }
   }
 
@@ -275,7 +317,7 @@ export class EditVerificacionComponent implements OnInit {
       this.verificacionForm.get('fechaVisita').setValue(this.convertDate(this.formularioVerificacion.fechaVisita))
       this.verificacionForm.get('tecnico').setValue(this.formularioVerificacion.tecnico.nombre)
 
-      if(!(this.formularioVerificacion.secciones.firmaAgricultor === undefined)){
+      if(!(this.formularioVerificacion.secciones.firmaAgricultor === undefined) && this.offlineService.status === "ONLINE"){
         this.firmaAgricultorComponent.setValues(this.formularioVerificacion);
       }
 

@@ -31,9 +31,7 @@ export class AgricultorService implements IDatabase<Agricultor> {
     private firebase: AngularFirestore,
     private exportacionService: ExportacionesService,
     private http: HttpClient,
-    private offlineService: OfflineService,
-    private formLBService: FormularioLineaBaseService,
-    private formVerificacionService: FormularioVerificacionService
+    private offlineService: OfflineService
   ) {
     this.startDB();
   }
@@ -48,8 +46,6 @@ export class AgricultorService implements IDatabase<Agricultor> {
 
     if(this.offlineService.status === "ONLINE"){
 
-      // this.deleteDB();
-
       const loggedTecnico = JSON.parse(localStorage.getItem("user"));
       const collectionName = loggedTecnico.permiso === Permiso.Real ? "agricultores" : "agricultoresFicticios";
       const formsAgr =  this.firebase.collection(collectionName).snapshotChanges().pipe(
@@ -59,20 +55,11 @@ export class AgricultorService implements IDatabase<Agricultor> {
           });
         })
       );
-
-      // formsAgr.subscribe((event) => {
-      //   this.startDB();
-
-      //   const agricultores: any[] = event;
-      //   this.addTask(agricultores);
-      // });
-
-
+      console.log("List");
       return formsAgr;
-    }else{
-
+    }
+    else{
       return of(this.offlineService.cachedAgrForm);
-      
     }
   }
 

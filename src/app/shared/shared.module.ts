@@ -13,6 +13,8 @@ import { DemoMaterialModule } from '../demo-material-module';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { CanvasComponent } from './canvas/canvas.component';
 
+import { CommonModule } from '@angular/common';
+
 @NgModule({
   declarations: [
     AccordionAnchorDirective,
@@ -33,7 +35,8 @@ import { CanvasComponent } from './canvas/canvas.component';
     CanvasComponent
   ],
   imports: [
-    DemoMaterialModule
+    DemoMaterialModule,
+    CommonModule
   ],
   providers: [MenuItems]
 })

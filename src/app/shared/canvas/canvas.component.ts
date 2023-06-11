@@ -19,6 +19,8 @@ export class CanvasComponent implements OnInit, AfterViewInit {
 
   public mode: string = 'pencil';
 
+  points: any[] = [];
+
   constructor(
     private storage: AngularFireStorage
   ) { }
@@ -89,6 +91,12 @@ export class CanvasComponent implements OnInit, AfterViewInit {
       }
     }, { passive: false });
 
+    canvasEl.addEventListener("mouseenter", (e) => {
+      if(this.mode == 'eraser'){
+        document.getElementById("canvas").style.cursor = "cell";
+      }
+    });
+
     fromEvent(canvasEl, 'mousedown')
       .pipe(
         switchMap((e) => {
@@ -129,28 +137,60 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     this.cx.beginPath();
 
     if (prevPos) {
+      let draw = {
+        prevX: prevPos.x,
+        prevY: prevPos.y,
+        CurrX: currentPos.x,
+        CurrY: currentPos.y
+      }
+
       // sets the start point
       this.cx.moveTo(prevPos.x, prevPos.y); // from
       // draws a line from the start pos until the current position
       this.cx.lineTo(currentPos.x, currentPos.y);
+
+      this.points.push(draw);
       // strokes the current path with the styles we set earlier
       this.cx.stroke();
     }
   }
 
-  // public switchToEraser(): void {
-  //   this.cx.lineWidth = 9;
-  //   this.cx.lineCap = 'round';
-  //   this.cx.strokeStyle = '#fff';
-  //   this.mode = 'eraser';
-  // }
+  public redraw(): void{
+    if(this.points.length==0){return;}
 
-  // public switchToPencil(): void {
-  //   this.cx.lineWidth = 3;
-  //   this.cx.lineCap = 'round';
-  //   this.cx.strokeStyle = '#000';
-  //   this.mode = 'pencil';
-  // }
+    this.cx.clearRect(0,0,this.canvas.nativeElement.width,this.canvas.nativeElement.height);
+
+    this.cx.beginPath();
+
+    this.points.forEach((point) => {
+      this.cx.moveTo(point.prevX, point.prevY);
+      this.cx.lineTo(point.CurrX, point.CurrY);
+    });
+    this.cx.stroke();
+  }
+
+  public undo(): void{
+
+    this.points.pop();
+
+    this.redraw();
+  }
+
+  public switchToEraser(): void {
+
+    this.cx.lineWidth = 15;
+    this.cx.lineCap = 'round';
+    this.cx.strokeStyle = '#fff';
+    this.mode = 'eraser';
+  }
+
+  public switchToPencil(): void {
+    
+    this.cx.lineWidth = 1;
+    this.cx.lineCap = 'round';
+    this.cx.strokeStyle = '#000';
+    this.mode = 'pencil';
+  }
 
   public eraseImage(): void {
     this.cx.clearRect(0, 0, this.width, this.height); 

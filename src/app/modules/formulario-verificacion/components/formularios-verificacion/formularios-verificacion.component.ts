@@ -17,6 +17,7 @@ import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/mat
 
 import * as _moment from 'moment';
 import { default as _rollupMoment, Moment } from 'moment';
+import { of } from 'rxjs';
 
 const moment = _rollupMoment || _moment;
 
@@ -67,7 +68,7 @@ export class FormulariosVerificacionComponent extends DataTableComponent<Formula
     this.date.setValue(ctrlValue);
     dp.close();
     this.selectedYear = normalizedYear.year().toString();
-    this.dataSource.filter = this.selectedYear;
+    this.applyFilter(this.selectedYear);
   }
 
   constructor(
@@ -103,6 +104,7 @@ export class FormulariosVerificacionComponent extends DataTableComponent<Formula
           }
           this.formsVerificacion.push(ver);
         });
+        this.dataService.localData = of(this.formsVerificacion);
         this.dataSource = new MatTableDataSource(this.formsVerificacion);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;

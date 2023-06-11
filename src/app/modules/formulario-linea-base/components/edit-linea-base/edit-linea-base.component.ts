@@ -32,7 +32,7 @@ export class EditLineaBaseComponent implements OnInit {
   formularioLineaBase: FormularioLineaBase;
   lineaBaseForm: FormGroup;
   agricultor: Agricultor;
-  listaAgricultores: any[];
+  listaAgricultores: Agricultor[];
   filteredListAgricultores: Agricultor[] = [];
 
   disabledFecha: boolean = true;
@@ -78,20 +78,18 @@ export class EditLineaBaseComponent implements OnInit {
   }
 
   async initAgricultores(): Promise<void> {
-    const agricultores:any = await this.agricultorService.getAllAgricultores();
-    this.listaAgricultores = agricultores
-    // if(this.offlineService.status === "ONLINE"){
-    //   if (!this.agricultorService.localData) {
-    //     this.agricultorService.initData();
-    //   }
-    //   this.agricultorService.localData.subscribe(data => {
-    //     this.listaAgricultores = data;
-    //   });
-    // }else{
-    //   const agricultores:any = await this.agricultorService.getAllAgricultores();
-    //   this.listaAgricultores = agricultores
-    // }
-    
+    if(this.offlineService.status === "ONLINE"){
+      if (!this.agricultorService.localData) {
+        this.agricultorService.initData();
+      }
+      this.agricultorService.localData.subscribe(data => {
+        this.listaAgricultores = data;
+      });
+    }else{
+      const agricultores:any = await this.agricultorService.getAllAgricultores();
+      this.listaAgricultores = agricultores
+    }
+
   }
 
   async setFormulario() {
@@ -148,12 +146,10 @@ export class EditLineaBaseComponent implements OnInit {
       if(this.offlineService.status === "ONLINE"){
         const formulario = await this.formularioService.get(id);
         this.formularioLineaBase = formulario;
-        console.log(this.formularioLineaBase);
         this.firmaAgricultorComponent.setLineaBase(this.formularioLineaBase);
       }else{
         const formulario = await this.formularioService.getFormById(id);
         this.formularioLineaBase = formulario;
-        console.log(this.formularioLineaBase);
       }
       
     }
@@ -164,7 +160,8 @@ export class EditLineaBaseComponent implements OnInit {
 
       if(this.offlineService.status === "ONLINE"){
         this.agricultor = await this.agricultorService.get(this.formularioLineaBase.agricultor.id);
-        for (let agricultor of this.listaAgricultores) {
+        const listAgr: any[] = this.listaAgricultores;
+        for (let agricultor of listAgr) {
           if (agricultor.id === this.agricultor.id) {
             this.filteredListAgricultores = [agricultor];
             this.lineaBaseForm.get('agricultor').setValue(agricultor);
@@ -172,9 +169,9 @@ export class EditLineaBaseComponent implements OnInit {
           }
         }
       }else{
-        console.log(this.formularioLineaBase.agricultor.id);
         this.agricultor = await this.agricultorService.getFormById(this.formularioLineaBase.agricultor.id);
-        for (let agricultor of this.listaAgricultores) {
+        const listAgr: any[] = this.listaAgricultores;
+        for (let agricultor of listAgr) {
           if (agricultor.id === this.agricultor.id) {
             this.filteredListAgricultores = [agricultor.doc];
             this.lineaBaseForm.get('agricultor').setValue(agricultor.doc);
@@ -248,7 +245,7 @@ export class EditLineaBaseComponent implements OnInit {
       this.conservacionRecursosManejoDesechosComponent.setValues(this.formularioLineaBase);
       this.lineaBaseForm.get('fechaVisita').setValue(this.convertDate(this.formularioLineaBase.fechaVisita));
       this.lineaBaseForm.get('tecnico').setValue(this.formularioLineaBase.tecnico.nombre);
-      if(!(this.formularioLineaBase.secciones.firmaAgricultor === undefined)){
+      if(!(this.formularioLineaBase.secciones.firmaAgricultor === undefined) && this.offlineService.status === "ONLINE"){
         this.firmaAgricultorComponent.setValues(this.formularioLineaBase);
       }
     }
