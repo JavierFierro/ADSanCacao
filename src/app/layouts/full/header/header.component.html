@@ -11,15 +11,26 @@
 <!-- ============================================================== -->
 <!-- Profile - style you can find in header.scss -->
 <!-- ============================================================== -->
+<button [matBadge]="this.pendingFormsService.badgeCount" matBadgeColor="warn" matBadgePosition="below before" [matMenuTriggerFor]="downloadSelect" mat-icon-button class="m-r-10">
+    <img src="assets/images/icon/pngwing.com.png" alt="down" class="download-pic"> </button>
+<mat-menu #downloadSelect="matMenu" class="mymegamenu">
+    <mat-option *ngIf="this.pendingFormsService.listaFormPendientes.length === 0">No hay formularios pendientes</mat-option>
+    <mat-option style="display: table;font-size: smaller;" *ngFor="let value of this.pendingFormsService.listaFormPendientes" [value]="value">
+        {{value.doc.accion}} {{value.doc.tipo}} <br> {{value.doc.nombreAgricultor}}
+    </mat-option>
+
+    <button *ngIf="this.pendingFormsService.listaFormPendientes.length !== 0" mat-raised-button color="primary" style="width: 100%">Sincronizar</button>
+</mat-menu>
+
 <button [matMenuTriggerFor]="profile" mat-icon-button class="m-r-5">
     <img src="assets/images/users/logo-user2.png" alt="user" class="profile-pic"> </button>
 <mat-menu #profile="matMenu" class="mymegamenu">
-    <button mat-menu-item>
+    <!-- <button mat-menu-item>
         <mat-icon>settings</mat-icon> Configuraciones
     </button>
     <button mat-menu-item>
         <mat-icon>account_box</mat-icon> Perfil
-    </button>
+    </button> -->
     <button mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon> Cerrar Sesión
     </button>

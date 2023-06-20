@@ -118,6 +118,7 @@ export class EditAgricultorComponent implements OnInit {
       this.loading.success('Listo', 'Agricultor guardado correctamente');
       setTimeout(() => {
         this.router.navigate(['agricultores']);
+        this.loading.close();
       }, 1000);
     }).catch((e) => {
       console.log(e);

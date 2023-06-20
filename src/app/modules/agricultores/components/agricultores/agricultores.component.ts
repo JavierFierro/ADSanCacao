@@ -24,7 +24,7 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
   @ViewChild(MatSort, { static: true }) sort: MatSort = Object.create(null);
 
-  displayedColumns = ['cedula', 'nombre', 'canton','parroquia','recinto', 'acciones'];
+  displayedColumns = ['nombre', 'canton','parroquia','recinto', 'acciones'];
 
   agricultores: any[] = [];
 

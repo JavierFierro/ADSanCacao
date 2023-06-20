@@ -149,7 +149,10 @@ export class CanvasComponent implements OnInit, AfterViewInit {
       // draws a line from the start pos until the current position
       this.cx.lineTo(currentPos.x, currentPos.y);
 
-      this.points.push(draw);
+      if(this.mode === "pencil"){
+        this.points.push(draw);
+      }
+      
       // strokes the current path with the styles we set earlier
       this.cx.stroke();
     }

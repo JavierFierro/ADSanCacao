@@ -7,6 +7,7 @@ import { FormularioLineaBaseService } from 'src/app/modules/core/services/formul
 import { FormularioVerificacionService } from 'src/app/modules/core/services/formularios/formulario-verificacion.service';
 
 import { OfflineService } from 'src/app/modules/core/services/network/offline.service';
+import { PendingFormsService } from 'src/app/modules/core/services/header/pending-forms.service';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,7 @@ import { OfflineService } from 'src/app/modules/core/services/network/offline.se
   styleUrls: []
 })
 export class AppHeaderComponent {
-  
+
   constructor(
     private authService: AuthService,
     private snackBar: MatSnackBar,
@@ -22,7 +23,8 @@ export class AppHeaderComponent {
     private agricultorService: AgricultorService,
     private lineaBaseService: FormularioLineaBaseService,
     private verificacionService: FormularioVerificacionService,
-    private offlineService: OfflineService
+    private offlineService: OfflineService,
+    public pendingFormsService:PendingFormsService
   ) {}
 
   logout() {

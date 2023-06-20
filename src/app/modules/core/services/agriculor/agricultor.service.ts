@@ -11,8 +11,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { saveAs } from 'file-saver';
 import { OfflineService } from '../network/offline.service';
-import { FormularioLineaBaseService } from '../formularios/formulario-linea-base.service';
-import { FormularioVerificacionService } from '../formularios/formulario-verificacion.service';
+import { PendingFormsService } from '../header/pending-forms.service';
 
 import Swal from 'sweetalert2';
 const PouchDB = require('pouchdb-browser');
@@ -31,7 +30,8 @@ export class AgricultorService implements IDatabase<Agricultor> {
     private firebase: AngularFirestore,
     private exportacionService: ExportacionesService,
     private http: HttpClient,
-    private offlineService: OfflineService
+    private offlineService: OfflineService,
+    private pendingFormsService: PendingFormsService
   ) {
     this.startDB();
   }
@@ -55,7 +55,6 @@ export class AgricultorService implements IDatabase<Agricultor> {
           });
         })
       );
-      console.log("List");
       return formsAgr;
     }
     else{
@@ -67,9 +66,33 @@ export class AgricultorService implements IDatabase<Agricultor> {
     return new Promise<void>(async (resolve, reject) => {
       if (agricultor.id === '' || agricultor.id === undefined) {
         agricultor.id = this.firebase.createId();
-        await this.create(agricultor);
+        if(this.offlineService.status === "ONLINE"){
+          await this.create(agricultor); //Crear
+        }else{
+          let agr = {
+            id: agricultor.id,
+            agricultor: agricultor,
+            tipo: "Agricultor",
+            accion: "Crear",
+            nombreAgricultor: agricultor.secciones.datosPersonales.preguntas.nombre.respuesta
+          }
+          await this.pendingFormsService.addTask(agr);
+        }
+        
       } else {
-        await this.setWithPermiso(agricultor);
+        if(this.offlineService.status === "ONLINE"){
+          await this.setWithPermiso(agricultor); //Actualizar
+        }else{
+          let agr = {
+            id: agricultor.id,
+            agricultor: agricultor,
+            tipo: "Agricultor",
+            accion: "Actualizar",
+            nombreAgricultor: agricultor.secciones.datosPersonales.preguntas.nombre.respuesta
+          }
+          await this.pendingFormsService.addTask(agr);
+        }
+        
       }
       resolve();
     });
@@ -268,9 +291,7 @@ export class AgricultorService implements IDatabase<Agricultor> {
   }
 
   close(): void {
-    setTimeout(async () => {
-      Swal.close();
-    }, 20000);
+    Swal.close();
   }
 
 }

@@ -8,6 +8,7 @@ import { FormularioService } from './formulario.service';
 import { ExportacionesService } from './../exportaciones/exportaciones.service';
 import { Permiso } from 'src/app/interfaces/tecnico';
 import { OfflineService } from '../network/offline.service';
+import { PendingFormsService } from '../header/pending-forms.service';
 
 import Swal from 'sweetalert2';
 const PouchDB = require('pouchdb-browser');
@@ -25,7 +26,8 @@ export class FormularioLineaBaseService extends FormularioService {
   constructor(
     private firebase: AngularFirestore,
     private exportacionService: ExportacionesService,
-    private offlineService: OfflineService
+    private offlineService: OfflineService,
+    private pendingFormsService: PendingFormsService
   ) {
     super(firebase);
     this.startDB();
@@ -101,9 +103,33 @@ export class FormularioLineaBaseService extends FormularioService {
     return new Promise<void>(async (resolve, reject) => {
       if (formularioLineaBase.id === "" || formularioLineaBase.id === undefined) {
         formularioLineaBase.id = this.firebase.createId();
-        await this.create(formularioLineaBase);
+        if(this.offlineService.status === "ONLINE"){
+          await this.create(formularioLineaBase); //Crear
+        }else{
+          let formLB = {
+            id: formularioLineaBase.id,
+            formulario: formularioLineaBase,
+            tipo: "LineaBase",
+            accion: "Crear",
+            nombreAgricultor: formularioLineaBase.agricultor.secciones.datosPersonales.preguntas.nombre.respuesta
+          }
+          await this.pendingFormsService.addTask(formLB);
+        }
+        
       } else {
-        await this.setWithPermiso(formularioLineaBase);
+        if(this.offlineService.status === "ONLINE"){
+          await this.setWithPermiso(formularioLineaBase); //Actualizar
+        }else{
+          let formLB = {
+            id: formularioLineaBase.id,
+            formulario: formularioLineaBase,
+            tipo: "LineaBase",
+            accion: "Actualizar",
+            nombreAgricultor: formularioLineaBase.agricultor.secciones.datosPersonales.preguntas.nombre.respuesta
+          }
+          await this.pendingFormsService.addTask(formLB);
+        }
+        
       }
       resolve();
     });

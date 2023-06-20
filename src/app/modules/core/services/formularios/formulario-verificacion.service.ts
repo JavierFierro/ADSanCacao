@@ -8,6 +8,7 @@ import { Permiso } from 'src/app/interfaces/tecnico';
 import { ExportacionesService } from '../exportaciones/exportaciones.service';
 import { FormularioService } from './formulario.service';
 import { OfflineService } from '../network/offline.service';
+import { PendingFormsService } from '../header/pending-forms.service';
 
 import Swal from 'sweetalert2';
 const PouchDB = require('pouchdb-browser');
@@ -29,7 +30,8 @@ export class FormularioVerificacionService extends FormularioService {
   constructor(
     private firebase: AngularFirestore,
     private exportacionService: ExportacionesService,
-    private offlineService: OfflineService
+    private offlineService: OfflineService,
+    private pendingFormsService: PendingFormsService
   ) {
     super(firebase);
     this.startDB();
@@ -100,11 +102,34 @@ export class FormularioVerificacionService extends FormularioService {
     const formularioVerificacion = item as FormularioVerificacion;
     return new Promise<void>(async (resolve, reject) => {
       if (formularioVerificacion.id === "" || formularioVerificacion.id === undefined) {
-        // console.log(this.totalFormularios);
         formularioVerificacion.id = this.firebase.createId();
-        await this.create(formularioVerificacion);
+        if(this.offlineService.status === "ONLINE"){
+          await this.create(formularioVerificacion); //Crear
+        }else{
+          let formVer = {
+            id: formularioVerificacion.id,
+            formulario: formularioVerificacion,
+            tipo: "Monitoreo",
+            accion: "Crear",
+            nombreAgricultor: formularioVerificacion.agricultor.secciones.datosPersonales.preguntas.nombre.respuesta
+          }
+          await this.pendingFormsService.addTask(formVer);
+        }
+        
       } else {
-        await this.setWithPermiso(formularioVerificacion);
+        if(this.offlineService.status === "ONLINE"){
+          await this.setWithPermiso(formularioVerificacion); //Actualizar
+        }else{
+          let formVer = {
+            id: formularioVerificacion.id,
+            formulario: formularioVerificacion,
+            tipo: "Monitoreo",
+            accion: "Actualizar",
+            nombreAgricultor: formularioVerificacion.agricultor.secciones.datosPersonales.preguntas.nombre.respuesta
+          }
+          await this.pendingFormsService.addTask(formVer);
+        }
+        
       }
       resolve();
     });
