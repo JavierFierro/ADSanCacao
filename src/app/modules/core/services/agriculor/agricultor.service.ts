@@ -189,6 +189,7 @@ export class AgricultorService implements IDatabase<Agricultor> {
   descargarVerificacion(codigo: any, nombre: any, fechaVisita: any) {
     var mediaType = 'application/xlsx';
 
+    this.open("Descargando informe de Verificacion");
     return new Promise((resolve) => {
       this.http
         .get(`${environment.apiUrl}/formulario/export/verificacion/${codigo}`, { responseType: 'blob' })
@@ -199,17 +200,22 @@ export class AgricultorService implements IDatabase<Agricultor> {
 
             // console.log(response.data)
             resolve([true, response.data]);
+            this.close();
           },
           (error: any) => {
             resolve([false, "Error al exportar excel"]);
+            alert("Error al exportar excel. Porfavor verificar informacion y guardar.");
+            this.close();
           }
         );
+        
     });
   }
   
   descargarLineaBase(codigo: any, nombre: any, fechaVisita: any) {
     var mediaType = 'application/xlsx';
 
+    this.open("Descargando informe de Linea Base");
     return new Promise((resolve) => {
       this.http
         .get(`${environment.apiUrl}/formulario/export/lineabase/${codigo}`, { responseType: 'blob' })
@@ -220,9 +226,12 @@ export class AgricultorService implements IDatabase<Agricultor> {
 
             // console.log(response.data)
             resolve([true, response.data]);
+            this.close();
           },
           (error: any) => {
             resolve([false, "Error al exportar excel"]);
+            alert("Error al exportar excel. Porfavor verificar informacion y guardar.");
+            this.close();
           }
         );
     });

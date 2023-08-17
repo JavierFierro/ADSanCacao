@@ -66,18 +66,21 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
       setTimeout(async () => {
         this.loading.open();
         await this.initView();
-        if(localStorage.getItem('init') === undefined || localStorage.getItem('init') === null ){
-          localStorage.setItem('init', 'true');
-          this.loading.openMessage("Respaldando datos");
-          await this.agricultorService.getAll();
-          await this.formLBService.getAllFormularios();
-          await this.formVerificacionService.getAllFormularios();
-        }
-        
+        // await this.backupData();
         this.loading.close();
       }, 0);
     }
     
+  }
+
+  async backupData(){
+    if(localStorage.getItem('init') === undefined || localStorage.getItem('init') === null ){
+      localStorage.setItem('init', 'true');
+      this.loading.openMessage("Respaldando datos");
+      await this.agricultorService.getAll();
+      await this.formLBService.getAllFormularios();
+      await this.formVerificacionService.getAllFormularios();
+    }
   }
 
   async initView(): Promise<void> {

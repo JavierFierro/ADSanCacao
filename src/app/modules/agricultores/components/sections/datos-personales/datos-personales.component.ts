@@ -29,8 +29,8 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit  {
 
   fechaVisitaReciente: any;
 
-  formulariosLineaBase: FormularioLineaBase[];
-  formulariosVerificacion: FormularioVerificacion[];
+  formulariosLineaBase: FormularioLineaBase[] = [];
+  formulariosVerificacion: FormularioVerificacion[] = [];
 
   estados: string[];
   generos!: string[];
