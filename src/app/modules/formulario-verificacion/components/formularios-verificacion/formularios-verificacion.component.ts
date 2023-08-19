@@ -62,6 +62,8 @@ export class FormulariosVerificacionComponent extends DataTableComponent<Formula
 
   selectedYear: string;
 
+  viewButtons: boolean = false;
+
   chosenYearHandler(normalizedYear: Moment, dp: any) {
     const ctrlValue = this.date.value;
     ctrlValue.year(normalizedYear.year());
@@ -88,6 +90,18 @@ export class FormulariosVerificacionComponent extends DataTableComponent<Formula
 
   ngOnInit(): void {
     this.getOfflineVerificacion();
+    this.updateView();
+  }
+
+  updateView() {
+
+    const loggedTecnico = JSON.parse(localStorage.getItem("user"));
+
+    if(loggedTecnico.nombre === "Manuel Matute" || loggedTecnico.nombre === "Jennifer Sanchez Velarde"){
+      this.viewButtons = true;
+    }
+
+    this.changeDetector.detectChanges();
   }
 
   getOfflineVerificacion(){

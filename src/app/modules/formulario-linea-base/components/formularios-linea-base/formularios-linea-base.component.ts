@@ -22,6 +22,8 @@ export class FormulariosLineaBaseComponent extends DataTableComponent<Formulario
 
   formsLineaBase: any[] = [];
 
+  viewButtons: boolean = false;
+
   constructor(
     private tecnicoService: TecnicoService,
     private formularioService: FormularioLineaBaseService,
@@ -40,6 +42,18 @@ export class FormulariosLineaBaseComponent extends DataTableComponent<Formulario
 
   ngOnInit(): void {
     this.getOfflineLineaBase();
+    this.updateView();
+  }
+
+  updateView() {
+
+    const loggedTecnico = JSON.parse(localStorage.getItem("user"));
+
+    if(loggedTecnico.nombre === "Manuel Matute" || loggedTecnico.nombre === "Jennifer Sanchez Velarde"){
+      this.viewButtons = true;
+    }
+
+    this.changeDetector.detectChanges();
   }
 
   getOfflineLineaBase(){

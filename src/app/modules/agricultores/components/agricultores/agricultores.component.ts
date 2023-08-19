@@ -28,6 +28,8 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
 
   agricultores: any[] = [];
 
+  viewButtons: boolean = false;
+
   constructor(
     private tecnicoService: TecnicoService,
     private agricultorService: AgricultorService,
@@ -58,6 +60,7 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
 
   ngOnInit(): void {
     this.getOfflineAgricultores();
+    this.updateView();
   }
 
   ngAfterViewInit(): void {
@@ -71,6 +74,17 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
       }, 0);
     }
     
+  }
+
+  updateView() {
+
+    const loggedTecnico = JSON.parse(localStorage.getItem("user"));
+
+    if(loggedTecnico.nombre === "Manuel Matute" || loggedTecnico.nombre === "Jennifer Sanchez Velarde"){
+      this.viewButtons = true;
+    }
+
+    this.changeDetector.detectChanges();
   }
 
   async backupData(){

@@ -1,9 +1,9 @@
 <app-confirm-dialog></app-confirm-dialog>
 <app-loading></app-loading>
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="viewButtons">
     <div class="row justify-content-center">
         <button mat-button color="primary" class="col-md-4 col-6" (click)="exportAll()">Exportar Todos</button>
-        <button mat-button color="primary" class="col-md-4 col-6" (click)="onImportClicked($event)"></button>
+        <button mat-button color="primary" class="col-md-4 col-6" (click)="onImportClicked($event)">Importar</button>
         <input type="file" #fileImportInput name="File Upload" id="csvFileUpload" (change)="import($event)"
             accept=".csv" />
     </div>

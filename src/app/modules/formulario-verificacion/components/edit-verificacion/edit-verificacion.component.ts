@@ -140,7 +140,7 @@ export class EditVerificacionComponent implements OnInit {
 
     const loggedTecnico = JSON.parse(localStorage.getItem("user"));
 
-    if(loggedTecnico.nombre === "Manuel Matute"){
+    if(loggedTecnico.nombre === "Manuel Matute" || loggedTecnico.nombre === "Jennifer Sanchez Velarde"){
       this.disabledFecha = false;
       this.disabledTecnico = false;
     }
@@ -357,6 +357,10 @@ export class EditVerificacionComponent implements OnInit {
       const tVisita = date as any;
       return new Date(tVisita.seconds * 1000);
     }
+  }
+
+  decodeHtmlCharCodes(str) { 
+    return str.replace("�","Ñ");
   }
 
 }

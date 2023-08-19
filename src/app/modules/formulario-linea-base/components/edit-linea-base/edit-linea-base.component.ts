@@ -104,7 +104,7 @@ export class EditLineaBaseComponent implements OnInit {
 
     const loggedTecnico = JSON.parse(localStorage.getItem("user"));
 
-    if(loggedTecnico.nombre === "Manuel Matute"){
+    if(loggedTecnico.nombre === "Manuel Matute" || loggedTecnico.nombre === "Jennifer Sanchez Velarde"){
       this.disabledFecha = false;
       this.disabledTecnico = false;
     }

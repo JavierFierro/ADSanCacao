@@ -61,7 +61,6 @@ export class DataTableComponent<T> implements AfterViewInit {
       }
       this.dataService.localData.subscribe(data => {
         this.dataSource = new MatTableDataSource(data);
-        console.log(data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         resolve();
