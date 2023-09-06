@@ -280,7 +280,7 @@
         <app-firma-agricultor [parentForm]="verificacionForm"></app-firma-agricultor>
         </mat-expansion-panel>
       </mat-accordion>
-      <mat-card-actions>
+      <mat-card-actions *ngIf="disabledGuardar">
           <button mat-raised-button color="primary" type="submit" [disabled]="!verificacionForm.valid">Guardar</button>
           <button mat-button type="reset">Resetear</button>
       </mat-card-actions>

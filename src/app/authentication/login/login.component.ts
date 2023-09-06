@@ -97,7 +97,8 @@ export class LoginComponent implements OnInit, OnDestroy {
           const loggedTecnico = await this.tecnicoService.get(user.uid);
           const storedTecnico = {
             nombre: loggedTecnico.nombre,
-            permiso: loggedTecnico.permiso
+            permiso: loggedTecnico.permiso,
+            rol: loggedTecnico.rol
           };
           localStorage.setItem('user', JSON.stringify(storedTecnico));
           resolve();

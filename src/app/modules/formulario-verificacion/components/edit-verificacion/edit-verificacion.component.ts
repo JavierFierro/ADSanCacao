@@ -53,6 +53,7 @@ export class EditVerificacionComponent implements OnInit {
 
   disabledFecha: boolean = true;
   disabledTecnico: boolean = true;
+  disabledGuardar:boolean = false;
 
   @ViewChild(LoadingComponent) loading: LoadingComponent;
   @ViewChild(DatosFincaComponent) datosFincaComponent: DatosFincaComponent;
@@ -140,9 +141,10 @@ export class EditVerificacionComponent implements OnInit {
 
     const loggedTecnico = JSON.parse(localStorage.getItem("user"));
 
-    if(loggedTecnico.nombre === "Manuel Matute" || loggedTecnico.nombre === "Jennifer Sanchez Velarde"){
+    if(loggedTecnico.rol != undefined && loggedTecnico.rol === "owner"){
       this.disabledFecha = false;
       this.disabledTecnico = false;
+      this.disabledGuardar = true;
     }
 
     this.changeDetector.detectChanges();
@@ -337,7 +339,8 @@ export class EditVerificacionComponent implements OnInit {
       id: "",
       nombre: tecnico,
       correo: "",
-      permiso: Permiso.Real
+      permiso: Permiso.Real,
+      rol: ""
     }
     if(tecnico === undefined || tecnico === ''){
       return loggedTecnico;

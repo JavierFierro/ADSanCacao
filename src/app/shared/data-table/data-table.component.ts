@@ -24,6 +24,8 @@ export class DataTableComponent<T> implements AfterViewInit {
 
   filteredDataArray = [];
 
+  formsArray = [];
+
   @ViewChild(ConfirmDialogComponent) confirmDialog: ConfirmDialogComponent;
   @ViewChild(LoadingComponent) loading: LoadingComponent;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
@@ -60,6 +62,11 @@ export class DataTableComponent<T> implements AfterViewInit {
         this.dataService.initData();
       }
       this.dataService.localData.subscribe(data => {
+        this.formsArray = [...new Set(data.map((item: any) => {
+          if(item.agricultor != undefined || item.agricultor != null){
+            return item.agricultor.secciones.datosPersonales.preguntas.nombre.respuesta
+          }
+        }))];
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;

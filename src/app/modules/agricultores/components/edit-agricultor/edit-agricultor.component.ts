@@ -26,6 +26,8 @@ export class EditAgricultorComponent implements OnInit {
   agricultorForm: FormGroup;
   agricultor: Agricultor;
 
+  disabledGuardar:boolean = false;
+
   @ViewChild(LoadingComponent) loading: LoadingComponent;
   @ViewChild(DatosPersonalesComponent) datosPersonalesComponent: DatosPersonalesComponent;
   @ViewChild(InformacionFincaComponent) informacionFincaComponent: InformacionFincaComponent;
@@ -67,6 +69,13 @@ export class EditAgricultorComponent implements OnInit {
   }
 
   updateView() {
+
+    const loggedTecnico = JSON.parse(localStorage.getItem("user"));
+
+    if(loggedTecnico.rol != undefined && loggedTecnico.rol === "owner"){
+      this.disabledGuardar = true;
+    }
+
     this.changeDetector.detectChanges();
   }
 

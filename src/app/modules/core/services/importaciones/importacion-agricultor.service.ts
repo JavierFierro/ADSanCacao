@@ -568,7 +568,8 @@ export class ImportacionAgricultorService {
         id: "",
         nombre: tecnicoName,
         correo: "",
-        permiso: Permiso.Ficticio
+        permiso: Permiso.Ficticio,
+        rol: ""
       };
       tecnico = newTecnico;
     }

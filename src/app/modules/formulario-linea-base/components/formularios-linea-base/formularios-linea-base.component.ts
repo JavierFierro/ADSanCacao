@@ -49,7 +49,7 @@ export class FormulariosLineaBaseComponent extends DataTableComponent<Formulario
 
     const loggedTecnico = JSON.parse(localStorage.getItem("user"));
 
-    if(loggedTecnico.nombre === "Manuel Matute" || loggedTecnico.nombre === "Jennifer Sanchez Velarde"){
+    if(loggedTecnico.rol != undefined && loggedTecnico.rol === "owner"){
       this.viewButtons = true;
     }
 

@@ -7,5 +7,6 @@ export interface Tecnico {
   id: string,
   nombre: string,
   correo: string,
-  permiso: Permiso
+  permiso: Permiso,
+  rol: string
 }

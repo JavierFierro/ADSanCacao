@@ -22,7 +22,8 @@ export class OfflineAuthService {
       if(email.toLowerCase() === element.email && password === element.password){
         const storedTecnico = {
           nombre: element.displayName,
-          permiso: element.permiso
+          permiso: element.permiso,
+          rol: element.rol
         };
         localStorage.setItem('user', JSON.stringify(storedTecnico));
         this.loggedIn = true;

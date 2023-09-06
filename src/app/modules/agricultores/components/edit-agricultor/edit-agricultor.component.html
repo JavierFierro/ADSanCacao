@@ -98,7 +98,7 @@
             <app-croquis [parentForm]="agricultorForm"></app-croquis>
             </mat-expansion-panel>
         </mat-accordion>
-        <div class="mt-3">
+        <div *ngIf="disabledGuardar" class="mt-3">
             <mat-card-actions>
                 <button mat-raised-button color="primary" type="submit" [disabled]="!agricultorForm.valid">Guardar</button>
                 <button mat-button  type="reset">Resetear</button>
