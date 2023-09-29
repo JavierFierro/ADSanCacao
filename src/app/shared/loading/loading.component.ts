@@ -38,6 +38,18 @@ export class LoadingComponent implements OnInit {
     });
   }
 
+  openMessageWithTimer(message: string, time: number): void {
+    Swal.fire({
+      title: message,
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      timer: time,
+      didOpen: () => {
+        Swal.showLoading()
+      }
+    });
+  }
+
   close(): void {
     Swal.close();
   }

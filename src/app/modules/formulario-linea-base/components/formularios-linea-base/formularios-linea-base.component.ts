@@ -45,6 +45,18 @@ export class FormulariosLineaBaseComponent extends DataTableComponent<Formulario
     this.updateView();
   }
 
+  ngAfterViewInit(): void {
+    
+    if(this.offlineService.status === 'ONLINE'){
+      setTimeout(async () => {
+        this.loading.open();
+        await this.initView();
+        this.loading.close();
+      }, 0);
+    }
+    
+  }
+
   updateView() {
 
     const loggedTecnico = JSON.parse(localStorage.getItem("user"));
@@ -110,6 +122,10 @@ export class FormulariosLineaBaseComponent extends DataTableComponent<Formulario
     } catch (e) {
       this.loading.error('Error', 'No se han podido importar los formularios');
     }
+  }
+
+  async initView(): Promise<void> {
+    await this.fetchData();
   }
 
   decodeHtmlCharCodes(str) { 

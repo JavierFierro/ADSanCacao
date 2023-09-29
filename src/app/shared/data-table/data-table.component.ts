@@ -14,7 +14,7 @@ import { LoadingComponent } from '../loading/loading.component';
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss']
 })
-export class DataTableComponent<T> implements AfterViewInit {
+export class DataTableComponent<T> {
   displayedColumns: string[] = [];
   dataSource!: MatTableDataSource<T>;
 
@@ -48,13 +48,6 @@ export class DataTableComponent<T> implements AfterViewInit {
    * Set the paginator and sort after the view init since this component will
    * be able to query its view for the initialized paginator and sort.
    */
-  ngAfterViewInit() {
-    setTimeout(async () => {
-      this.loading.open();
-      await this.fetchData();
-      this.loading.close();
-    }, 0);
-  }
 
   fetchData(): Promise<void> {
     return new Promise<void>(async (resolve, reject) => {
@@ -62,11 +55,7 @@ export class DataTableComponent<T> implements AfterViewInit {
         this.dataService.initData();
       }
       this.dataService.localData.subscribe(data => {
-        this.formsArray = [...new Set(data.map((item: any) => {
-          if(item.agricultor != undefined || item.agricultor != null){
-            return item.agricultor.secciones.datosPersonales.preguntas.nombre.respuesta
-          }
-        }))];
+        
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -98,6 +87,7 @@ export class DataTableComponent<T> implements AfterViewInit {
 
         this.dataSource.filter = "";
         this.dataSource.data = this.filteredDataArray.filter((c, i) =>this.filteredDataArray.indexOf(c) === i ); //Filtered out repeated data
+        this.getUniqueForms(this.dataSource.data);
         this.dataSource.filteredData = this.filteredDataArray.filter((c, i) =>this.filteredDataArray.indexOf(c) === i ); //Filtered out repeated data
 
         this.changeDetectorObj.detectChanges();
@@ -119,6 +109,14 @@ export class DataTableComponent<T> implements AfterViewInit {
     dataSource.filter = fechaVisita
     this.filteredDataArray = this.filteredDataArray.concat(dataSource.filteredData);
 
+  }
+
+  getUniqueForms(data: any){
+    this.formsArray = [...new Set(data.map((item: any) => {
+      if(item.agricultor != undefined || item.agricultor != null){
+        return item.agricultor.secciones.datosPersonales.preguntas.nombre.respuesta
+      }
+    }))];
   }
 
   getFechaVisitarange(verificacion, year){

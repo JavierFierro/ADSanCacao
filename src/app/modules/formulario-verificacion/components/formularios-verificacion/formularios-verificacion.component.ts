@@ -93,6 +93,18 @@ export class FormulariosVerificacionComponent extends DataTableComponent<Formula
     this.updateView();
   }
 
+  ngAfterViewInit(): void {
+    
+    if(this.offlineService.status === 'ONLINE'){
+      setTimeout(async () => {
+        this.loading.open();
+        await this.initView();
+        this.loading.close();
+      }, 0);
+    }
+    
+  }
+
   updateView() {
 
     const loggedTecnico = JSON.parse(localStorage.getItem("user"));
@@ -119,6 +131,9 @@ export class FormulariosVerificacionComponent extends DataTableComponent<Formula
           this.formsVerificacion.push(ver);
         });
         this.dataService.localData = of(this.formsVerificacion);
+
+        this.getUniqueForms(this.formsVerificacion);
+        
         this.dataSource = new MatTableDataSource(this.formsVerificacion);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -159,6 +174,10 @@ export class FormulariosVerificacionComponent extends DataTableComponent<Formula
     } catch (e) {
       this.loading.error('Error', 'No se han podido importar los formularios');
     }
+  }
+
+  async initView(): Promise<void> {
+    await this.fetchData();
   }
 
   decodeHtmlCharCodes(str) { 

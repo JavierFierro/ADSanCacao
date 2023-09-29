@@ -69,11 +69,10 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
       setTimeout(async () => {
         this.loading.open();
         await this.initView();
-        // await this.backupData();
-        this.loading.close();
+        await this.backupData();
+        await this.showDataVerification();
       }, 0);
     }
-    
   }
 
   updateView() {
@@ -95,6 +94,10 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
       await this.formLBService.getAllFormularios();
       await this.formVerificacionService.getAllFormularios();
     }
+  }
+
+  async showDataVerification(){
+    return this.loading.openMessageWithTimer("Verificando respaldo", 40000);
   }
 
   async initView(): Promise<void> {
