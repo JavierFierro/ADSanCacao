@@ -70,8 +70,8 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
         this.loading.open();
         await this.initView();
         this.loading.close();
-        // await this.backupData();
-        // await this.showDataVerification();
+        await this.backupData();
+        await this.showDataVerification();
       }, 0);
     }
   }
