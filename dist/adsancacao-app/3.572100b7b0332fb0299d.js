@@ -359,8 +359,8 @@ let AgricultoresComponent = /*@__PURE__*/ (() => {
                     this.loading.open();
                     yield this.initView();
                     this.loading.close();
-                    // await this.backupData();
-                    // await this.showDataVerification();
+                    yield this.backupData();
+                    yield this.showDataVerification();
                 }), 0);
             }
         }
@@ -373,8 +373,8 @@ let AgricultoresComponent = /*@__PURE__*/ (() => {
         }
         backupData() {
             return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-                if (localStorage.getItem('init') === undefined || localStorage.getItem('init') === null) {
-                    localStorage.setItem('init', 'true');
+                if (localStorage.getItem('backed') === null) {
+                    localStorage.setItem('backed', 'true');
                     this.loading.openMessage("Respaldando datos");
                     yield this.agricultorService.getAll();
                     yield this.formLBService.getAllFormularios();
@@ -384,7 +384,8 @@ let AgricultoresComponent = /*@__PURE__*/ (() => {
         }
         showDataVerification() {
             return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-                if (localStorage.getItem('init') === undefined || localStorage.getItem('init') === null) {
+                if (localStorage.getItem('backed') === 'true' && localStorage.getItem('verified') === null) {
+                    localStorage.setItem('verified', 'true');
                     return this.loading.openMessageWithTimer("Verificando respaldo", 40000);
                 }
             });

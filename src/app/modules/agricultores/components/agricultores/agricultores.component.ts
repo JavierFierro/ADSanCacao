@@ -88,8 +88,8 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
   }
 
   async backupData(){
-    if(localStorage.getItem('init') === undefined || localStorage.getItem('init') === null ){
-      localStorage.setItem('init', 'true');
+    if(localStorage.getItem('backed') === null ){
+      localStorage.setItem('backed', 'true');
       this.loading.openMessage("Respaldando datos");
       await this.agricultorService.getAll();
       await this.formLBService.getAllFormularios();
@@ -98,7 +98,8 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
   }
 
   async showDataVerification(){
-    if(localStorage.getItem('init') === undefined || localStorage.getItem('init') === null ){
+    if(localStorage.getItem('backed') === 'true' && localStorage.getItem('verified') === null ){
+      localStorage.setItem('verified', 'true');
       return this.loading.openMessageWithTimer("Verificando respaldo", 40000);
     }
   }
