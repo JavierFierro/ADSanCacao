@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "adsanchez-5bde7": {
+      "hosting": {
+        "adsancacao-app": [
+          "adsanchez-5bde7"
+        ]
+      }
+    }
+  }
+}

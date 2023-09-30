@@ -25,7 +25,7 @@ const createWindow = () => {
             autoHideMenuBar: true,
             width: 1500,
             height: 800,
-            icon: `${__dirname}/dist/project/assets/images/logo.png`
+            icon: `${__dirname}/dist/adsancacao-app/assets/images/logo.png`
         });
 
         globalShortcut.register('f5', function() {
@@ -33,7 +33,7 @@ const createWindow = () => {
             // win.reload()
             win.loadURL(url.format({
                 //__dirname is the current working dir
-                pathname: path.join(__dirname, 'dist/project', 'index.html'),
+                pathname: path.join(__dirname, 'dist/adsancacao-app', 'index.html'),
                 protocol: 'file:',
                 slashes: true
             }));
@@ -42,7 +42,7 @@ const createWindow = () => {
         // and load the app.
         win.loadURL(url.format({
             //__dirname is the current working dir
-            pathname: path.join(__dirname, 'dist/project', 'index.html'),
+            pathname: path.join(__dirname, 'dist/adsancacao-app', 'index.html'),
             protocol: 'file:',
             slashes: true
         }));

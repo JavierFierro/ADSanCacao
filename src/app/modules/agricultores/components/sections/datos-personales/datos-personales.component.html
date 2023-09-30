@@ -191,7 +191,7 @@
                     <div *ngIf="formulariosLineaBase.length === 0" class="row">
                         <span>No hay registros de Linea Base</span>
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="formulariosLineaBase.length !== 0">
                         <div class="col-md-8">
                             <mat-form-field appearance="outline">
                                 <mat-label>Técnico</mat-label>

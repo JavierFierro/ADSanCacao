@@ -45,15 +45,15 @@ export class FormularioLineaBaseService extends FormularioService {
 
   list(): Observable<FormularioLineaBase[]> {
 
-    if(this.offlineService.status == 'ONLINE'){
+    if(this.offlineService.status === "ONLINE"){
       
       const loggedTecnico = JSON.parse(localStorage.getItem("user"));
       const collectionName = loggedTecnico.permiso === Permiso.Real ? "formularios" : "formulariosFicticios";
       const formsLb =  this.firebase.collection(`/${collectionName}/lineaBase/diccionarios`).snapshotChanges().pipe(
-        map((formularios: any[]) => {
-          return formularios.map((formulario) => {
+        map((items) => {
+          return items.map((formulario) => {
             return formulario.payload.doc.data()["diccionario"] as FormularioLineaBase;
-          });
+        });
         })
       );
 

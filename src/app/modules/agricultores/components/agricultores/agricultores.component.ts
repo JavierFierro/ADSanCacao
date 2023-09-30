@@ -69,6 +69,7 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
       setTimeout(async () => {
         this.loading.open();
         await this.initView();
+        this.loading.close();
         await this.backupData();
         await this.showDataVerification();
       }, 0);
@@ -97,7 +98,9 @@ export class AgricultoresComponent extends DataTableComponent<Agricultor> {
   }
 
   async showDataVerification(){
-    return this.loading.openMessageWithTimer("Verificando respaldo", 40000);
+    if(localStorage.getItem('init') === undefined || localStorage.getItem('init') === null ){
+      return this.loading.openMessageWithTimer("Verificando respaldo", 40000);
+    }
   }
 
   async initView(): Promise<void> {

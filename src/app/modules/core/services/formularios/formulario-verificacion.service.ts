@@ -49,14 +49,14 @@ export class FormularioVerificacionService extends FormularioService {
 
   list(): Observable<FormularioVerificacion[]> {
 
-    if(this.offlineService.status == 'ONLINE'){
+    if(this.offlineService.status === "ONLINE"){
       const loggedTecnico = JSON.parse(localStorage.getItem("user"));
       const collectionName = loggedTecnico.permiso === Permiso.Real ? "formularios" : "formulariosFicticios";
       const formVer =  this.firebase.collection(`/${collectionName}/verificacion/diccionarios`).snapshotChanges().pipe(
-        map(formularios => {
-          return formularios.map((formulario) => {
+        map((items) => {
+          return items.map((formulario) => {
             return formulario.payload.doc.data()["diccionario"] as FormularioVerificacion;
-          });
+        });
         })
       );
       return formVer;
