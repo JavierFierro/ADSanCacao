@@ -55,6 +55,7 @@ export class DataTableComponent<T> {
         this.dataService.initData();
       }
       this.dataService.localData.subscribe(data => {
+        this.getUniqueForms(data);
         
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.paginator = this.paginator;

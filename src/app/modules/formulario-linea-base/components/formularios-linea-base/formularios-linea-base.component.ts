@@ -18,7 +18,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class FormulariosLineaBaseComponent extends DataTableComponent<FormularioLineaBase> {
 
-  displayedColumns = ['id', 'agricultor', 'fechaVisita', 'acciones'];
+  displayedColumns = ['agricultor', 'fechaVisita', 'acciones'];
 
   formsLineaBase: any[] = [];
 
@@ -55,6 +55,10 @@ export class FormulariosLineaBaseComponent extends DataTableComponent<Formulario
       }, 0);
     }
     
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue;
   }
 
   updateView() {
@@ -126,6 +130,11 @@ export class FormulariosLineaBaseComponent extends DataTableComponent<Formulario
 
   async initView(): Promise<void> {
     await this.fetchData();
+    this.dataSource.filterPredicate = (data: FormularioLineaBase, filter: string) => {
+      return data.agricultor.secciones.datosPersonales.preguntas.nombre.respuesta.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
+    };
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   decodeHtmlCharCodes(str) { 

@@ -52,7 +52,7 @@ export const MY_FORMATS = {
 })
 export class FormulariosVerificacionComponent extends DataTableComponent<FormularioVerificacion>{
 
-  displayedColumns = ['id', 'agricultor', 'fechaVisita', 'acciones'];
+  displayedColumns = ['agricultor', 'fechaVisita', 'acciones'];
 
   selected = '0';
 
@@ -103,6 +103,10 @@ export class FormulariosVerificacionComponent extends DataTableComponent<Formula
       }, 0);
     }
     
+  }
+
+  applyFilterMon(filterValue: string) {
+    this.dataSource.filter = filterValue;
   }
 
   updateView() {
@@ -178,6 +182,11 @@ export class FormulariosVerificacionComponent extends DataTableComponent<Formula
 
   async initView(): Promise<void> {
     await this.fetchData();
+    this.dataSource.filterPredicate = (data: FormularioVerificacion, filter: string) => {
+      return data.agricultor.secciones.datosPersonales.preguntas.nombre.respuesta.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
+    };
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   decodeHtmlCharCodes(str) { 

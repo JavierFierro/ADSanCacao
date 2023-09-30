@@ -24,17 +24,17 @@
             <mat-card-content>
                 <div class="bg-light p-10 p-r-20 p-l-20">
                     <mat-form-field>
-                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                        <input matInput (keyup)="applyFilterMon($event.target.value)" placeholder="Filter">
                     </mat-form-field>
                 </div>
                 <div class="responsive-table">
                     <mat-table [dataSource]="dataSource" matSort>
 
                         <!-- Cedula Column -->
-                        <ng-container matColumnDef="id">
+                        <!-- <ng-container matColumnDef="id">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
                             <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
-                        </ng-container>
+                        </ng-container> -->
 
                         <!-- Nombre Column -->
                         <ng-container matColumnDef="agricultor">
