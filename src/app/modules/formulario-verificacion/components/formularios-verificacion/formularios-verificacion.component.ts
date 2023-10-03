@@ -172,9 +172,8 @@ export class FormulariosVerificacionComponent extends DataTableComponent<Formula
     try {
       let header: boolean = false;
       const files = event.srcElement.files;
-      this.loading.open();
+      this.loading.openMessage("Importando formularios");
       await this.importacionService.importFormulario(files, header, ';', FormularioType.formularioVerificacion);
-      this.loading.success('Listo', 'Formularios de verificación importados correctamente');
     } catch (e) {
       this.loading.error('Error', 'No se han podido importar los formularios');
     }

@@ -5,6 +5,7 @@ import { FormularioVerificacion } from 'src/app/interfaces/formularioVerificacio
 import { formularioVerificacionMapper } from 'src/environments/mappers/formularioVerificacion';
 import { FormularioVerificacionService } from './../../services/formularios/formulario-verificacion.service';
 import { ImportacionAgricultorService } from './importacion-agricultor.service';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +26,11 @@ export class ImportacionVerificacionService {
       this.ngxCsvParser.parse(file[0], { header: header, delimiter: delimeter })
       .pipe().subscribe(async (result: any) => {
         try {
-          for (let index = 1; index < result.length; index++) {
-            await this.importFormulario(result[0], result[index]);
+          const docLines = result as Array<string[]>;
+          for (let index = 2; index < docLines.length; index++) {
+            await this.importFormulario(docLines[1], docLines[index]);
           }
+          Swal.close();
         } catch(e) {
           console.log(e);
           throw(e);

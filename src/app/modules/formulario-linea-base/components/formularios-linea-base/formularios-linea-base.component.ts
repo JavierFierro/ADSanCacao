@@ -120,9 +120,8 @@ export class FormulariosLineaBaseComponent extends DataTableComponent<Formulario
     try {
       let header: boolean = false;
       const files = event.srcElement.files;
-      this.loading.open();
+      this.loading.openMessage("Importando formularios");
       await this.importacionService.importFormulario(files, header, ';', FormularioType.formularioLineaBase);
-      this.loading.success('Listo', 'Formularios de linea base importados correctamente');
     } catch (e) {
       this.loading.error('Error', 'No se han podido importar los formularios');
     }

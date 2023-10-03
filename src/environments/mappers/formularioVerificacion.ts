@@ -1126,5 +1126,9 @@ export const formularioVerificacionMapper = {
     tieneDisenoMovible: {
         codigo: '',
         pregunta: ''
+    },
+    firmaPath: {
+        codigo: '',
+        pregunta: ''
     }
 }

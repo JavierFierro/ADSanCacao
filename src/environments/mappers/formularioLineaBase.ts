@@ -278,5 +278,9 @@ export const formularioLineaBaseMapper = {
     valorPromedioGastado: {
         codigo: 'BIO15_GAST',
         pregunta: '¿CUÁL ES EL VALOR QUE GASTA SEMANALMENTE EN COMPRA DE ESTOS PRODUCTOS?'
+    },
+    firmaPath: {
+        codigo: '',
+        pregunta: ''
     }
 }

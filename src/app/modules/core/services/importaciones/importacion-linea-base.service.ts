@@ -7,6 +7,7 @@ import { formularioLineaBaseMapper } from 'src/environments/mappers/formularioLi
 import { FormularioLineaBaseService } from '../formularios/formulario-linea-base.service';
 import { TecnicoService } from '../tecnico/tecnico.service';
 import { ImportacionAgricultorService } from './importacion-agricultor.service';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,7 @@ export class ImportacionLineaBaseService {
           for (let index = 2; index < docLines.length; index++) {
             await this.importFormulario(docLines[1], docLines[index]);
           }
+          Swal.close();
         } catch(e) {
           console.log(e);
           throw(e);
